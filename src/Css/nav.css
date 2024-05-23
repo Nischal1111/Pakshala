@@ -1,0 +1,88 @@
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 7rem;
+    position: fixed;
+    width: 100%;
+    border-radius: .5rem;
+    color: black;
+    font-family: "Lato";
+    background-color: #FEF5EB;
+}
+
+.nav-link{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-link-item{
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin: 0rem 2rem;
+    text-decoration: none;
+    border-radius: .3rem;
+    padding: .1rem 1rem;
+    letter-spacing: 1.5px;
+    color: black;
+}
+.nav-link-item:hover{
+    transform: scale(1.02);
+    transition: .5s all;
+    background-color: #f0e0cc;
+}
+
+
+.location-button {
+    font-weight: 500;
+    color: black;
+    letter-spacing: 1px;
+    border: 1px solid black;
+    padding: 12px 30px;
+    font-size: 20px;
+    margin-right: 2rem;
+    position: relative;
+    background-color: transparent;
+    transition: 0.3s ease-in-out;
+}
+
+.location-button span {
+    z-index: 1;
+}
+
+.location-button::before {
+    content: "";
+    width: 0%;
+    height: 100%;
+    position: absolute;
+    background-color: rgb(240, 229, 229);
+    left: 0;
+    top: 0;
+    z-index: -1;
+    transition: 0.3s ease-in-out;
+}
+
+.location-button:hover {
+    color: #121212;
+    cursor: pointer;
+}
+
+.location-button:hover::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.nav-logo{
+    height: 10rem;
+    object-fit: contain;
+    width: 15rem;
+}
+
+.pakshala-home{
+    height: 100vh;
+    width: 100vw;
+    object-fit: cover;
+}
