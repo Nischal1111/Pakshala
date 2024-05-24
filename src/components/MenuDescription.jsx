@@ -3,12 +3,16 @@ import "../Css/Menudesc.css"
 import mainFood from "/Users/nischalneupane/Desktop/pakshala/src/assets/mainfood.jpeg"
 import secondFood from "/Users/nischalneupane/Desktop/pakshala/src/assets/secondfood.webp"
 import thirdFood from "/Users/nischalneupane/Desktop/pakshala/src/assets/thirdfood.jpeg"
-
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import {fadeIn, slideIn} from "../motion/motion"
+import {SectionWrapper} from "../motion/index"
 
 const MenuDescription = () => {
   return (
-    <div className='menu-desc'>
-        <div className="images-div">
+    <motion.div className='menu-desc' >
+        <motion.div className="images-div" variants={fadeIn('up', 'tween', .7, .8) } initial="hidden" whileInView="show" viewport={{once:"true"}}>
+            <div style={{width:"100%",display:"flex"}}>
             <div className="main-food-div">
                 <img src={mainFood} alt="main-food" className='mainfood-img'/>
             </div>
@@ -16,18 +20,21 @@ const MenuDescription = () => {
                 <img src={secondFood} alt="" className="secondfood-img"/>
                 <img src={thirdFood} alt="" className='thirdfood-img'/>
             </div>
-        </div>
-        <div className="menu-text">
+            </div>
+        </motion.div>
+        <motion.div className="menu-text" variants={slideIn('right', 'tween', .7, 1) } initial="hidden" whileInView="show" viewport={{once:"true"}}>
             <h1>Exquisite Dining, Unforgettable Moments.</h1>
             <p>Set on 37 acres of landscaped grounds, Hyatt Regency Kathmandu is a luxury five-star hotel designed in traditional 
                 Newari-style architecture, ideally located only 4 kilometres away from the international airport.
             </p>
+            <Link to="/menu">
             <button className="see-menu">
                 View menu
             </button>
-        </div>
-    </div>
+            </Link>
+        </motion.div>
+    </motion.div>
   )
 }
 
-export default MenuDescription
+export default SectionWrapper(MenuDescription,"")

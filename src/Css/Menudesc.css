@@ -1,3 +1,74 @@
 .menu-desc{
     background-color:#D4E0ED;
+    display: flex;
+    height: 95vh;
+    width: 100%;
+}
+.images-div{
+    display: flex;
+    width: 45%;
+    margin: 8rem 0rem 6rem 10rem;
+}
+.menu-text{
+    width: 50%;
+    margin: 0rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+        h1 {
+            font-family: "Charmonman";
+            font-weight: 600;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+    
+        p {
+            width: 90%;
+            font-size: 1.4rem;
+            text-align: center;
+            font-weight: 400;
+        }
+}
+.main-food-div{
+    margin-right: 1rem;
+    height: 100%;
+}
+.two-foods{
+    display: flex;
+    flex-direction: column;
+}
+
+.mainfood-img{
+    object-fit: cover;
+    width: 500px;
+    height: 100%;
+}
+.secondfood-img{
+    object-fit: cover;
+    width: 350px;
+    height: 65%;
+    margin-bottom: 1rem;
+}
+.thirdfood-img{
+    object-fit: cover;
+    width: 350px;
+    height: 35%;
+}
+.see-menu{
+    font-size: 1.2rem;
+    padding: 18px 36px;
+    letter-spacing: .5px;
+    border: 1px solid black;
+    margin-top: 1rem;
+    background-color: transparent;
+    border-radius: 4px;
+    transition: .5s all linear;
+}
+.see-menu:hover{
+    background-color: aliceblue;
+    cursor: pointer;
+    transform: scale(1.05);
+    transition: .3s all linear;
 }
