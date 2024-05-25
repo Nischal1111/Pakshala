@@ -10,6 +10,7 @@
     font-family: "Lato";
     background-color: #FEF5EB;
     z-index: 10;
+    border: 1px solid #ef8c1b;
 }
 
 .nav-link{
@@ -87,3 +88,112 @@
     width: 100vw;
     object-fit: cover;
 }
+
+
+/* FooterCSS */
+
+.footer{
+    background-color: #c0c0c1;
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    font-family: "Lato";
+    position: absolute;
+
+    .footer-text{
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
+    }
+
+    h2{
+        font-size: 1.5rem;
+        letter-spacing: 1.4px;
+        margin-bottom: 1rem;
+        font-family: "Inika";
+        font-weight: 600;
+    }
+    p{
+        font-size: 1.2rem;
+            letter-spacing: 1.2px;
+            margin-bottom: .5rem;
+            font-family: "Lato";
+            color: rgb(64, 63, 63);
+            margin-left: .5rem;
+            transition: all .3s ease-in-out;
+            cursor: pointer;
+    }
+    p:hover{
+        color: black;
+        font-weight: 500;
+        transform: scale(1.1);
+        transition: all .3s ease-in-out;
+    }
+}
+
+.footer-logo{
+    height: 17rem;
+    object-fit: contain;
+    width: 15rem;
+    margin-left: 1rem;
+}
+
+.find-Us,.footer-community,.our-services,.quick-links{
+    margin-top: 3rem;
+    margin-right: 5rem;
+}
+
+.social-icon {
+    display: inline-block;
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.social-icon a {
+    width: 50px;
+    color: black;
+    height: 50px;
+    background: rgba(217, 217, 217, 0.1);
+    display: inline-flex;
+    border-radius: 50%;
+    margin-right: 2rem;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+}
+
+.social-icon a::before {
+    content: "";
+    width: 52px;
+    height: 52px;
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 0.3s ease-in-out;
+    border: 2px solid black;
+}
+
+.social-icon a:hover::before {
+    transform: scale(1);
+}
+
+.social-icon a img {
+    width: 40%;
+    z-index: 1;
+    transition: 0.3s ease-in-out;
+}
+
+.social-icon a:hover img {
+    filter: brightness(0) saturate(100%) invert(0%) sepia(7%) saturate(98%) hue-rotate(346deg) brightness(95%) contrast(86%);
+}
+
+.footer-last{
+    text-align: center;
+    color: black;
+    font-size: 1.8rem;
+    margin-top: 4rem;
+    font-weight: 700;
+    }

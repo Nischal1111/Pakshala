@@ -1,5 +1,73 @@
 .res-desc{
-    height: 90vh;
+    height: 100%;
     width: 100%;
     background-color: #F0E5CB;
+    display: flex;
+    flex-direction: column;
+    padding: 4rem;
+    padding-bottom: 1rem;
+    margin-bottom: 3rem;
+}
+
+.res-text{
+    height: 30%;
+    margin-left: 2rem;
+    margin-top: 1rem;
+    width: 100%;
+    
+    h1{
+        font-size: 2.5rem;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+        font-family: "Inika";
+    }
+
+    p{
+        width: 60%;
+        font-size: 1.3rem;
+        margin-top: 2rem;
+    }
+    .res-text-div{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .res-button{
+        margin-right: 4rem;
+        background-color: aliceblue;
+        padding: 18px 34px;
+        border-radius: 3px;
+        font-size: 1.2rem;
+        letter-spacing: 1.2px;
+        box-shadow: 0px 2px 4px rgba(0,0,0,.3);
+    }
+}
+.res-images{
+    margin-top: 2rem;
+    margin-left: 2rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.side-room{
+    height: 44%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: .5rem;
+    box-shadow: 4px 8px 16px 5px #d1b26a;
+}
+.side-room2{
+    height: 44%;
+    object-fit: cover;
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: .5rem;
+    box-shadow: 4px 8px 16px 5px #d1b26a;
+}
+.main-room{
+    height: 90%;
+    object-fit: cover;
+    width:98%;
+    border-radius: .5rem;
+    box-shadow: 4px 8px 16px 5px #d1b26a;
 }

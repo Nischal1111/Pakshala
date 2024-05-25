@@ -5,6 +5,7 @@ import HomeDescripton from '../components/HomeDescripton'
 import MenuDescription from '../components/MenuDescription'
 import LookAround from '../components/LookAround'
 import ReservationDesc from '../components/ReservationDesc'
+import Footer from '../components/Footer'
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
         <MenuDescription/>
         <LookAround/>
         <ReservationDesc/>
+        <Footer/>
     </div>
   )
 }

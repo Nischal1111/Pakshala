@@ -17,6 +17,7 @@
 .swiper_container {
     height: 52rem;
     position: relative;
+    transform: none;
 }
 
 .swiper-slide {

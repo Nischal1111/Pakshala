@@ -86,3 +86,22 @@ export const staggerContainer = (staggerChildren, delayChildren) => {
     },
   };
 };
+
+export const bounce = (delay, duration) => {
+  return {
+    hidden: {
+      scale: 0.5,
+      opacity: 0,
+    },
+    show: {
+      scale: [1.2, 0.9, 1.1, 1],
+      opacity: 1,
+      transition: {
+        type: "spring",
+        delay: delay,
+        duration: duration,
+        bounce: 0.25,
+      },
+    },
+  };
+};
