@@ -2,14 +2,14 @@ import React from 'react'
 import "../Css/nav.css"
 import { motion } from 'framer-motion';
 import { textVariant } from '../motion/motion';
-import PakshalaLogo from "/Users/nischalneupane/Desktop/pakshala/src/assets/pakshalalogo.png"
+import PakshalaLogo from "../assets/pakshalalogo.png"
 import Icon1 from '../assets/nav-icon1.svg';
 import Icon2 from '../assets/nav-icon2.svg';
 import Icon3 from '../assets/nav-icon3.svg';
 
 const Footer = () => {
   return (
-    <motion.div className="footer" variants={textVariant(1)} initial="hidden" whileInView="show" viewport={{once:"true"}}>
+    <motion.div className="footer" variants={textVariant(.3)} initial="hidden" whileInView="show" viewport={{once:"true"}}>
         <div className='footer-text'>
         <div className='logo'>
             <img src={PakshalaLogo} alt="PakshalaLogo" className='footer-logo'/>

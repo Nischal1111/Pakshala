@@ -7,7 +7,7 @@
 }
 
 .desc-text{
-    padding-top: 12rem;
+    padding-top: 8rem;
     margin-top: 2rem;
     width: 50%;
     display: flex;
@@ -17,14 +17,16 @@
 .img-div{
     width:40%;
     margin: 3rem 0rem;
+
 }
 .img-desc{
-    margin-top: 5rem;
-    width: 100%;
-    height: 80%;
+    width: 90%;
+    height: 70%;
     object-fit: cover;
+    margin-top: 6rem;
     border-radius: 25rem 0rem 22rem 0rem;
     box-shadow: 8px 16px 32px rgba(213, 98, 35, 0.6);
+    
 }
 
 .desc-text .desc-h1{

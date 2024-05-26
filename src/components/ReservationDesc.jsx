@@ -5,9 +5,9 @@ import { motion } from "framer-motion"
 import {fadeIn } from "../motion/motion"
 import { SectionWrapper } from '../motion'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import Room1 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Room1.jpeg"
-import Room2 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Room2.jpeg"
-import Room3 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Room3.jpeg"
+import Room1 from "../assets/Room1.jpeg"
+import Room2 from "../assets/Room2.jpeg"
+import Room3 from "../assets/Room3.jpeg"
 
 const ReservationDesc = () => {
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from '../components/Nav'
-import PakshalaHome from "/Users/nischalneupane/Desktop/pakshala/src/assets/pakshalahome.jpeg"
+import PakshalaHome from "../assets/pakshalahome.jpeg"
 import HomeDescripton from '../components/HomeDescripton'
 import MenuDescription from '../components/MenuDescription'
 import LookAround from '../components/LookAround'

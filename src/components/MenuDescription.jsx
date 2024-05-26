@@ -1,8 +1,8 @@
 import React from 'react'
 import "../Css/Menudesc.css"
-import mainFood from "/Users/nischalneupane/Desktop/pakshala/src/assets/mainfood.jpeg"
-import secondFood from "/Users/nischalneupane/Desktop/pakshala/src/assets/secondfood.webp"
-import thirdFood from "/Users/nischalneupane/Desktop/pakshala/src/assets/thirdfood.jpeg"
+import mainFood from "../assets/mainfood.jpeg"
+import secondFood from "../assets/secondfood.webp"
+import thirdFood from "../assets/thirdfood.jpeg"
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {fadeIn, slideIn} from "../motion/motion"

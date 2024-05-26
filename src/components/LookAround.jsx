@@ -3,10 +3,10 @@ import "../Css/lookaround.css";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
 
-import Img1 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Img.jpeg";
-import Img2 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Img1.jpeg";
-import Img3 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Img3.jpeg";
-import Img4 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Img4.jpeg";
+import Img1 from "../assets/Img.jpeg";
+import Img2 from "../assets/Img1.jpeg";
+import Img3 from "../assets/Img3.jpeg";
+import Img4 from "../assets/Img4.jpeg";
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
@@ -57,7 +57,7 @@ const LookAround = () => {
                 }}
                 modules={[EffectCoverflow, Navigation]}
                 className="swiper_container"
-                speed={1000} // Reduced speed for smoother transitions
+                speed={1000}
             >
                 {slides.map((item, index) => (
                     <SwiperSlide key={index}>

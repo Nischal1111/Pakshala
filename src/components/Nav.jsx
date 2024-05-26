@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import "../Css/nav.css"
-import PakshalaLogo from "/Users/nischalneupane/Desktop/pakshala/src/assets/pakshalalogo.png"
+import PakshalaLogo from "../assets/pakshalalogo.png"
 
 const Nav = () => {
   return (
