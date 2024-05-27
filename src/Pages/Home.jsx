@@ -9,9 +9,10 @@ import HomeDescripton from '../components/HomeDescripton';
 
 import {Background, Parallax} from "react-parallax";
 
+
 const Home = () => {
   return (
-    <div style={{ overflowX: "hidden" }}>
+    <div style={{ overflowX: "hidden"}} >
       <Nav />
       <Parallax strength={600}>
         <Background className="custom-bg">

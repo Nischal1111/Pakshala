@@ -109,11 +109,15 @@
 /* About choose */
 
 .about-choose{
-    background-color: aquamarine;
+    height: 85vh;
+    width: 100%;
+    display: flex;
+}
+.about-choose2{
     height: 90vh;
     width: 100%;
-    margin: 2rem 0;
-    
+    display: flex;
+    justify-content: flex-end;
 }
 
 .contact-container{
@@ -121,7 +125,7 @@
     width: 50%;
     height: 100%;
     position: relative;
-    padding: 5rem;
+    padding: 5rem 5rem 0 5rem;
 
     .contact-title{
         text-align: center;
@@ -138,4 +142,59 @@
         margin-top: .8rem;
         border: .2px solid black;
     }
+}
+
+.contact-icons{
+    display: flex;
+    justify-content: space-between;
+    font-size: 2.5rem;
+    margin: 2rem 0rem 2rem 4rem;
+}
+
+.contact-hours {
+    text-align: center;
+    font-family: "Lato";
+    h2{
+        margin: 2.5rem 0rem;
+        font-size: 2rem;
+        letter-spacing: 4px;
+    }
+    h3{
+        margin-top: 1.5rem;
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+    }
+}
+
+.see-contact{
+    background-color: transparent;
+    padding: 16px 45px;
+    font-size: 1.2rem;
+    border: .5px solid black;
+    position: relative;
+    left: 36%;
+    margin-top: 4rem;
+    border-radius: .3rem;
+    transition: .3s all;
+}
+.see-contact:hover{
+    transform: scale(1.02);
+    background-color: #dce6fa;
+    transition: .3s all;
+}
+
+.about--bg{
+    height: 200vh;
+    width: 100vw;
+    object-fit: cover;
+}
+
+.custom--about{
+    height:200vh;
+    width: 100vw;
+    object-fit: contain;
+}
+.abt-content{
+    height: 200vh;
+    width: 100vw;
 }
