@@ -16,17 +16,21 @@
 }
 .img-div{
     width:40%;
-    margin: 3rem 0rem;
-
+    margin-top: 8rem;
+    height: 70%;
+    background-color: rgb(249, 246, 242);
+    border-radius: 25rem 0rem 22rem 0rem;
+    position: relative;
+    box-shadow: 8px 16px 32px rgba(213, 98, 35, 0.4);
 }
 .img-desc{
+    position: relative;
+    left: 5%;
+    top: 12%;
     width: 90%;
-    height: 70%;
+    height: 75%;
     object-fit: cover;
-    margin-top: 6rem;
     border-radius: 25rem 0rem 22rem 0rem;
-    box-shadow: 8px 16px 32px rgba(213, 98, 35, 0.6);
-    
 }
 
 .desc-text .desc-h1{
