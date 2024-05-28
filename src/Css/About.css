@@ -269,10 +269,11 @@ form .contact--btn:hover {
 /* services css  */
 /* services css  */
 .service {
-    height: 100vh;
+    height: 100%;
     margin: 5rem 3rem 3rem 3rem;
     overflow: hidden;
     position: relative;
+    padding: 2rem;
     width: 100%;
 }
 
@@ -285,8 +286,7 @@ form .contact--btn:hover {
 .service-card {
     padding: 2rem;
     width: 30%;
-    height: 75vh;
-    max-height: 75vh;
+    max-height: 80vh;
     position: relative;
     border-radius: .6rem;
     box-shadow: 4px 8px 12px 10px #c7c7da;
@@ -296,7 +296,8 @@ form .contact--btn:hover {
 
 .service-allcards {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
-    gap: 4rem;
+    gap: 3rem;
     transition: transform 0.5s ease-out;
 }

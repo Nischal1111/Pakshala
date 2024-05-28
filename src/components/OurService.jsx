@@ -1,15 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "../Css/About.css";
 import Card from '@mui/material/Card';
+import {fadeIn} from "../motion/motion"
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { motion } from 'framer-motion';
+import {SectionWrapper} from "../motion/index"
 
-const ServiceCard = ({ item }) => {
+const ServiceCard = ({ item,index }) => {
     return (
-        <Card className='service-card' style={{backgroundColor:"#F3EEEA",position:"relative"}}>
+        <motion.Card className='service-card' 
+            style={{backgroundColor:"#F3EEEA",position:"relative"}} 
+            variants={fadeIn("up","spring",index*0.25,1.25,3)} 
+            viewport={{once:"true"}}
+            initial="hidden"
+            whileInView="show">
             <CardMedia
                 component="img"
                 alt={item.name}
@@ -27,7 +35,7 @@ const ServiceCard = ({ item }) => {
             <CardActions >
                 <Button style={{fontSize: "1.4rem",border: "1px solid white",background: "#C7C8CC",padding: ".7rem 35px",color:"white",bottom:"0px",width:"30%",textTransform:"capitalize"}}>{item.button}</Button>
             </CardActions>
-        </Card>
+        </motion.Card>
     );
 };
 
@@ -77,34 +85,34 @@ const OurService = () => {
         }
     ];
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const ref = useRef(null);
+    // const [currentIndex, setCurrentIndex] = useState(0);
+    // const ref = useRef(null);
 
-    const numSlides = Math.ceil(services.length / 3);
+    // const numSlides = Math.ceil(services.length / 3);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex(prevIndex => (prevIndex + 1) % numSlides);
-        }, 4500);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         setCurrentIndex(prevIndex => (prevIndex + 1) % numSlides);
+    //     }, 4500);
 
-        return () => clearInterval(interval);
-    }, [numSlides]);
+    //     return () => clearInterval(interval);
+    // }, [numSlides]);
 
-    useEffect(() => {
-        const cardWidth = ref.current.children[0].clientWidth + 55;
-        const translateX = -currentIndex * (cardWidth * 3);
-        ref.current.style.transform = `translateX(${translateX}px)`;
-    }, [currentIndex]);
+    // useEffect(() => {
+    //     const cardWidth = ref.current.children[0].clientWidth + 55;
+    //     const translateX = -currentIndex * (cardWidth * 3);
+    //     ref.current.style.transform = `translateX(${translateX}px)`;
+    // }, [currentIndex]);
 
     return (
         <div className='service'>
-            <div className="service-allcards" ref={ref}>
+            <div className="service-allcards" >
                 {services.map((item, index) => (
-                    <ServiceCard key={index} item={item} />
+                    <ServiceCard key={index} item={item} index={index}/>
                 ))}
             </div>
         </div>
     );
 };
 
-export default OurService;
+export default SectionWrapper(OurService,"");
