@@ -29,8 +29,8 @@ const ContactDetail = () => {
           <div className="email" style={{display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",textAlign:"center"}}>
             <MdEmail/>
             <div style={{fontFamily:"Lato",fontSize:"1.2rem",marginTop:"1.5rem"}}>
-              <p>pakshala@gmail.coma</p>
-              <p>restroakshala@gmail.coma</p>
+              <p>pakshala@gmail.com</p>
+              <p>restroakshala@gmail.com</p>
             </div>
           </div>
         </div>

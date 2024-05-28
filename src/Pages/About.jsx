@@ -5,12 +5,18 @@ import "../Css/About.css"
 import AboutDesc from '../components/AboutDesc'
 import ContactDetail from '../components/ContactDetail'
 import ContactForm from '../components/ContactForm'
-
+import { motion } from 'framer-motion'
 import {Background, Parallax} from "react-parallax";
+import OurService from '../components/OurService'
 
 const About = () => {
   return (
-    <div style={{overflowX:"hidden"}}>
+    <motion.div
+      exit={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 1.4, ease: [0.17, 0.67, 0.83, 0.67] }}
+        >
       <Nav/>
       <div className="mainContainer">
         <div className="wave top red">
@@ -25,8 +31,9 @@ const About = () => {
           <ContactDetail/>
           <ContactForm/>
       </Parallax>
+      <OurService/>
       <Footer/>
-    </div>
+    </motion.div>
   )
 }
 

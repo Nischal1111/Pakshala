@@ -6,15 +6,19 @@ import LookAround from '../components/LookAround';
 import ReservationDesc from '../components/ReservationDesc';
 import Footer from '../components/Footer';
 import HomeDescripton from '../components/HomeDescripton';
+import { motion } from 'framer-motion';
 
 import {Background, Parallax} from "react-parallax";
 
 
 const Home = () => {
   return (
-    <div style={{ overflowX: "hidden"}} >
+    <motion.div style={{ overflowX: "hidden"}} initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 1 }}
+      transition={{ duration: 1.4, ease: [0.17, 0.67, 0.83, 0.67] }}>
       <Nav />
-      <Parallax strength={600}>
+      <Parallax strength={800}>
         <Background className="custom-bg">
             <img src={BgHome} alt="pakshala" className="pakshala-home"/>
         </Background>
@@ -33,7 +37,7 @@ const Home = () => {
         <ReservationDesc />
       </Parallax>
       <Footer />
-    </div>
+    </motion.div>
   );
 }
 

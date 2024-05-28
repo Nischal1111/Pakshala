@@ -21,11 +21,11 @@ const Nav = () => {
             <Link to="/menu" className='nav-link-item'>
                 <p>Menu</p>
             </Link>
+            <Link to="/contacts" className='nav-link-item'>
+                <p>Events</p>
+            </Link>
             <Link to="/about" className='nav-link-item'>
                 <p>About</p>
-            </Link>
-            <Link to="/contacts" className='nav-link-item'>
-                <p>Contact</p>
             </Link>
         </div>
         <div>

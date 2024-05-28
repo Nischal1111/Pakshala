@@ -36,15 +36,16 @@
 .desc-text .desc-h1{
     letter-spacing: 1px;
     margin-bottom: 1rem;
-        font-size: 3rem;
+        font-size: 3.8rem;
         font-weight: 600;
         font-family: "Inika";
 }
 
 .desc-text .desc-p{
     font-size: 1.6rem;
+    line-height: 4rem;
     text-align: justify;
-    width: 60%;
+    width: 70%;
     font-weight: 400;
 }
 
