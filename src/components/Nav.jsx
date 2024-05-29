@@ -1,9 +1,37 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Link } from 'react-router-dom'
 import "../Css/nav.css"
 import PakshalaLogo from "../assets/pakshalalogo.png"
 
+const Dropdown=({isVisible})=>{
+    return (
+        <div className={`dropdown ${isVisible ? 'visible' : ''}`}>
+            <ul className='sub-menu'>
+                <Link to="/rooms">
+                    <li>
+                        Rooms
+                    </li>
+                </Link>
+                <Link to="/tables">
+                    <li>
+                        Tables            
+                    </li>
+                </Link>
+            </ul>
+        </div>
+    );
+}
+
 const Nav = () => {
+    const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+  const handleMouseEnter = () => {
+    setDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setDropdownVisible(false);
+  };
   return (
     <div className='navbar'>
         <Link to="/">
@@ -15,9 +43,11 @@ const Nav = () => {
             <Link to="/" className='nav-link-item'>
                 <p>Home</p>
             </Link>
-            <Link to="/reservations" className='nav-link-item'>
+            <div className="nav-link-item" onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave} style={{cursor:"pointer"}}>   
                 <p>Reservations</p>
-            </Link>
+                <Dropdown isVisible={isDropdownVisible} />
+            </div>       
             <Link to="/menu" className='nav-link-item'>
                 <p>Menu</p>
             </Link>

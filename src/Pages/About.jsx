@@ -12,6 +12,7 @@ import OurService from '../components/OurService'
 const About = () => {
   return (
     <motion.div
+    style={{overflowX:"hidden"}}
       exit={{ opacity: 1 }}
       initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}

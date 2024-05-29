@@ -109,13 +109,13 @@
 /* About choose */
 
 .about-choose{
-    height: 85vh;
+    height: 100%;
     width: 100%;
     display: flex;
     justify-content: flex-end;
 }
 .about-choose2{
-    height: 90vh;
+    height: 100%;
     width: 100%;
     display: flex;
 }
@@ -125,7 +125,7 @@
     width: 50%;
     height: 100%;
     position: relative;
-    padding: 5rem 5rem 0 5rem;
+    padding: 5rem;
 
     .contact-title{
         text-align: center;
@@ -184,18 +184,18 @@
 }
 
 .about--bg{
-    height: 140vh;
+    height: 140%;
     width: 100vw;
     object-fit: cover;
 }
 
 .custom--about{
-    height:200vh;
+    height:200%;
     width: 100vw;
     object-fit: contain;
 }
 .abt-content{
-    height: 200vh;
+    height: 200%;
     width: 100vw;
 }
 
@@ -245,6 +245,7 @@ form .contact--btn {
     border-radius: 20px;
     width: 20%;
     margin-top: 1rem;
+    margin-bottom: 3rem;
     background-color:#ededf1;
     color: #0f4d55;
     padding: 1.2rem 2rem;
@@ -286,7 +287,7 @@ form .contact--btn:hover {
 .service-card {
     padding: 2rem;
     width: 30%;
-    max-height: 80vh;
+    max-height: 80%;
     position: relative;
     border-radius: .6rem;
     box-shadow: 4px 8px 12px 10px #c7c7da;
