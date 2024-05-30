@@ -36,6 +36,7 @@
         background-color: #FEF5EB;
         border-radius: 5rem;
         margin-left: 2rem;
+        outline: 1px solid aliceblue;
         border: 1px solid #f68a0f;
         color: #f68a0f;
         padding: .8rem 2.4rem;
@@ -47,8 +48,10 @@
         color: aliceblue;
         transition: .5s all;
         transform: scale(1.1);
+        outline-offset: -.3rem;
     }
     button.clicked{
+        outline-offset: -.3rem;
         background-color: #f68a0f;
         color: aliceblue;
         border: 2px solid aliceblue;
@@ -62,16 +65,15 @@
     gap: 2rem;
     flex-wrap: wrap;
 }
-.service-img {
-    height: 40vh;
+
+.roomcard-img{
     width: 100%;
-    border-radius: .3rem;
+    height: 35vh;
 }
 
 .singleroom-card {
-    padding: 2rem;
     width: 30%;
-    max-height: 80%;
+    height: 80%;
     position: relative;
     border-radius: .6rem;
     box-shadow: 2px 4px 8px 5px #c5c5c7;
@@ -83,6 +85,10 @@
     transform: scale(1.2);
     box-shadow: 2px 4px 8px 5px #a6a6e2;
     transition: .5s all;
+
+    .overlay{
+        height: 100%;
+    }
 }
 
 .loading-spinner {
@@ -108,5 +114,78 @@
 
     to {
         transform: rotate(360deg);
+    }
+}
+
+.price-div{
+    background-color: rgb(251, 250, 243);
+    box-shadow: 0px 2px 2px 2px #f6dfc4;
+    padding: 1rem 2rem;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 1rem;
+    top: 58%;
+    border-radius: 4rem;
+
+    .room-price{    
+        font-family: "Lato";
+        letter-spacing: 1px;
+        font-weight: 200;
+        font-size: 1.1rem;
+    }
+}
+
+.room-rating{
+    margin-left: 1rem;
+    font-size: 13px;
+    color: aliceblue;
+    background-color: #f8bd79;
+    padding: .3rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    .star-icons{
+        margin-right:.3rem; 
+    }
+}
+
+.overlay{
+    height: 0%;
+    width: 100%;
+    opacity: .85;
+    background: linear-gradient(transparent, rgb(151, 150, 150) 100%);
+    border-radius: 10x;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px;
+    text-align: center;
+    transition: height .7s ;
+    
+    h2{
+        font-weight: 600;
+        font-size: 1.2rem;
+        border-radius: 1rem;
+        font-family: "Lato";
+        color: aliceblue;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background-color: #bbbbf7;
+        padding: .8rem 1.5rem;
+    }
+    h2:hover{
+        transform: scale(.95);
+        transition: .5s all;
+        background-color: #8686f0;
+        opacity: 1;
+
+
     }
 }

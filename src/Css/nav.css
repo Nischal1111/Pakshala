@@ -24,10 +24,10 @@
     color: rgb(98, 97, 97);
     font-size: 1.4rem;
     font-weight: 400;
-    margin: 0rem 2rem;
+    margin: 0rem 1rem;
     text-decoration: none;
-    border-radius: .3rem;
-    padding: .3rem 1rem;
+    border-radius: .4rem;
+    padding: .5rem 1.2rem;
     letter-spacing: 1.5px;
     transition: .3s all;
 }
@@ -35,6 +35,12 @@
     background-color: #fde7d0;
     color: #121212;
     transition: .3s all;
+}
+
+.nav-link-item.clicked p{
+    background-color: #fdd9b2;
+        color: #121212;
+        transition: .3s all;
 }
 .nav-link p::after{
     opacity: 1;

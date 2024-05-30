@@ -6,6 +6,7 @@ import Menu from '../src/Pages/Menu';
 import Contact from '../src/Pages/Contact';
 import ScrollToTop from '../src/components/ScrollToTop';
 import About from '../src/Pages/About';
+import RoomReserve from './Pages/RoomReserve';
 
 function App() {
   return (
@@ -13,8 +14,9 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/rooms" element={<Rooms />} />
-        <Route path="/tables" element={<Tables />} />
+        <Route path="/reservations/rooms" element={<Rooms />} />
+        <Route path="/reservations/rooms/:id" element={<RoomReserve />} />
+        <Route path="/reservations/tables" element={<Tables />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
