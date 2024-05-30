@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import "../Css/Rooms.css";
 import { FaWifi } from "react-icons/fa";
 import { TbAirConditioning } from "react-icons/tb";
-import { FaPhoneAlt } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { fadeIn } from "../motion/motion";
 import CardContent from '@mui/material/CardContent';
@@ -118,7 +117,7 @@ const RoomCard = ({ room, index }) => {
                     </p>
                 </div>
                 <Typography variant="body2" style={{ fontFamily: "Lato", fontSize: "1.2rem", letterSpacing: "1.4px", color: "black", lineHeight: "2rem" }}>
-                    <div style={{display:"flex",gap:"1rem",alignItems:"center"}}>
+                    <div style={{display:"flex",gap:"1rem",alignItems:"center",marginTop:".8rem"}}>
                         <FaUser/>
                         <span>Up to {room.guests} guest/s</span>
                     </div>
