@@ -1,0 +1,43 @@
+.reserve-main{
+    height: 100vh;
+    width: 100vw;
+    object-fit: cover;
+
+}
+
+.room-filter{
+    background-color: antiquewhite;
+    margin: 3rem;
+    height: 100%;
+    padding: 3rem 5rem;
+
+    h1 {
+            font-size: 4rem;
+            text-align: center;
+            font-family: "Lato";
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+        }
+}
+
+.filter-choice{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 0;
+    transform: translateX(-2%);
+    padding: 1rem;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    font-family: "Lato";
+
+    button{
+        background-color: #FEF5EB;
+        border-radius: 5rem;
+        margin-left: 2rem;
+        border: 1px solid #f68a0f;
+        color: #f68a0f;
+        padding: .8rem 2.4rem;
+    }
+}
