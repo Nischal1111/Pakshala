@@ -6,15 +6,14 @@
 }
 
 .room-filter{
-    background-color: antiquewhite;
     margin: 3rem;
-    height: 100%;
     padding: 3rem 5rem;
 
     h1 {
             font-size: 4rem;
             text-align: center;
-            font-family: "Lato";
+            font-family: "Inika";
+            text-transform: uppercase;
             letter-spacing: 3px;
             margin-bottom: 2rem;
         }
@@ -22,13 +21,14 @@
 
 .filter-choice{
     display: flex;
+    margin-bottom: 2rem;
     align-items: center;
     justify-content: center;
     position: relative;
     left: 0;
     transform: translateX(-2%);
     padding: 1rem;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     letter-spacing: 3px;
     font-family: "Lato";
 
@@ -39,5 +39,74 @@
         border: 1px solid #f68a0f;
         color: #f68a0f;
         padding: .8rem 2.4rem;
+        transition: .5s all;
+    }
+    button:hover{
+        background-color: #f68a0f;
+        border: 2px solid aliceblue;
+        color: aliceblue;
+        transition: .5s all;
+        transform: scale(1.1);
+    }
+    button.clicked{
+        background-color: #f68a0f;
+        color: aliceblue;
+        border: 2px solid aliceblue;
+        transition: .5s all;
+        transform: scale(1.1);
+    }
+}
+.room-cards{
+    display: flex;
+    position: relative;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.service-img {
+    height: 40vh;
+    width: 100%;
+    border-radius: .3rem;
+}
+
+.singleroom-card {
+    padding: 2rem;
+    width: 30%;
+    max-height: 80%;
+    position: relative;
+    border-radius: .6rem;
+    box-shadow: 2px 4px 8px 5px #c5c5c7;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: .5s all;
+}
+.singleroom-card:hover{
+    transform: scale(1.2);
+    box-shadow: 2px 4px 8px 5px #a6a6e2;
+    transition: .5s all;
+}
+
+.loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading {
+    color: #ff8800;
+    animation: spin 1s linear infinite;
+    font-size: 3rem;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }
