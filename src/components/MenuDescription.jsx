@@ -11,7 +11,7 @@ import {SectionWrapper} from "../motion/index"
 const MenuDescription = () => {
   return (
     <motion.div className='menu-desc' >
-        <motion.div className="images-div" variants={fadeIn('up', 'tween', .7, .8) } initial="hidden" whileInView="show" viewport={{once:"true"}}>
+        <motion.div className="images-div" variants={fadeIn('up', 'tween', .2, .7) } initial="hidden" whileInView="show" viewport={{once:"true"}}>
             <div style={{width:"100%",display:"flex"}}>
             <div className="main-food-div">
                 <img src={mainFood} alt="main-food" className='mainfood-img'/>
@@ -22,7 +22,7 @@ const MenuDescription = () => {
             </div>
             </div>
         </motion.div>
-        <motion.div className="menu-text" variants={slideIn('right', 'tween', .7, 1) } initial="hidden" whileInView="show" viewport={{once:"true"}}>
+        <motion.div className="menu-text" variants={slideIn('right', 'tween', .2, .7) } initial="hidden" whileInView="show" viewport={{once:"true"}}>
             <h1>Exquisite Dining, Unforgettable Moments.</h1>
             <p>Set on 37 acres of landscaped grounds, Hyatt Regency Kathmandu is a luxury five-star hotel designed in traditional 
                 Newari-style architecture, ideally located only 4 kilometres away from the international airport.

@@ -49,7 +49,7 @@ const Footer = () => {
             <p>Contacts</p>
         </div>
         </div>
-        <p className='footer-last'>Privacy Policy | Terms & Condition | Cookie Center | Security & Safety | | © 2024 Pakshala Restro</p>
+        <span className='footer-last'>Privacy Policy | Terms & Condition | Cookie Center | Security & Safety | | © 2024 Pakshala Restro</span>
     </motion.div>
   )
 }

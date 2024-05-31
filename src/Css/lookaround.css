@@ -1,13 +1,13 @@
 .container {
     height: 100%;
     width: 100vw;
-    padding: 5rem 5rem 5rem 5rem;
+    padding: 3rem 3rem 0rem 3rem;
     background-color: rgb(249, 250, 252);
 }
 
 .heading {
     margin: 2rem 0rem;
-    font-size: 4rem;
+    font-size: 3rem;
     letter-spacing: 3px;
     font-weight: 400;
     text-align: center;
@@ -15,7 +15,7 @@
 }
 
 .swiper_container {
-    height: 52rem;
+    height: 40rem;
     position: relative;
     transform: none;
 }
@@ -30,7 +30,7 @@
     position: relative;
     left: 20%;
     width: 60%;
-    height: 80%;
+    height: 70%;
     border-radius: 2rem;
     object-fit: cover;
 }
@@ -42,7 +42,7 @@
 
 .slider-controler {
     position: relative;
-    bottom: 7rem;
+    bottom: 5rem;
     display: flex;
     align-items: center;
 }
@@ -59,14 +59,14 @@
 }
 
 .slider-controler .swiper-button-next {
-    left: 54% !important;
-    transform: translateX(-52%) !important;
+    left: 53% !important;
+    transform: translateX(-48%) !important;
 }
 
 .slider-controler .slider-arrow {
     width: 2.5rem;
     height: 2.5rem;
-    left: 48%;
+    left: 47%;
     transform: translateX(-48%);
 }
 

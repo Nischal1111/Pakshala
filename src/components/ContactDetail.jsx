@@ -8,27 +8,27 @@ const ContactDetail = () => {
   return (
     <div className='about-choose'>
       <div className="contact-container">
-        <div style={{margin:"0rem 3rem", height:"100%",position:"relative"}}>
+        <div style={{height:"100%",position:"relative"}}>
         <h1 className='contact-title'>Our Contacts</h1>
         <hr className='contact-line'/>
         <div className="contact-icons">
           <div className="call" style={{display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",textAlign:"center"}}>
               <MdCall/>
-            <div style={{fontFamily:"Lato",fontSize:"1.2rem",marginTop:"1.5rem"}}>
+            <div style={{fontFamily:"Lato",fontSize:"1rem",marginTop:"1rem"}}>
               <p>+977 014 583773</p>
               <p>+977 9847376437</p>
             </div>
           </div>
           <div className="location" style={{display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",textAlign:"center"}}>
             <MdLocationOn />
-            <div style={{fontFamily:"Lato",fontSize:"1.2rem",marginTop:"1.5rem"}}>
+            <div style={{fontFamily:"Lato",fontSize:"1rem",marginTop:"1rem"}}>
               <p>Bhagwati Marga</p>
               <p>Naxal, Kathmandu</p>
             </div>
           </div>
           <div className="email" style={{display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",textAlign:"center"}}>
             <MdEmail/>
-            <div style={{fontFamily:"Lato",fontSize:"1.2rem",marginTop:"1.5rem"}}>
+            <div style={{fontFamily:"Lato",fontSize:"1rem",marginTop:"1rem"}}>
               <p>pakshala@gmail.com</p>
               <p>restroakshala@gmail.com</p>
             </div>

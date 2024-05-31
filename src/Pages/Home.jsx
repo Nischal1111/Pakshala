@@ -1,15 +1,12 @@
 import React from 'react';
 import Nav from '../components/Nav';
 import MenuDescription from '../components/MenuDescription';
-import BgHome from "../assets/mark-mc-neill-XZbcQwHDJmg-unsplash.jpg"
 import LookAround from '../components/LookAround';
 import ReservationDesc from '../components/ReservationDesc';
 import Footer from '../components/Footer';
 import HomeDescripton from '../components/HomeDescripton';
+import BgHome from "../assets/dinesh-ramaswamy-p-sEkj6-hAM-unsplash.jpg"
 import { motion } from 'framer-motion';
-
-import {Background, Parallax} from "react-parallax";
-
 
 const Home = () => {
   return (
@@ -18,24 +15,11 @@ const Home = () => {
       exit={{ opacity: 1 }}
       transition={{ duration: 1.4, ease: [0.17, 0.67, 0.83, 0.67] }}>
       <Nav />
-      <Parallax strength={800}>
-        <Background className="custom-bg">
-            <img src={BgHome} alt="pakshala" className="pakshala-home"/>
-        </Background>
-        <div className="par-content"></div>
-      </Parallax>
-      <Parallax strength={600}>
-          <HomeDescripton/>
-      </Parallax>
-      <Parallax strength={600}>
-        <MenuDescription />
-      </Parallax>
-      <Parallax strength={600}>
-        <LookAround />
-      </Parallax>
-      <Parallax strength={600}>
-        <ReservationDesc />
-      </Parallax>
+      <img src={BgHome} alt="pakshala" className="pakshala-home"/>
+      <HomeDescripton/>
+      <MenuDescription />
+      <LookAround />
+      <ReservationDesc />
       <Footer />
     </motion.div>
   );

@@ -86,7 +86,6 @@ const allRooms = [
     }
 ];
 
-console.log(allRooms);
 
 
 const RoomCard = ({ room, index }) => {
@@ -109,31 +108,31 @@ const RoomCard = ({ room, index }) => {
                     <p className="room-price">Rs {room.price}</p>
                 </div>
                 <div className="nameandrating" style={{display:"flex",alignItems:"center"}}>
-                <Typography gutterBottom component="div" style={{ fontFamily: "Lato", fontSize: "1.5rem", letterSpacing: "3px", margin: "1rem 0rem" }}>
+                <Typography gutterBottom component="div" style={{ fontFamily: "Lato", fontSize: "1.2rem", letterSpacing: "3px"}}>
                     {room.name}
                 </Typography>
                  <p className="room-rating">
                         <IoStarSharp className='star-icons'/>{room.rating}
                     </p>
                 </div>
-                <Typography variant="body2" style={{ fontFamily: "Lato", fontSize: "1.2rem", letterSpacing: "1.4px", color: "black", lineHeight: "2rem" }}>
+                <Typography variant="body2" style={{ fontFamily: "Lato", fontSize: "1rem", letterSpacing: "1.4px", color: "black", lineHeight: "2rem" }}>
                     <div style={{display:"flex",gap:"1rem",alignItems:"center",marginTop:".8rem"}}>
                         <FaUser/>
                         <span>Up to {room.guests} guest/s</span>
                     </div>
-                    <div style={{display:"flex",alignItems:"center",gap:".8rem",marginTop:"2rem"}}>
-                        <div style={{background:"#ff8800",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".3rem 1.7rem",borderRadius:"2rem"}}>
-                            <FaWifi style={{fontSize:"1.3rem"}}/>
-                            <span style={{fontSize:".8rem"}}>Wifi</span>
+                    <div style={{display:"flex",alignItems:"center",gap:".8rem",marginTop:"1rem"}}>
+                        <div style={{background:"#ff8800",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".3rem 1.4rem",borderRadius:"2rem"}}>
+                            <FaWifi style={{fontSize:"1.1rem"}}/>
+                            <span style={{fontSize:".7rem"}}>Wifi</span>
                         </div>
-                        <div style={{background:"#8686f0",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".3rem 1.7rem",borderRadius:"2rem"}}>
-                            <TbAirConditioning style={{fontSize:"1.3em"}}/>
-                            <span style={{fontSize:".8rem"}}>Air-conditioned</span>
+                        <div style={{background:"#8686f0",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".3rem 1.4rem",borderRadius:"2rem"}}>
+                            <TbAirConditioning style={{fontSize:"1.1em"}}/>
+                            <span style={{fontSize:".7rem"}}>Air-conditioned</span>
                         </div>
                     </div>
                 </Typography>
             </CardContent>
-            <Link to={`/RoomReserve/${room.id}`}>
+            <Link to={`/reservations/rooms/${room.id}`}>
                 <div className="overlay">
                     <h2>View room</h2>
                 </div>
