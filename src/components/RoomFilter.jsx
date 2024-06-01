@@ -12,79 +12,8 @@ import { motion } from 'framer-motion';
 import { SectionWrapper } from "../motion/index";
 import { ImSpinner2 } from "react-icons/im";
 import { IoStarSharp } from "react-icons/io5";
+import {allRooms} from "../data"
 
-const allRooms = [
-    {
-        id: 1,
-        category: 'premium',
-        name: 'Single Room',
-        price: 3000,
-        bed: 'single',
-        guests: 1,
-        image: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=800',
-        rating: "4.0"
-    },
-    {
-        id: 2,
-        category: 'premium',
-        name: 'Single Bed',
-        price: 3000,
-        bed: 'single',
-        guests: 1,
-        image: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=800',
-        rating: "3.9"
-    },
-    {
-        id: 3,
-        category: 'premium',
-        name: 'Single Room (Premium)',
-        price: 3000,
-        bed: 'single',
-        guests: 1,
-        image: 'https://images.pexels.com/photos/5816562/pexels-photo-5816562.jpeg?auto=compress&cs=tinysrgb&w=800',
-        rating: "4.2"
-    },
-    {
-        id: 4,
-        category: 'deluxe',
-        name: 'Deluxe Room',
-        price: 4000,
-        bed: 'double',
-        guests: 3,
-        image: 'https://images.pexels.com/photos/16436911/pexels-photo-16436911/free-photo-of-neatly-made-bed-and-a-hanging-lamp-in-a-hotel-room.jpeg?auto=compress&cs=tinysrgb&w=800',
-        rating: "4.5"
-    },
-    {
-        id: 5,
-        category: 'deluxe',
-        name: 'Double Room',
-        price: 4000,
-        bed: 'double',
-        guests: 3,
-        image: 'https://images.pexels.com/photos/12970071/pexels-photo-12970071.jpeg?auto=compress&cs=tinysrgb&w=800',
-        rating: "4.6"
-    },
-    {
-        id: 6,
-        category: 'luxury',
-        name: 'Suite Room (Luxury)',
-        price: 5500,
-        bed: 'suite',
-        guests: 2,
-        image: 'https://images.pexels.com/photos/6394550/pexels-photo-6394550.jpeg?auto=compress&cs=tinysrgb&w=800',
-        rating: "4.8"
-    },
-    {
-        id: 7,
-        category: 'luxury',
-        name: 'Luxury Room (Suite)',
-        price: 5500,
-        bed: 'suite',
-        guests: 2,
-        image: 'https://images.pexels.com/photos/7031731/pexels-photo-7031731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-        rating: "4.9"
-    }
-];
 
 
 
@@ -108,7 +37,7 @@ const RoomCard = ({ room, index }) => {
                     <p className="room-price">Rs {room.price}</p>
                 </div>
                 <div className="nameandrating" style={{display:"flex",alignItems:"center"}}>
-                <Typography gutterBottom component="div" style={{ fontFamily: "Lato", fontSize: "1.2rem", letterSpacing: "3px"}}>
+                <Typography gutterBottom component="div" style={{ fontFamily: "Lato", fontSize: "1.1rem", letterSpacing: "2px"}}>
                     {room.name}
                 </Typography>
                  <p className="room-rating">
@@ -121,13 +50,13 @@ const RoomCard = ({ room, index }) => {
                         <span>Up to {room.guests} guest/s</span>
                     </div>
                     <div style={{display:"flex",alignItems:"center",gap:".8rem",marginTop:"1rem"}}>
-                        <div style={{background:"#ff8800",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".3rem 1.4rem",borderRadius:"2rem"}}>
-                            <FaWifi style={{fontSize:"1.1rem"}}/>
-                            <span style={{fontSize:".7rem"}}>Wifi</span>
+                        <div style={{background:"#ff8800",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".2rem .7rem",borderRadius:"2rem"}}>
+                            <FaWifi style={{fontSize:"1rem"}}/>
+                            <span style={{fontSize:".8rem"}}>Wifi</span>
                         </div>
-                        <div style={{background:"#8686f0",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".3rem 1.4rem",borderRadius:"2rem"}}>
-                            <TbAirConditioning style={{fontSize:"1.1em"}}/>
-                            <span style={{fontSize:".7rem"}}>Air-conditioned</span>
+                        <div style={{background:"#8686f0",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".2rem .7rem",borderRadius:"2rem"}}>
+                            <TbAirConditioning style={{fontSize:"1rem"}}/>
+                            <span style={{fontSize:".8rem"}}>Air-conditioned</span>
                         </div>
                     </div>
                 </Typography>
@@ -197,4 +126,6 @@ const RoomFilter = () => {
     )
 }
 
+
+export {allRooms}
 export default SectionWrapper(RoomFilter, "")

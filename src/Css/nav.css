@@ -113,7 +113,15 @@
     width: 100%;
     object-fit: cover;
 }
+.par-content {
+    height: 100vh;
+}
 
+.custom-bg {
+    height: 100vh;
+    width: 100vw;
+    object-fit: contain;
+}
 .dropdown {
     position: absolute;
     top:3.1rem;
