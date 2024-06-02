@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import "../Css/nav.css";
 import PakshalaLogo from "../assets/pakshalalogo.png";
@@ -24,7 +24,23 @@ const Dropdown = ({ isVisible }) => {
 
 const Nav = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
+  const [isNavbarVisible, setNavbarVisible] = useState(true);
   const location = useLocation();
+
+  const handleScroll = () => {
+    const currentScrollPos = window.pageYOffset;
+    setNavbarVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+    setPrevScrollPos(currentScrollPos);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollPos]);
 
   const handleMouseEnter = () => {
     setDropdownVisible(true);
@@ -35,7 +51,7 @@ const Nav = () => {
   };
 
   return (
-    <div className='navbar'>
+    <div className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
       <Link to="/">
         <div className='logo'>
           <img src={PakshalaLogo} alt="PakshalaLogo" className='nav-logo' />
