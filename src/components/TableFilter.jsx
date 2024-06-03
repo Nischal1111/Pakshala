@@ -70,6 +70,24 @@ const TableCard = ({ table, index }) => {
                         />
                         <TextField
                             margin="dense"
+                            id="email"
+                            label="Email"
+                            type="email"
+                            fullWidth
+                            variant="standard"
+                            autoComplete='off'
+                        />
+                        <TextField
+                            margin="dense"
+                            id="contact"
+                            label="Contact Number"
+                            type="tel"
+                            fullWidth
+                            variant="standard"
+                            autoComplete='off'
+                        />
+                        <TextField
+                            margin="dense"
                             id="date"
                             label="Date"
                             type="date"
