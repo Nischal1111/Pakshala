@@ -3,27 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import "../Css/nav.css";
 import PakshalaLogo from "../assets/pakshalalogo.png";
 
-const Dropdown = ({ isVisible }) => {
-  return (
-    <div className={`dropdown ${isVisible ? 'visible' : ''}`}>
-      <ul className='sub-menu'>
-        <Link to="/reservations/rooms">
-          <li>
-            Rooms
-          </li>
-        </Link>
-        <Link to="/reservations/tables">
-          <li>
-            Tables
-          </li>
-        </Link>
-      </ul>
-    </div>
-  );
-}
-
 const Nav = () => {
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
   const [isNavbarVisible, setNavbarVisible] = useState(true);
   const location = useLocation();
@@ -42,13 +22,6 @@ const Nav = () => {
     };
   }, [prevScrollPos]);
 
-  const handleMouseEnter = () => {
-    setDropdownVisible(true);
-  };
-
-  const handleMouseLeave = () => {
-    setDropdownVisible(false);
-  };
 
   return (
     <div className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -61,15 +34,14 @@ const Nav = () => {
         <Link to="/" className={`nav-link-item ${location.pathname === '/' ? 'clicked' : ''}`}>
           <p>Home</p>
         </Link>
-        <div className={`nav-link-item ${location.pathname.includes('/reservations') ? 'clicked' : ''}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ cursor: "pointer" }}>
-          <p>Reservations</p>
-          <Dropdown isVisible={isDropdownVisible} />
-        </div>
+        <Link to="/rooms" className={`nav-link-item ${location.pathname === '/rooms' ? 'clicked' : ''}`}>
+          <p>Rooms</p>
+        </Link>
+        <Link to="/tables" className={`nav-link-item ${location.pathname === '/tables' ? 'clicked' : ''}`}>
+          <p>Tables</p>
+        </Link>
         <Link to="/menu" className={`nav-link-item ${location.pathname === '/menu' ? 'clicked' : ''}`}>
           <p>Menu</p>
-        </Link>
-        <Link to="/contacts" className={`nav-link-item ${location.pathname === '/contacts' ? 'clicked' : ''}`}>
-          <p>Events</p>
         </Link>
         <Link to="/about" className={`nav-link-item ${location.pathname === '/about' ? 'clicked' : ''}`}>
           <p>About</p>

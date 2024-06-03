@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import { Parallax,Background } from 'react-parallax';
 import Footer from '../components/Footer';
 import Nav from '../components/Nav';
+import EventGallary from '../components/EventGallary';
 
 const Home = () => {
   return (
@@ -29,6 +30,7 @@ const Home = () => {
       <MenuDescription />
       <LookAround />
       <ReservationDesc />
+      <EventGallary/>
       <Footer/>
     </motion.div>
   );

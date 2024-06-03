@@ -64,7 +64,7 @@
     bottom: -5px;
     width: 0;
     pointer-events: none;
-    transition: .4s linear;
+    transition: .3s linear;
 }
 .nav-link-item p:hover::after{
     width: 100%;
@@ -80,7 +80,7 @@
     margin-right: 2rem;
     position: relative;
     background-color: transparent;
-    transition: 0.3s ease-in-out;
+    transition: 0.2s ease-in-out;
 }
 
 .location-button span {
@@ -290,3 +290,15 @@
     font-weight: 700;
     margin-bottom: 2rem;
     }
+
+/* Events */
+.galleryImg {
+    border-radius: 18px;
+    display: block;
+    height: auto;
+    transition: .3s;
+}
+
+.galleryImg:hover {
+    transform: scale(1.05);
+}

@@ -61,7 +61,7 @@ const RoomCard = ({ room, index }) => {
                     </div>
                 </Typography>
             </CardContent>
-            <Link to={`/reservations/rooms/${room.id}`}>
+            <Link to={`/rooms/${room.id}`}>
                 <div className="overlay">
                     <h2>View room</h2>
                 </div>

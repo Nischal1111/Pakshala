@@ -26,6 +26,85 @@ export const LookAroundData=[
     }
 ]
 
+export const allTables =[
+    {
+    id:1,
+    img:"https://plus.unsplash.com/premium_photo-1684445034959-b3faeb4597d2?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dGFibGV8ZW58MHx8MHx8fDA%3D",
+    name:"4 guests",
+    category:"4guests",
+    guests:4
+    },
+    {
+    id:2,
+    img:"https://plus.unsplash.com/premium_photo-1661544747091-b629d1606c67?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHRhYmxlfGVufDB8fDB8fHww",
+    name:"4 guests",
+    category:"4guests",
+    guests:4
+    },
+    {
+    id:3,
+    img:"https://plus.unsplash.com/premium_photo-1670315264849-8cb4a1b1342e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHRhYmxlfGVufDB8fDB8fHww",
+    name:"4 guests",
+    category:"4guests",
+    guests:4
+    },
+    {
+    id:4,
+    img:"https://plus.unsplash.com/premium_photo-1678790910636-389ab6d3ed93?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHRhYmxlfGVufDB8fDB8fHww",
+    name:"Family Table",
+    category:"family",
+    guests:4
+    },
+    {
+    id:5,
+    img:"https://plus.unsplash.com/premium_photo-1684445034959-b3faeb4597d2?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dGFibGV8ZW58MHx8MHx8fDA%3D",
+    name:"Family Table",
+    category:"family",
+    guests:4
+    },
+    {
+    id:6,
+    img:"https://plus.unsplash.com/premium_photo-1670315264849-8cb4a1b1342e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHRhYmxlfGVufDB8fDB8fHww",
+    name:"Dining Table",
+    category:"dining",
+    guests:4
+    },
+    {
+    id:7,
+    img:"https://plus.unsplash.com/premium_photo-1678790910636-389ab6d3ed93?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHRhYmxlfGVufDB8fDB8fHww",
+    name:"Dining Table",
+    category:"dining",
+    guests:4
+    },
+    {
+    id:8,
+    img:"https://plus.unsplash.com/premium_photo-1684445034959-b3faeb4597d2?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dGFibGV8ZW58MHx8MHx8fDA%3D",
+    name:"Rooftop Dining",
+    category:"rooftop",
+    guests:4
+    },
+    {
+    id:9,
+    img:"https://plus.unsplash.com/premium_photo-1661544747091-b629d1606c67?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHRhYmxlfGVufDB8fDB8fHww",
+    name:"Rooftop Dining",
+    category:"rooftop",
+    guests:4
+    },
+    {
+    id:10,
+    img:"https://plus.unsplash.com/premium_photo-1670315264849-8cb4a1b1342e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHRhYmxlfGVufDB8fDB8fHww",
+    name:"Meeting Table",
+    category:"meeting",
+    guests:4
+    },
+    {
+    id:11,
+    img:"https://plus.unsplash.com/premium_photo-1661544747091-b629d1606c67?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHRhYmxlfGVufDB8fDB8fHww",
+    name:"Meeting Table",
+    category:"meeting",
+    guests:4
+    },
+]
 export const allRooms = [
     {
         id: 1,
@@ -125,4 +204,22 @@ export const allRooms = [
         smallImg2: 'https://images.pexels.com/photos/6394550/pexels-photo-6394550.jpeg?auto=compress&cs=tinysrgb&w=400',
         smallImg3: 'https://images.pexels.com/photos/12970071/pexels-photo-12970071.jpeg?auto=compress&cs=tinysrgb&w=400'
     }
+];
+
+export const ImgGallery = [
+    "https://plus.unsplash.com/premium_photo-1682089821031-05d132d2be0e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG9saXxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1603228254119-e6a4d095dc59?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aG9saXxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1519802772250-a52a9af0eacb?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvbGl8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1617184003170-1f266c325ff3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG9saXxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVldGluZ3N8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWVldGluZ3N8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmlydGhkYXklMjBvcGFydHxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1601268588577-319223ba7cb3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YmlydGhkYXklMjBwYXJ0eXxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1628336707631-68131ca720c3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fGJpcnRoZGF5JTIwcGFydHl8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1517456793572-1d8efd6dc135?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fGJpcnRoZGF5JTIwcGFydHl8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1503315082045-a2bfb5e7f56e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnJpZGFsJTIwc2hvd2VyfGVufDB8fDB8fHww",
+    "https://images.unsplash.com/photo-1628711898288-6e1eff7693f0?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGJyaWRhbCUyMHNob3dlcnxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1587407627257-27b7127c868c?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1683121128953-9a7f08b82198?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1534014003122-b516fbde05d5?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D"
 ];

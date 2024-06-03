@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import  {allRooms} from "../data";
 import "../Css/Rooms.css"
@@ -14,6 +14,7 @@ import Footer from '../components/Footer';
 const RoomReserve = () => {
   const { id } = useParams();
   const room = allRooms.find(room => room.id === parseInt(id));
+  const [booked, setBooked] = useState(true)
 
   return (
     <>
@@ -69,7 +70,7 @@ const RoomReserve = () => {
           </div>
         </div>
         <div className="right">
-          <div className="user-form">
+          {booked ? <div className="user-form">
             <div className="user-form-title">
               <h3>Reserve This room</h3>
             </div>
@@ -92,7 +93,9 @@ const RoomReserve = () => {
               </div>
               <button type="submit">Reserve</button>
             </form>
-          </div>
+          </div> : (<div>
+              The room is booked.
+            </div>)}
         </div>
       </div>
     </div>

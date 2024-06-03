@@ -118,8 +118,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    right: .5rem;
-    top: 56%;
+    right: .2rem;
+    top: 50%;
     border-radius: 4rem;
 
     .room-price{    
@@ -183,6 +183,30 @@
     }
 }
 
+
+.overlay2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h2 {
+            font-weight: 400;
+            font-size: .8rem;
+            border-radius: 5px;
+            font-family: "Lato";
+            margin: 1rem 0rem;
+            color: aliceblue;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background-color:#8686f0;
+            padding: .5rem 1.2rem;
+        }
+    
+        h2:hover {
+            transform: scale(.95);
+            transition: .5s all;
+            background-color: #7272f7;
+        }
+}
 
 
 /* Single room reserve  */
