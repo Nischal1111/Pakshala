@@ -1,7 +1,7 @@
-import Img1 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Img.jpeg"
-import Img2 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Img1.jpeg"
-import Img3 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Img3.jpeg"
-import Img4 from "/Users/nischalneupane/Desktop/pakshala/src/assets/Img4.jpeg"
+import Img1 from "./assets/Img.jpeg"
+import Img2 from "./assets/Img1.jpeg"
+import Img3 from "./assets/Img3.jpeg"
+import Img4 from "./assets/Img4.jpeg"
 
 export const LookAroundData=[
     {

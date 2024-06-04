@@ -8,8 +8,6 @@ import ScrollToTop from '../src/components/ScrollToTop';
 import About from '../src/Pages/About';
 import RoomReserve from './Pages/RoomReserve';
 
-import AdminDashboard from "../src/Admin/Pages/AdminDashboard"
-
 function App() {
   return (
     <>
@@ -21,9 +19,7 @@ function App() {
         <Route path="/tables" element={<Tables />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />  
+        <Route path="/contact" element={<Contact />} /> 
       </Routes>
     </>
   );
