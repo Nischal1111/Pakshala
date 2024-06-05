@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import "../css/menu.css"
-import { FaPlus } from "react-icons/fa";
+import { FaPlus} from "react-icons/fa";
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton
 } from '@mui/material';
@@ -105,28 +105,28 @@ const MenuTable = () => {
                       <Edit className='menu-edit' />
                     </IconButton>
                     <IconButton onClick={() => handleDelete(item.id)}>
-                      <Delete className='menu-delete' />
+                        <Delete className='menu-delete' />
                     </IconButton>
-                  </TableCell>
+                    </TableCell>
                 </TableRow>
-              ))}
+                ))}
             </TableBody>
-          </Table>
+        </Table>
         </TableContainer>
-      </div>
+        </div>
     </>
   );
 };
 
 const Menu = () => {
-  return (
+    return (
     <>
     <div className="menu-content">
         <Special/>
         <MenuTable/>
     </div>
     </>
-  );
+    );
 }
 
 export default Menu;
