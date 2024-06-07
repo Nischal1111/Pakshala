@@ -45,6 +45,11 @@ const Sidebar = () => {
               Offers
             </button>
           </Link>
+          <Link to="/login" className="nav-link">
+            <button className="distnav--button">
+              Logout
+            </button>
+          </Link>
         </div>
       </div>
     </div>
