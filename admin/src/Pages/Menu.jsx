@@ -179,6 +179,16 @@ const Menu = () => {
               error={errors.price}
               helperText={errors.price ? "Price is required" : ""}
             />
+            <TextField
+              label="Category"
+              name="category"
+              value={newItem.category}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              error={errors.category}
+              helperText={errors.category ? "Price is required" : ""}
+            />
             <input
               accept="image/*"
               style={{ display: 'none' }}
@@ -188,7 +198,7 @@ const Menu = () => {
               onChange={handleChange}
             />
             <label htmlFor="raised-button-file">
-              <Button variant="contained" component="span" fullWidth>
+              <Button variant="contained" component="span" className='upload-img'>
                 Upload Image
               </Button>
             </label>
