@@ -15,7 +15,7 @@ const {
 
 
 // adding menu item
-adminRoutes.post('/add-menu-item', uploader.single('menu') ,addMenuItem);
+adminRoutes.post('/add-menu-item', uploader.single('img') ,addMenuItem);
 
 
 

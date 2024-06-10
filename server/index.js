@@ -5,7 +5,7 @@ const app = express();
 
 const connectDB = require('./Database/ConnectDB');
 connectDB();
-
+const cors = require('cors');
 require('dotenv').config()
 
 port = process.env.PORT
@@ -19,6 +19,9 @@ const adminRoutes = require('./Admin/Routes/MenuRoutes');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(cors({
+    credentials: true,
+}));
 
 //routes
 app.use('/admin', adminRoutes);

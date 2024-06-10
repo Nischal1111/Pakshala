@@ -21,10 +21,10 @@ const uploadFile = async (file) => {
         if(!uploadResult) {
             throw new Error('Error uploading file');
         }
-        console.log(uploadResult);
+        // console.log(uploadResult);
         return uploadResult;
     } catch (error) {
-        console.log(error);
+        console.log("Error on cloudinary :",error);
     }
 }
 
