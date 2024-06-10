@@ -26,7 +26,7 @@ app.use(cors({
 //routes
 app.use('/admin', adminRoutes);
 
-console.log(process.env.MONGO_URI);
+
 
 app.get('/', (req, res) => {
     res.send('Hello Pakshala.');
