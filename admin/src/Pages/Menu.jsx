@@ -105,8 +105,8 @@ const Menu = () => {
     { id: 3, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGl6emF8ZW58MHx8MHx8fDA%3D", title: "Cheese Pizza", price: 600 }
   ]);
   const [open, setOpen] = useState(false);
-  const [newItem, setNewItem] = useState({ title: '', price: '', img: null });
-  const [errors, setErrors] = useState({ title: false, price: false, img: false });
+  const [newItem, setNewItem] = useState({ title: '', price: '', category: '', img: null });
+  const [errors, setErrors] = useState({ title: false, price: false, category: false, img: false });
   const [imagePreview, setImagePreview] = useState(null);
 
   const handleOpen = () => setOpen(true);
@@ -120,7 +120,7 @@ const Menu = () => {
       setErrors({ ...errors, img: false });
     } else {
       setNewItem({ ...newItem, [name]: value });
-      setErrors({ ...errors, [name]: false }); // Reset error for the changed field
+      setErrors({ ...errors, [name]: false });
     }
   };
 
@@ -128,6 +128,7 @@ const Menu = () => {
     const newErrors = {
       title: newItem.title.trim() === '',
       price: newItem.price.trim() === '',
+      category: newItem.category.trim() === '',
       img: newItem.img === null
     };
 
@@ -142,8 +143,16 @@ const Menu = () => {
       price: parseFloat(newItem.price),
       img: imagePreview
     };
+
+    console.log("New Item Added:", {
+      title: newItemData.title,
+      price: newItemData.price,
+      category: newItemData.category,
+      img: newItemData.img
+    });
+
     setMenuData([...menuData, newItemData]);
-    setNewItem({ title: '', price: '', img: null });
+    setNewItem({ title: '', price: '', category: '', img: null });
     setImagePreview(null);
     handleClose();
   };
@@ -157,7 +166,7 @@ const Menu = () => {
       </div>
       <Modal open={open} onClose={handleClose}>
         <Box className="modal-box">
-          <h2>Add New Menu Item</h2>
+          <h2 style={{textAlign:"center"}}>Add New Menu Item</h2>
           <form>
             <TextField
               label="Name"
@@ -187,7 +196,7 @@ const Menu = () => {
               fullWidth
               margin="normal"
               error={errors.category}
-              helperText={errors.category ? "Price is required" : ""}
+              helperText={errors.category ? "Category is required" : ""}
             />
             <input
               accept="image/*"
