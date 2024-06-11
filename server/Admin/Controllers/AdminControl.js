@@ -135,6 +135,17 @@ const refreshAccessToken = async(req, res) => {
 //logout
 const adminLogout = async(req, res) => {
     try {
+        const userId = req.admin._id;
+
+        const admin = await Admin.findById(userId);
+        if (!admin) {
+            return res.status(400).json({ success: false, message: 'Admin not found' });
+        }
+
+        //removing refresh token from the database
+        admin.refreshToken = '';
+        await admin.save();
+
         res.clearCookie('accessToken');
         res.clearCookie('refreshToken');
         res.status(200).json({ success: true, message: 'Logout Successful' });
