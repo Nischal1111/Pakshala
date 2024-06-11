@@ -52,10 +52,27 @@ const getMenuItems = async (req, res) => {
 
 
 
+// deleting menu items
+
+const deleteMenuItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const menuItem = await Menu.findByIdAndDelete(id);
+        if(!menuItem) {
+            return res.status(404).json({ message: 'Menu item not found' });
+        }
+        res.status(200).json({success:true, message: 'Menu item deleted successfully' });
+    } catch (error) {
+        res.status(500).json({success:false, message: 'Internal server error on Delete menu Item' });
+        // console.log(error)
+    }
+}
+
 
 
 
 module.exports = { 
     addMenuItem,
-    getMenuItems
+    getMenuItems,
+    deleteMenuItem
 };

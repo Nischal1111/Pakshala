@@ -41,9 +41,22 @@ const MenuTable = ({ menuData, setMenuData }) => {
     console.log(`Edit item with id: ${id}`);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async(id) => {
     // eslint-disable-next-line no-restricted-globals
     const userConfirmed = confirm("Are you sure you want to delete this item?");
+
+    // const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-menu-item/${id}`, {
+    //   method: 'DELETE'
+    // });
+
+    // const data = await response.json();
+    // if(data.success) {
+    //   console.log('Item deleted successfully');
+    // }else {
+    //   console.log('Error deleting item');
+    // }
+
+
     if (userConfirmed) {
       console.log(`Delete item with id: ${id}`);
       setMenuData(menuData.filter(item => item.id !== id));
