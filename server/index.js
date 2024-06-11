@@ -8,10 +8,13 @@ connectDB();
 const cors = require('cors');
 require('dotenv').config()
 
+const cookieParser = require('cookie-parser');
+
 port = process.env.PORT
 
 //routes
-const adminRoutes = require('./Admin/Routes/MenuRoutes');
+const adminRoutes = require('./Admin/Routes/AdminRoutes');
+const menuRoutes = require('./Admin/Routes/MenuRoutes');
 
 
 
@@ -22,9 +25,10 @@ app.use(express.static('public'));
 app.use(cors({
     credentials: true,
 }));
+app.use(cookieParser());
 
 //routes
-app.use('/admin', adminRoutes);
+app.use('/admin', adminRoutes, menuRoutes);
 
 
 
