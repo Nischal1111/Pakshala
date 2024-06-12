@@ -17,13 +17,13 @@ const {
 
 
 
-// adding menu item
+// adding roomitem
 tableRoutes.post('/add-table-item', uploader.single('img') ,addTableItem);
 
-// get all menu items
+// get all room items
 tableRoutes.get('/get-table-items', getTableItems);
 
-// delete menu item
+// delete room item
 tableRoutes.delete('/delete-table-item/:id', deleteTableItem);
 
 

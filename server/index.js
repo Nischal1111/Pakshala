@@ -16,6 +16,7 @@ port = process.env.PORT
 const adminRoutes = require('./Admin/Routes/AdminRoutes');
 const menuRoutes = require('./Admin/Routes/MenuRoutes');
 const tableRoutes = require('./Admin/Routes/TableRoutes');
+const roomRoutes = require('./Admin/Routes/RoomRoutes');
 
 
 
@@ -32,7 +33,8 @@ app.use(cookieParser());
 app.use('/admin', 
     adminRoutes, 
     menuRoutes, 
-    tableRoutes
+    tableRoutes,
+    roomRoutes
 );
 
 

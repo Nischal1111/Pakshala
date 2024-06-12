@@ -13,10 +13,10 @@ if(!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !pro
     process.exit(1);
 }
 
-const uploadFile = async (file) => {
+const uploadFile = async (file,folder) => {
     try {
         const uploadResult = await cloudinary.uploader.upload(file, {
-            folder:"menus"
+            folder:`${folder}`
         });
         if(!uploadResult) {
             throw new Error('Error uploading file');

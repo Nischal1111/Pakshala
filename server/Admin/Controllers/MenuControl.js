@@ -17,7 +17,7 @@ const addMenuItem = async (req, res) => {
         // console.log(imagePath);  
        
 
-        const uploadResult = await uploadFile(imagePath);
+        const uploadResult = await uploadFile(imagePath,"menus");
 
         const newMenuItem =new Menu({
             item_name: title,

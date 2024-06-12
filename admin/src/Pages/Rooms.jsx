@@ -170,12 +170,42 @@ const Rooms = () => {
 
     console.log(newRoomData)
 
-    setRoomData([...roomData, newRoomData]);
-    setNewRoom({ title: '', category: '', price: '', img: null, miniImg1: null, miniImg2: null, miniImg3: null });
-    setImagePreview(null);
-    setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
+    const formData = new FormData();
+    formData.append('room_name', newRoom.title);
+    formData.append('room_category', newRoom.category);
+    formData.append('room_price', newRoom.price);
+    formData.append('img1', newRoom.img);
+    formData.append('img2', newRoom.miniImg1);
+    formData.append('img3', newRoom.miniImg2);
+    formData.append('img4', newRoom.miniImg3);
 
-    handleClose();
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/add-room`, {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        console.log(data.message);
+
+      }
+      else {
+        // console.log('Error adding room');
+        setRoomData([...roomData, newRoomData]);
+        setNewRoom({ title: '', category: '', price: '', img: null, miniImg1: null, miniImg2: null, miniImg3: null });
+        setImagePreview(null);
+        setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
+    
+        handleClose();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+
+
+   
   };
 
   return (
