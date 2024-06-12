@@ -74,9 +74,9 @@ const TableList = ({ tableData, setTableData }) => {
 
 const Tables = () => {
   const [tableData, setTableData] = useState([
-    { id: 1, img: "https://via.placeholder.com/150", title: "Terrace-1", category: "Outdoor Terrace", guests: 8 },
-    { id: 2, img: "https://via.placeholder.com/150", title: "B-2", category: "Bar", guests: 5 },
-    { id: 3, img: "https://via.placeholder.com/150", title: "Dining-1", category: "Dining", guests: 8 }
+    { id: 1, img: "", title: "Terrace-1", category: "Outdoor Terrace", guests: 8 },
+    { id: 2, img: "", title: "B-2", category: "Bar", guests: 5 },
+    { id: 3, img: "", title: "Dining-1", category: "Dining", guests: 8 }
   ]);
   const [open, setOpen] = useState(false);
   const [newTable, setNewTable] = useState({ title: '', category: '', guests: '', img: null });
@@ -129,6 +129,8 @@ const Tables = () => {
       id: tableData.length + 1,
       img: imagePreview
     };
+
+console.log(newTableData)
 
     setTableData([...tableData, newTableData]);
     setNewTable({ title: '', category: '', guests: '', img: null });
