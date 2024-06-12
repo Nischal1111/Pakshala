@@ -1,6 +1,6 @@
 
 const express = require('express');
-const adminRoutes = express.Router();
+const menuRoutes = express.Router();
 
 const multer = require('multer');
 
@@ -10,13 +10,23 @@ const uploader= multer({
 
 
 const {
-  addMenuItem  
+  addMenuItem ,
+  getMenuItems ,
+  deleteMenuItem
 } = require('../Controllers/MenuControl');
 
 
+
 // adding menu item
-adminRoutes.post('/add-menu-item', uploader.single('menu') ,addMenuItem);
+menuRoutes.post('/add-menu-item', uploader.single('img') ,addMenuItem);
+
+// get all menu items
+menuRoutes.get('/get-menu-items', getMenuItems);
+
+// delete menu item
+menuRoutes.delete('/delete-menu-item/:id', deleteMenuItem);
 
 
 
-module.exports = adminRoutes;
+
+module.exports = menuRoutes;

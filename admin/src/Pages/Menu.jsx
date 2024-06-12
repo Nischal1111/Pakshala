@@ -41,9 +41,22 @@ const MenuTable = ({ menuData, setMenuData }) => {
     console.log(`Edit item with id: ${id}`);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async(id) => {
     // eslint-disable-next-line no-restricted-globals
     const userConfirmed = confirm("Are you sure you want to delete this item?");
+
+    // const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-menu-item/${id}`, {
+    //   method: 'DELETE'
+    // });
+
+    // const data = await response.json();
+    // if(data.success) {
+    //   console.log('Item deleted successfully');
+    // }else {
+    //   console.log('Error deleting item');
+    // }
+
+
     if (userConfirmed) {
       console.log(`Delete item with id: ${id}`);
       setMenuData(menuData.filter(item => item.id !== id));
@@ -124,7 +137,10 @@ const Menu = () => {
     }
   };
 
-  const handleSubmit = () => {
+
+
+//for adding menu item
+  const handleSubmit = async() => {
     const newErrors = {
       title: newItem.title.trim() === '',
       price: newItem.price.trim() === '',
@@ -144,17 +160,37 @@ const Menu = () => {
       img: imagePreview
     };
 
-    console.log("New Item Added:", {
-      title: newItemData.title,
-      price: newItemData.price,
-      category: newItemData.category,
-      img: newItemData.img
+    const formData = new FormData();
+    formData.append('title', newItem.title);
+    formData.append('price', newItem.price);
+    formData.append('category', newItem.category);
+    formData.append('img', newItem.img);
+
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/add-menu-item`, {
+      method: 'POST',
+      body: formData
     });
 
-    setMenuData([...menuData, newItemData]);
-    setNewItem({ title: '', price: '', category: '', img: null });
-    setImagePreview(null);
-    handleClose();
+    const data = await response.json();
+    if(data.success) {
+      setMenuData([...menuData, newItemData]);
+      setNewItem({ title: '', price: '', category: '', img: null });
+      setImagePreview(null);
+    }else {
+      console.log('Error adding menu item');
+    }
+
+
+    // console.log("New Item Added:", {
+    //   title: newItemData.title,
+    //   price: newItemData.price,
+    //   category: newItemData.category,
+    //   img: newItemData.img
+    // });
+
+
+    
+    // handleClose();
   };
 
   return (
@@ -181,6 +217,7 @@ const Menu = () => {
             <TextField
               label="Price"
               name="price"
+              type="number"
               value={newItem.price}
               onChange={handleChange}
               fullWidth
