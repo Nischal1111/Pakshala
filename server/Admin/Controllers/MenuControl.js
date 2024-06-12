@@ -27,6 +27,7 @@ const addMenuItem = async (req, res) => {
         });
 
         await newMenuItem.save();
+        
         res.status(201).json({success:true, message: 'Menu item added successfully' });
     } catch (error) {
         res.status(500).json({success:false, message: 'Internal server error on Add menu Item' });
