@@ -15,6 +15,7 @@ port = process.env.PORT
 //routes
 const adminRoutes = require('./Admin/Routes/AdminRoutes');
 const menuRoutes = require('./Admin/Routes/MenuRoutes');
+const tableRoutes = require('./Admin/Routes/TableRoutes');
 
 
 
@@ -28,7 +29,11 @@ app.use(cors({
 app.use(cookieParser());
 
 //routes
-app.use('/admin', adminRoutes, menuRoutes);
+app.use('/admin', 
+    adminRoutes, 
+    menuRoutes, 
+    tableRoutes
+);
 
 
 

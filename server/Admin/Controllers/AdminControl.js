@@ -42,6 +42,7 @@ const addAdmin = async (req, res) => {
         const resAdmin = await Admin.findById(newAdmin._id).select(
             "-password -refreshToken"
         )
+        
         if (!resAdmin) {
             return res.status(400).json({ success: false, message: 'Error adding admin' });
         }

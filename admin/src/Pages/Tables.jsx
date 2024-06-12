@@ -111,6 +111,19 @@ const Tables = () => {
       return;
     }
 
+    
+  //   // Add new table 
+  //   const response = await fetch(`${process.env.REACT_APP_API_URL}/add-table-item`, {
+  //     method: 'POST',
+  //     body: new FormData(document.querySelector('form'))
+  //   });
+
+  //   const data = await response.json();
+  //   if(data.success) {
+  //     console.log(data.message);
+  //   }
+  // };
+
     const newTableData = {
       ...newTable,
       id: tableData.length + 1,
