@@ -36,7 +36,7 @@ const Sidebar = () => {
             </button>
           </Link>
           <Link to="/events" className="nav-link">
-            <button className={`distnav--button ${activePage("/tables")}`}>
+            <button className={`distnav--button ${activePage("/events")}`}>
               Events
             </button>
           </Link>
