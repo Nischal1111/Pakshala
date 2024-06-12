@@ -17,7 +17,7 @@ const addTableItem = async (req, res) => {
         // console.log(imagePath);  
        
 
-        const uploadResult = await uploadFile(imagePath);
+        const uploadResult = await uploadFile(imagePath,"tables");
 
         const newMenuItem =new Table({
             table_name: name,
@@ -44,10 +44,10 @@ const getTableItems = async (req, res) => {
         if(!tableItems) {
             return res.status(404).json({ message: 'No table items found' });
         }
-        res.status(200).json({success:true, menuItems});
+        res.status(200).json({success:true, tableItems});
     } catch (error) {
         res.status(500).json({success:false, message: 'Internal server error on Get table Items' });
-        // console.log(error)
+        console.log(error)
     }
 }
 

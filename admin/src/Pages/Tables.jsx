@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../css/menu.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button} from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
@@ -112,17 +112,7 @@ const Tables = () => {
     }
 
     
-  //   // Add new table 
-  //   const response = await fetch(`${process.env.REACT_APP_API_URL}/add-table-item`, {
-  //     method: 'POST',
-  //     body: new FormData(document.querySelector('form'))
-  //   });
-
-  //   const data = await response.json();
-  //   if(data.success) {
-  //     console.log(data.message);
-  //   }
-  // };
+  
 
     const newTableData = {
       ...newTable,
@@ -130,7 +120,27 @@ const Tables = () => {
       img: imagePreview
     };
 
-console.log(newTableData)
+    const formData = new FormData();
+    formData.append('name', newTable.title);
+    formData.append('category', newTable.category);
+    formData.append('guest', newTable.guests);
+    formData.append('img', newTable.img);
+
+      // Add new table 
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/add-table-item`, {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await response.json();
+    if(data.success) {
+      console.log(data.message);
+      getAllTableItems()
+    }
+    else {
+      console.log('Error adding table item');
+    }
+
 
     setTableData([...tableData, newTableData]);
     setNewTable({ title: '', category: '', guests: '', img: null });
@@ -138,6 +148,27 @@ console.log(newTableData)
 
     handleClose();
   };
+
+  //getting all the tables
+  const getAllTableItems = async()=>{
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-items`)
+      const data = await response.json()
+      if(data.success){
+        console.log(data.tableItems)
+      // setTableData(data.tableItems)
+
+      }
+    } catch (error) {
+      console.log(error)
+      
+    }
+  }
+
+ useEffect(()=>{
+  getAllTableItems()
+ },[])
+ 
 
   return (
     <>
