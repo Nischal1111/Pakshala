@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../Css/Rooms.css";
 import { FaUser } from "react-icons/fa";
 import { fadeIn } from "../motion/motion";
@@ -9,7 +9,6 @@ import { motion } from 'framer-motion';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, TextField } from '@mui/material';
 import { SectionWrapper } from "../motion/index";
 import { ImSpinner2 } from "react-icons/im";
-import { allTables } from "../data";
 
 const TableCard = ({ table, index }) => {
     const [open, setOpen] = useState(false);
@@ -132,21 +131,39 @@ const TableCard = ({ table, index }) => {
 
 const TableFilter = () => {
     const [loading, setLoading] = useState(false);
-    const [tableList, setTableList] = useState(allTables);
+    const [tableList, setTableList] = useState([]);
+    const [filteredTables, setFilteredTables] = useState([]);
     const [btnClicked, setClicked] = useState("all tables");
+
+    const getAllTable = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-items`);
+            const data = await response.json();
+            if (data.success) {
+                setTableList(data.tableItems);
+                console.log(data.tableItems)
+                setFilteredTables(data.tableItems);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getAllTable();
+    }, []);
 
     const handleFilter = (e) => {
         setLoading(true);
+        const choice = e.target.value.toLowerCase();
+        setClicked(choice);
 
         setTimeout(() => {
-            const choice = e.target.value.toLowerCase();
-            setClicked(choice);
             if (choice === "all tables") {
-                setTableList(allTables);
+                setFilteredTables(tableList);
             } else {
-                setTableList(allTables.filter(table => table.category === choice));
+                setFilteredTables(tableList.filter(table => table.table_category.toLowerCase() === choice));
             }
-
             setLoading(false);
         }, 1000);
     };
@@ -158,17 +175,17 @@ const TableFilter = () => {
                 <button value="all tables" onClick={handleFilter} className={btnClicked === "all tables" ? "clicked" : ""}>
                     All tables
                 </button>
-                <button value="4guests" onClick={handleFilter} className={btnClicked === "4guests" ? "clicked" : ""}>
-                    4 Guests
+                <button value="4guests" onClick={handleFilter} className={btnClicked === "Terrace Outdoor" ? "clicked" : ""}>
+                    Terrace Outdoor
                 </button>
-                <button value="family" onClick={handleFilter} className={btnClicked === "family" ? "clicked" : ""}>
-                    Family table
+                <button value="family" onClick={handleFilter} className={btnClicked === "Bar" ? "clicked" : ""}>
+                    Bar
                 </button>
-                <button value="rooftop" onClick={handleFilter} className={btnClicked === "rooftop" ? "clicked" : ""}>
-                    Rooftop table
+                <button value="rooftop" onClick={handleFilter} className={btnClicked === "Lobby" ? "clicked" : ""}>
+                    Lobby
                 </button>
-                <button value="dining" onClick={handleFilter} className={btnClicked === "dining" ? "clicked" : ""}>
-                    Dining table
+                <button value="dining" onClick={handleFilter} className={btnClicked === "Cafe Indoor" ? "clicked" : ""}>
+                    Cafe Indoor
                 </button>
                 <button value="meeting" onClick={handleFilter} className={btnClicked === "meeting" ? "clicked" : ""}>
                     Meeting table
@@ -180,8 +197,8 @@ const TableFilter = () => {
                         <ImSpinner2 className='loading' />
                     </div>
                 ) : (
-                    tableList.map((table, index) => (
-                        <TableCard key={table.id} table={table} index={index} />
+                    filteredTables.map((table, index) => (
+                        <TableCard key={table._id} table={table} index={index} />
                     ))
                 )}
             </div>

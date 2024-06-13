@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../css/menu.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
@@ -23,7 +23,7 @@ const RoomList = ({ roomData, setRoomData }) => {
   };
 
   const filteredRooms = roomData.filter(item =>
-    item.title.toLowerCase().includes(search.toLowerCase())
+    item.room_name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -49,16 +49,16 @@ const RoomList = ({ roomData, setRoomData }) => {
                 <TableRow key={item.id} className='table-row'>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell className='table-row'>
-                    {item.img ? <img src={item.img} alt={item.title} className="menu-img" /> : 'No Image'}
+                    {item.room_image1 ? <img src={item.room_image1} alt={item.room_name} className="menu-img" /> : 'No Image'}
                   </TableCell>
-                  <TableCell className='table-row'>{item.title}</TableCell>
-                  <TableCell className='table-row'>{item.category}</TableCell>
-                  <TableCell className='table-row'>Rs. {item.price}</TableCell>
+                  <TableCell className='table-row'>{item.room_name}</TableCell>
+                  <TableCell className='table-row'>{item.room_category}</TableCell>
+                  <TableCell className='table-row'>Rs. {item.room_price}</TableCell>
                   <TableCell>
-                    <IconButton onClick={() => handleEdit(item.id)}>
+                    <IconButton onClick={() => handleEdit(item._id)}>
                       <Edit className='menu-edit' />
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(item.id)}>
+                    <IconButton onClick={() => handleDelete(item._id)}>
                       <Delete className='menu-delete' />
                     </IconButton>
                   </TableCell>
@@ -73,55 +73,23 @@ const RoomList = ({ roomData, setRoomData }) => {
 };
 
 const Rooms = () => {
-  const [roomData, setRoomData] = useState([
-    {
-      id: 1,
-      category: 'premium',
-      title: 'Single Room',
-      price: 3000,
-      bed: 'single',
-      guests: 1,
-      img: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=800',
-      rating: "4.0",
-      description: 'The rooms have on-call service, housekeeping service, 24/7 stable and fast Wi-Fi, assistance, airport transfers and lodging if previously informed, and air-conditioned rooms with comfortable beds, comfortable and best hospitality. Only lunch and dinner are served to the room. Laundry service is available for additional costs.',
-      smallImg1: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=400',
-      smallImg2: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=400',
-      smallImg3: 'https://images.pexels.com/photos/5816562/pexels-photo-5816562.jpeg?auto=compress&cs=tinysrgb&w=400'
-    },
-    {
-      id: 2,
-      category: 'premium',
-      title: 'Single Bed',
-      price: 3000,
-      bed: 'single',
-      guests: 1,
-      img: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=800',
-      rating: "3.9",
-      description: 'The rooms have on-call service, housekeeping service, 24/7 stable and fast Wi-Fi, assistance, airport transfers and lodging if previously informed, and air-conditioned rooms with comfortable beds, comfortable and best hospitality. Breakfast, lunch, and dinner are served to the room, but premium rooms do not have breakfast. Laundry service is available for additional costs.',
-      smallImg1: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=400',
-      smallImg2: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=400',
-      smallImg3: 'https://images.pexels.com/photos/5816562/pexels-photo-5816562.jpeg?auto=compress&cs=tinysrgb&w=400'
-    },
-    {
-      id: 3,
-      category: 'premium',
-      title: 'Single Room (Premium)',
-      price: 3000,
-      bed: 'single',
-      guests: 1,
-      img: 'https://images.pexels.com/photos/5816562/pexels-photo-5816562.jpeg?auto=compress&cs=tinysrgb&w=800',
-      rating: "4.2",
-      description: 'The rooms have on-call service, housekeeping service, 24/7 stable and fast Wi-Fi, assistance, airport transfers and lodging if previously informed, and air-conditioned rooms with comfortable beds, comfortable and best hospitality. Breakfast, lunch, and dinner are served to the room, but premium rooms do not have breakfast. Laundry service is available for additional costs.',
-      smallImg1: 'https://images.pexels.com/photos/5816562/pexels-photo-5816562.jpeg?auto=compress&cs=tinysrgb&w=400',
-      smallImg2: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=400',
-      smallImg3: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=400'
-    },
-  ]);
+  const [roomData, setRoomData] = useState([]);
   const [open, setOpen] = useState(false);
   const [newRoom, setNewRoom] = useState({ title: '', category: '', price: '', img: null, miniImg1: null, miniImg2: null, miniImg3: null });
   const [errors, setErrors] = useState({ title: false, category: false, price: false, img: false, miniImg1: false, miniImg2: false, miniImg3: false });
   const [imagePreview, setImagePreview] = useState(null);
   const [miniImagePreview, setMiniImagePreview] = useState({ miniImg1: null, miniImg2: null, miniImg3: null });
+
+  const getAllRooms = async ()=>{
+      const response = await fetch('http://localhost:4000/admin/get-rooms');
+      const data = await response.json();
+      setRoomData(data.rooms);
+      console.log(data.rooms);
+  }
+
+  useEffect(()=>{
+    getAllRooms()
+  },[])
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
