@@ -3,19 +3,15 @@ import "../css/menu.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
-const RoomList = ({ roomData, setRoomData }) => {
+const RoomList = ({ roomData, setRoomData, handleEdit }) => {
   const [search, setSearch] = useState('');
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
   };
 
-  const handleEdit = (id) => {
-    console.log(`Edit room with id: ${id}`);
-  };
-
   const handleDelete = async (id) => {
-    // eslint-disable-next-line no-restricted-globals
+     //eslint-disable-next-line no-restricted-globals
     const userConfirmed = confirm("Are you sure you want to delete this room?");
     if (userConfirmed) {
       setRoomData(roomData.filter(item => item.id !== id));
@@ -79,34 +75,61 @@ const Rooms = () => {
   const [errors, setErrors] = useState({ title: false, category: false, price: false, img: false, miniImg1: false, miniImg2: false, miniImg3: false });
   const [imagePreview, setImagePreview] = useState(null);
   const [miniImagePreview, setMiniImagePreview] = useState({ miniImg1: null, miniImg2: null, miniImg3: null });
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editRoomData, setEditRoomData] = useState(null);
+  const [editImagePreview, setEditImagePreview] = useState(null);
+  const [editingIndex, setEditingIndex] = useState(null);
 
-  const getAllRooms = async ()=>{
+  const getAllRooms = async () => {
+    try {
       const response = await fetch('http://localhost:4000/admin/get-rooms');
       const data = await response.json();
-      setRoomData(data.rooms);
+      setRoomData(data.rooms || []);
       console.log(data.rooms);
+    } catch (error) {
+      console.error('Error fetching rooms:', error);
+    }
   }
 
-  useEffect(()=>{
-    getAllRooms()
-  },[])
+  useEffect(() => {
+    getAllRooms();
+  }, []);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setEditModalOpen(false);
+    setEditRoomData(null);
+    setEditingIndex(null);
+    setImagePreview(null);
+    setEditImagePreview(null);
+  };
 
   const handleChange = (event) => {
     const { name, value, files } = event.target;
-    if (name === 'img') {
-      setNewRoom({ ...newRoom, img: files[0] });
-      setImagePreview(URL.createObjectURL(files[0]));
-      setErrors({ ...errors, img: false });
-    } else if (name.startsWith('miniImg')) {
-      setNewRoom({ ...newRoom, [name]: files[0] });
-      setMiniImagePreview({ ...miniImagePreview, [name]: URL.createObjectURL(files[0]) });
-      setErrors({ ...errors, [name]: false });
+    if (editModalOpen) {
+      if (name === 'img') {
+        setEditRoomData({ ...editRoomData, img: files[0] });
+        setEditImagePreview(URL.createObjectURL(files[0]));
+      } else if (name.startsWith('miniImg')) {
+        setEditRoomData({ ...editRoomData, [name]: files[0] });
+        setMiniImagePreview({ ...miniImagePreview, [name]: URL.createObjectURL(files[0]) });
+      } else {
+        setEditRoomData({ ...editRoomData, [name]: value });
+      }
     } else {
-      setNewRoom({ ...newRoom, [name]: value });
-      setErrors({ ...errors, [name]: false });
+      if (name === 'img') {
+        setNewRoom({ ...newRoom, img: files[0] });
+        setImagePreview(URL.createObjectURL(files[0]));
+        setErrors({ ...errors, img: false });
+      } else if (name.startsWith('miniImg')) {
+        setNewRoom({ ...newRoom, [name]: files[0] });
+        setMiniImagePreview({ ...miniImagePreview, [name]: URL.createObjectURL(files[0]) });
+        setErrors({ ...errors, [name]: false });
+      } else {
+        setNewRoom({ ...newRoom, [name]: value });
+        setErrors({ ...errors, [name]: false });
+      }
     }
   };
 
@@ -156,31 +179,73 @@ const Rooms = () => {
       const data = await response.json();
       if (data.success) {
         console.log(data.message);
-
-      }
-      else {
-        // console.log('Error adding room');
-        setRoomData([...roomData, newRoomData]);
-        setNewRoom({ title: '', category: '', price: '', img: null, miniImg1: null, miniImg2: null, miniImg3: null });
-        setImagePreview(null);
-        setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
-    
-        handleClose();
+        getAllRooms();
+      } else {
+        console.error('Error adding room:', data.error);
       }
     } catch (error) {
-      console.error(error);
+      console.error('Error adding room:', error);
     }
 
+    setNewRoom({ title: '', category: '', price: '', img: null, miniImg1: null, miniImg2: null, miniImg3: null });
+    setImagePreview(null);
+    setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
+    handleClose();
+  };
 
+  const handleEdit = (id) => {
+    const roomToEdit = roomData.find(item => item._id === id);
+    const index = roomData.findIndex(item => item._id === id);
+    console.log(roomToEdit,index)
+    console.log(`Editing room no. ${index + 1}`);
+    setEditRoomData(roomToEdit);
+    setEditImagePreview(roomToEdit.room_image1||null);
+    setMiniImagePreview({
+      miniImg1: roomToEdit.room_image2 || null,
+      miniImg2: roomToEdit.room_image3 || null,
+      miniImg3: roomToEdit.room_image4 || null    
+    });
 
-   
+    setEditingIndex(index + 1);
+    setEditModalOpen(true);
+  };
+
+  const handleEditSubmit = async () => {
+    const formData = new FormData();
+    formData.append('id', editRoomData._id);
+    formData.append('room_name', editRoomData.room_name);
+    formData.append('room_category', editRoomData.room_category);
+    formData.append('room_price', editRoomData.room_price);
+    formData.append('img1', editRoomData.room_image1);
+    formData.append('img2', editRoomData.room_image2);
+    formData.append('img3', editRoomData.room_image3);
+    formData.append('img4', editRoomData.room_image4);
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/update-room/${editRoomData._id}`, {
+        method: 'PUT',
+        body: formData
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        console.log(data.message);
+        getAllRooms();
+      } else {
+        console.error('Error updating room:', data.error);
+      }
+    } catch (error) {
+      console.error('Error updating room:', error);
+    }
+
+    handleClose();
   };
 
   return (
     <>
       <div className="menu-content">
         <button onClick={handleOpen} className='add-item'>Add Room</button>
-        <RoomList roomData={roomData} setRoomData={setRoomData} />
+        <RoomList roomData={roomData} setRoomData={setRoomData} handleEdit={handleEdit} />
       </div>
       <Modal open={open} onClose={handleClose}>
         <Box className="modal-box" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
@@ -286,6 +351,106 @@ const Rooms = () => {
                 Add
               </Button>
               <Button variant="contained" color="secondary" onClick={handleClose} style={{ backgroundColor: 'red' }}>
+                Cancel
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Modal>
+      <Modal open={editModalOpen} onClose={handleClose}>
+        <Box className="modal-box" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
+          <h2 style={{ textAlign: "center" }}>Editing Room {editingIndex}</h2>
+          <form>
+            <TextField
+              label="Name"
+              name="title"
+              value={editRoomData?.room_name || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Category"
+              name="category"
+              value={editRoomData?.room_category || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Price"
+              name="price"
+              type="number"
+              value={editRoomData?.room_price || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <input
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="raised-button-file-edit"
+              type="file"
+              name="img"
+              onChange={handleChange}
+            />
+            <label htmlFor="raised-button-file-edit">
+              <Button variant="contained" component="span" className='upload-img'>
+                Upload Main Image
+              </Button>
+            </label>
+            {editImagePreview && <img src={editImagePreview} alt="Preview" className="image-preview" />}
+
+            <input
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="miniImg1-edit"
+              type="file"
+              name="miniImg1"
+              onChange={handleChange}
+            />
+            <label htmlFor="miniImg1-edit">
+              <Button variant="contained" component="span" className='upload-img'>
+                Upload Mini Image 1
+              </Button>
+            </label>
+            {miniImagePreview.miniImg1 && <img src={miniImagePreview.miniImg1} alt="Preview" className="image-preview" />}
+
+            <input
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="miniImg2-edit"
+              type="file"
+              name="miniImg2"
+              onChange={handleChange}
+            />
+            <label htmlFor="miniImg2-edit">
+              <Button variant="contained" component="span" className='upload-img'>
+                Upload Mini Image 2
+              </Button>
+            </label>
+            {miniImagePreview.miniImg2 && <img src={miniImagePreview.miniImg2} alt="Preview" className="image-preview" />}
+
+            <input
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="miniImg3-edit"
+              type="file"
+              name="miniImg3"
+              onChange={handleChange}
+            />
+            <label htmlFor="miniImg3-edit">
+              <Button variant="contained" component="span" className='upload-img'>
+                Upload Mini Image 3
+              </Button>
+            </label>
+            {miniImagePreview.miniImg3 && <img src={miniImagePreview.miniImg3} alt="Preview" className="image-preview" />}
+
+            <Box display="flex" justifyContent="space-between" marginTop="16px">
+              <Button variant="contained" color="primary" onClick={handleEditSubmit}>
+                Update
+              </Button>
+              <Button variant="contained" color="secondary" onClick={handleClose}>
                 Cancel
               </Button>
             </Box>

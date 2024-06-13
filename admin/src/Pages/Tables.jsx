@@ -11,6 +11,7 @@ const Tables = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editTableData, setEditTableData] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null); // State to store the editing index
+  const [editImagePreview, setEditImagePreview] = useState(null);
 
   // Function to fetch table data
   const getAllTableItems = async () => {
@@ -35,7 +36,9 @@ const Tables = () => {
     setOpen(false);
     setEditModalOpen(false);
     setEditTableData(null);
-    setEditingIndex(null); // Reset editing index when closing modal
+    setEditingIndex(null);
+    setImagePreview(null);
+    setEditImagePreview(null); 
   };
 
   const handleChange = (event) => {
@@ -43,7 +46,12 @@ const Tables = () => {
 
     if (editModalOpen) {
       // Editing existing table item
-      setEditTableData({ ...editTableData, [name]: value });
+      if (name === 'img') {
+        setEditTableData({ ...editTableData, img: files[0] });
+        setEditImagePreview(URL.createObjectURL(files[0]));
+      } else {
+        setEditTableData({ ...editTableData, [name]: value });
+      }
     } else {
       // Adding new table item
       if (name === 'img') {
@@ -103,16 +111,19 @@ const Tables = () => {
     const index = tableData.findIndex(item => item._id === id); // Find the index of the table item
     console.log(`Editing table no. ${index + 1}`); // Log the index of the table item being edited
     setEditTableData(tableToEdit);
+    setEditImagePreview(tableToEdit.table_image || null); // Set existing image for preview
     setEditingIndex(index + 1); // Set editing index for display in modal
     setEditModalOpen(true);
   };
 
   const handleEditSubmit = async () => {
     console.log('Updated Values:', editTableData); // Log updated values
+    // Here you can add your logic to update the table item
     handleClose();
   };
 
   const handleDelete = async (id) => {
+    //eslint-disable-next-line no-restricted-globals
     const userConfirmed = window.confirm("Are you sure you want to delete this table?");
     if (userConfirmed) {
       try {
@@ -178,7 +189,7 @@ const Tables = () => {
       </div>
       {/* Add Table Modal */}
       <Modal open={open} onClose={handleClose}>
-        <Box className="modal-box">
+        <Box className="modal-box" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
           <h2 style={{ textAlign: "center" }}>Add New Table</h2>
           <form>
             <TextField
@@ -235,52 +246,66 @@ const Tables = () => {
                 Cancel
               </Button>
             </Box>
-            </form>
-</Box>
-</Modal>
-{/* Edit Table Modal */}
-<Modal open={editModalOpen} onClose={handleClose}>
-<Box className="modal-box">
-<h2 style={{ textAlign: "center" }}>Editing table number {editingIndex}</h2>
-<form>
-<TextField
-label="Name"
-name="title"
-value={editTableData?.title || ''}
-onChange={handleChange}
-fullWidth
-margin="normal"
-/>
-<TextField
-label="Category"
-name="category"
-value={editTableData?.category || ''}
-onChange={handleChange}
-fullWidth
-margin="normal"
-/>
-<TextField
-label="Guests"
-name="guests"
-type="number"
-value={editTableData?.guests || ''}
-onChange={handleChange}
-fullWidth
-margin="normal"
-/>
-<Box display="flex" justifyContent="space-between" marginTop="16px">
-<Button variant="contained" color="primary" onClick={handleEditSubmit}>
-Update
-</Button>
-<Button variant="contained" color="secondary" onClick={handleClose}>
-Cancel
-</Button>
-</Box>
-</form>
-</Box>
-</Modal>
-</>
-);
+          </form>
+        </Box>
+      </Modal>
+      {/* Edit Table Modal */}
+      <Modal open={editModalOpen} onClose={handleClose}>
+        <Box className="modal-box" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
+          <h2 style={{ textAlign: "center" }}>Editing table number {editingIndex}</h2>
+          <form>
+            <TextField
+              label="Name"
+              name="title"
+              value={editTableData?.title || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Category"
+              name="category"
+              value={editTableData?.category || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Guests"
+              name="guests"
+              type="number"
+              value={editTableData?.guests || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <input
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="raised-button-file-edit"
+              type="file"
+              name="img"
+              onChange={handleChange}
+            />
+            <label htmlFor="raised-button-file-edit">
+              <Button variant="contained" component="span" className='upload-img'>
+                Upload Image
+              </Button>
+            </label>
+            {editImagePreview && <img src={editImagePreview} alt="Preview" className="image-preview" />}
+            <Box display="flex" justifyContent="space-between" marginTop="16px">
+              <Button variant="contained" color="primary" onClick={handleEditSubmit}>
+                Update
+              </Button>
+              <Button variant="contained" color="secondary" onClick={handleClose}>
+                Cancel
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Modal>
+    </>
+  );
 };
 
 export default Tables;
