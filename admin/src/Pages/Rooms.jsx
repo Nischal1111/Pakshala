@@ -6,22 +6,20 @@ import { Edit, Delete } from '@mui/icons-material';
 const RoomList = ({ roomData, setRoomData, handleEdit }) => {
   const [search, setSearch] = useState('');
 
-
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
   };
 
   // Delete room
-
   const handleDelete = async (id) => {
-     //eslint-disable-next-line no-restricted-globals
+    //eslint-disable-next-line no-restricted-globals
     const userConfirmed = confirm("Are you sure you want to delete this room?");
     if (userConfirmed) {
       const deleteR = await fetch(`${process.env.REACT_APP_API_URL}/delete-room/${id}`, {
         method: 'DELETE'
       });
       const data = await deleteR.json();
-      if(data.success){
+      if (data.success) {
         window.location.reload();
       }
     }
@@ -98,7 +96,7 @@ const Rooms = () => {
     } catch (error) {
       console.error('Error fetching rooms:', error);
     }
-  }
+  };
 
   useEffect(() => {
     getAllRooms();
@@ -118,7 +116,7 @@ const Rooms = () => {
     const { name, value, files } = event.target;
     if (editModalOpen) {
       if (name === 'img') {
-        setEditRoomData({ ...editRoomData, img: files[0] });
+        setEditRoomData({ ...editRoomData, room_image1: files[0] });
         setEditImagePreview(URL.createObjectURL(files[0]));
       } else if (name.startsWith('miniImg')) {
         setEditRoomData({ ...editRoomData, [name]: files[0] });
@@ -142,9 +140,7 @@ const Rooms = () => {
     }
   };
 
-
   // Add new room
-
   const handleSubmit = async () => {
     const newErrors = {
       title: newRoom.title.trim() === '',
@@ -170,8 +166,6 @@ const Rooms = () => {
       miniImg2: miniImagePreview.miniImg2,
       miniImg3: miniImagePreview.miniImg3,
     };
-
-    // console.log(newRoomData)
 
     const formData = new FormData();
     formData.append('room_name', newRoom.title);
@@ -208,14 +202,12 @@ const Rooms = () => {
   const handleEdit = (id) => {
     const roomToEdit = roomData.find(item => item._id === id);
     const index = roomData.findIndex(item => item._id === id);
-    console.log(roomToEdit,index)
-    console.log(`Editing room no. ${index + 1}`);
     setEditRoomData(roomToEdit);
-    setEditImagePreview(roomToEdit.room_image1 ||null);
+    setEditImagePreview(roomToEdit.room_image1 || null);
     setMiniImagePreview({
       miniImg1: roomToEdit.room_image2 || null,
       miniImg2: roomToEdit.room_image3 || null,
-      miniImg3: roomToEdit.room_image4 || null    
+      miniImg3: roomToEdit.room_image4 || null
     });
 
     setEditingIndex(index + 1);
@@ -375,7 +367,7 @@ const Rooms = () => {
           <form>
             <TextField
               label="Name"
-              name="title"
+              name="room_name"
               value={editRoomData?.room_name || ''}
               onChange={handleChange}
               fullWidth
@@ -383,7 +375,7 @@ const Rooms = () => {
             />
             <TextField
               label="Category"
-              name="category"
+              name="room_category"
               value={editRoomData?.room_category || ''}
               onChange={handleChange}
               fullWidth
@@ -391,7 +383,7 @@ const Rooms = () => {
             />
             <TextField
               label="Price"
-              name="price"
+              name="room_price"
               type="number"
               value={editRoomData?.room_price || ''}
               onChange={handleChange}
@@ -411,7 +403,7 @@ const Rooms = () => {
                 Upload Main Image
               </Button>
             </label>
-            {editImagePreview && <img src={editImagePreview} alt="Preview" className="image-preview" />}
+            {editImagePreview && <img src={editImagePreview.url || editImagePreview} alt="Preview" className="image-preview" />}
 
             <input
               accept="image/*"
@@ -426,7 +418,7 @@ const Rooms = () => {
                 Upload Mini Image 1
               </Button>
             </label>
-            {miniImagePreview.miniImg1 && <img src={miniImagePreview.miniImg1} alt="Preview" className="image-preview" />}
+            {miniImagePreview.miniImg1 && <img src={miniImagePreview.miniImg1.url || miniImagePreview.miniImg1} alt="Preview" className="image-preview" />}
 
             <input
               accept="image/*"
@@ -441,7 +433,7 @@ const Rooms = () => {
                 Upload Mini Image 2
               </Button>
             </label>
-            {miniImagePreview.miniImg2 && <img src={miniImagePreview.miniImg2} alt="Preview" className="image-preview" />}
+            {miniImagePreview.miniImg2 && <img src={miniImagePreview.miniImg2.url || miniImagePreview.miniImg2} alt="Preview" className="image-preview" />}
 
             <input
               accept="image/*"
@@ -456,7 +448,7 @@ const Rooms = () => {
                 Upload Mini Image 3
               </Button>
             </label>
-            {miniImagePreview.miniImg3 && <img src={miniImagePreview.miniImg3} alt="Preview" className="image-preview" />}
+            {miniImagePreview.miniImg3 && <img src={miniImagePreview.miniImg3.url || miniImagePreview.miniImg3} alt="Preview" className="image-preview" />}
 
             <Box display="flex" justifyContent="space-between" marginTop="16px">
               <Button variant="contained" color="primary" onClick={handleEditSubmit}>

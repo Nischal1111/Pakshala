@@ -292,7 +292,7 @@ const Tables = () => {
                 Upload Image
               </Button>
             </label>
-            {editImagePreview && <img src={editImagePreview} alt="Preview" className="image-preview" />}
+            {editImagePreview && <img src={editImagePreview.url} alt="Preview" className="image-preview" />}
             <Box display="flex" justifyContent="space-between" marginTop="16px">
               <Button variant="contained" color="primary" onClick={handleEditSubmit}>
                 Update
