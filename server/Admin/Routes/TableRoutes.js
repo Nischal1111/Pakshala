@@ -30,7 +30,7 @@ tableRoutes.get('/get-table-items', getTableItems);
 tableRoutes.delete('/delete-table-item/:id', deleteTableItem);
 
 // edit room item
-tableRoutes.put('/edit-table-item/:id', uploader.single('img'), editTableItem);
+tableRoutes.patch('/edit-table-item/:id', uploader.single('img'), editTableItem);
 
 
 

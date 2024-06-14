@@ -18,15 +18,23 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
     const userConfirmed = confirm("Are you sure you want to delete this room?");
     if (userConfirmed) {
       const deleteR = await fetch(`${process.env.REACT_APP_API_URL}/delete-room/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          image1: itemdel.room_image1.public_id,
+          image2: itemdel.room_image2.public_id,
+          image3: itemdel.room_image3.public_id,
+          image4: itemdel.room_image4.public_id
+         }),
       });
       const data = await deleteR.json();
       if (data.success) {
         window.location.reload();
-        console.log(itemdel.room_image1.public_id)
-        console.log(itemdel.room_image2.public_id)
-        console.log(itemdel.room_image3.public_id)
-        console.log(itemdel.room_image4.public_id)
+        
+      }else{
+        console.log(data.message);
       }
     }
   };
@@ -226,8 +234,13 @@ const Rooms = () => {
   };
 
   const handleEditSubmit = async () => {
+
+    console.log('img1', editRoomData.room_image1);
+    console.log('img2', editRoomData.room_image2);
+    console.log('img3', editRoomData.room_image3);
+    console.log('img4', editRoomData.room_image4);
+
     const formData = new FormData();
-    formData.append('id', editRoomData._id);
     formData.append('room_name', editRoomData.room_name);
     formData.append('room_category', editRoomData.room_category);
     formData.append('room_price', editRoomData.room_price);
@@ -235,6 +248,10 @@ const Rooms = () => {
     formData.append('img2', editRoomData.room_image2);
     formData.append('img3', editRoomData.room_image3);
     formData.append('img4', editRoomData.room_image4);
+    formData.append('oldImgId1', editRoomData.room_image1.public_id);
+    formData.append('oldImgId2', editRoomData.room_image2.public_id);
+    formData.append('oldImgId3', editRoomData.room_image3.public_id);
+    formData.append('oldImgId4', editRoomData.room_image4.public_id);
 
     console.log('Edited Data:', {
       id: editRoomData._id,
@@ -249,7 +266,7 @@ const Rooms = () => {
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/update-room/${editRoomData._id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         body: formData
       });
 
@@ -257,6 +274,7 @@ const Rooms = () => {
       if (data.success) {
         console.log(data.message);
         getAllRooms();
+        handleClose();
       } else {
         console.error('Error updating room:', data.error);
       }
@@ -264,7 +282,7 @@ const Rooms = () => {
       console.error('Error updating room:', error);
     }
 
-    handleClose();
+   
   };
 
   return (

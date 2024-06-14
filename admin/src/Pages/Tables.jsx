@@ -116,11 +116,40 @@ const Tables = () => {
     setEditModalOpen(true);
   };
 
+
+  // editing the table
+
   const handleEditSubmit = async () => {
-    console.log('Updated Values:', editTableData); // Log updated values
-    // Here you can add your logic to update the table item
-    handleClose();
+    // console.log('Updated Values:', editTableData); // Log updated values
+  
+    const formData = new FormData();
+    formData.append('name', editTableData.title);
+    formData.append('category', editTableData.category);
+    formData.append('guest', editTableData.guests);
+    formData.append('img', editTableData.img);
+    formData.append('oldImgId', editTableData.table_image.public_id);
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/edit-table-item/${editTableData._id}`, {
+        method: 'PATCH',
+        body: formData
+      });
+      const data = await response.json();
+      if (data.success) {
+        console.log(data.message);
+        getAllTableItems();
+        handleClose();
+      } else {
+        console.error('Error editing table item:', data.message);
+      }
+    }catch (error) {
+      console.error('Error editing table item:', error);
+    }
   };
+
+
+
+  //deleting the table item
 
   const handleDelete = async (id) => {
     const itemToDelete = tableData.find(item => item._id === id);
@@ -130,11 +159,14 @@ const Tables = () => {
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-table-item/${id}`, {
           method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ imageId: itemToDelete.table_image.public_id })
         });
 
         const data = await response.json();
         if (data.success) {
-          console.log(itemToDelete.table_image.public_id)
           setTableData(tableData.filter(item => item._id !== id));
         } else {
           console.error('Error deleting table item:', data.error);
