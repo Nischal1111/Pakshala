@@ -40,7 +40,7 @@ roomRoutes.get('/get-rooms', getRooms);
 roomRoutes.delete('/delete-room/:id', deleteRoom);
 
 // edit room item
-roomRoutes.put('/edit-room/:id', uploader.fields([
+roomRoutes.patch('/update-room/:id', uploader.fields([
   { name: 'img1', maxCount: 1 },
   { name: 'img2', maxCount: 1 },
   { name: 'img3', maxCount: 1 },
