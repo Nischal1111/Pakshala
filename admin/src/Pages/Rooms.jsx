@@ -12,6 +12,8 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
 
   // Delete room
   const handleDelete = async (id) => {
+    const itemdel = roomData.find(room=>room._id===id)
+    
     //eslint-disable-next-line no-restricted-globals
     const userConfirmed = confirm("Are you sure you want to delete this room?");
     if (userConfirmed) {
@@ -21,6 +23,10 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
       const data = await deleteR.json();
       if (data.success) {
         window.location.reload();
+        console.log(itemdel.room_image1.public_id)
+        console.log(itemdel.room_image2.public_id)
+        console.log(itemdel.room_image3.public_id)
+        console.log(itemdel.room_image4.public_id)
       }
     }
   };

@@ -124,6 +124,7 @@ const Tables = () => {
 
   const handleDelete = async (id) => {
     //eslint-disable-next-line no-restricted-globals
+    const itemToDelete = tableData.find(item => item._id === id);
     const userConfirmed = window.confirm("Are you sure you want to delete this table?");
     if (userConfirmed) {
       try {
@@ -133,7 +134,7 @@ const Tables = () => {
 
         const data = await response.json();
         if (data.success) {
-          console.log(data.message);
+          console.log(itemToDelete.table_image.public_id)
           setTableData(tableData.filter(item => item._id !== id));
         } else {
           console.error('Error deleting table item:', data.error);
