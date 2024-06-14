@@ -130,15 +130,15 @@ const deleteRoom = async (req, res) => {
 const editRoom = async (req, res) => {
     try {
         const { id } = req.params;
-        const { room_name, room_price, room_category, oldImgId1, oldImgId2, oldImgId3, oldImgId4 } = req.body;
+        const { room_name, room_price, room_category } = req.body;
         const { img1, img2, img3, img4 } = req.files;
 
         console.log(img1, img2, img3, img4)
 
         // Check if all required fields and images are provided
-        if (!room_name || !room_price || !room_category || !oldImgId1 || !oldImgId2 || !oldImgId3 || !oldImgId4) {
-            return res.status(400).json({ message: 'All fields are required.' });
-        }
+        // if (!room_name || !room_price || !room_category || !oldImgId1 || !oldImgId2 || !oldImgId3 || !oldImgId4) {
+        //     return res.status(400).json({ message: 'All fields are required.' });
+        // }
         if (!img1 || !img2 || !img3 || !img4) {
             return res.status(400).json({ message: 'Please upload all four room images.' });
         }
@@ -153,8 +153,8 @@ const editRoom = async (req, res) => {
         const [uploadedImg1, uploadedImg2, uploadedImg3, uploadedImg4] = await Promise.all(imageUploads);
 
         // Delete old images
-        const deleteUploads = [oldImgId1, oldImgId2, oldImgId3, oldImgId4].map(id => deleteFile(id));
-        await Promise.all(deleteUploads);
+        // const deleteUploads = [oldImgId1, oldImgId2, oldImgId3, oldImgId4].map(id => deleteFile(id));
+        // await Promise.all(deleteUploads);
 
         // Find the room by id
         const room = await Room.findById(id);
