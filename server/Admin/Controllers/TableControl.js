@@ -61,8 +61,26 @@ const getTableItems = async (req, res) => {
 const deleteTableItem = async (req, res) => {
     try {
         const { id } = req.params;
+        const {imageId} = req.body;
+
+        // console.log(id, imageId);
+
+        if(!id) {
+            return res.status(400).json({ message: 'Please provide table id' });
+        }
+
+        if(!imageId) {
+            return res.status(400).json({ message: 'Please provide image id' });
+        }
+
         const tableItem = await Table.findByIdAndDelete(id);
-        // const deleteImage = await deleteFile(tableItem.table_image.public_id);
+
+        
+        const deleteImage = await deleteFile(imageId);
+        if(!deleteImage) {
+            return res.status(400).json({ message: 'Error deleting table image' });
+        }
+
         if(!tableItem) {
             return res.status(404).json({ message: 'table item not found' });
         }
@@ -79,16 +97,40 @@ const deleteTableItem = async (req, res) => {
 const editTableItem = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, category, guest } = req.body;
-        const imagePath = req.file.path;
-        // const oldImageId = req.body.oldImageId;
-        const tableItem = await Table.findById(id);
-        if(!tableItem) {
-            return res.status(404).json({ message: 'table item not found' });
+        const { name, category, guest, oldImgId } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Please provide table id' });
+        }
+        if (!name || !category || !guest || !oldImgId) {
+            return res.status(400).json({ message: 'Please provide all table details' });
+        }
+        if (!req.file) {
+            return res.status(400).json({ message: 'Please upload an image' });
         }
 
-        const uploadNewImage = await uploadFile(imagePath,"tables");
-        // const deleteOldImage = await deleteFile(oldImageId);
+        const imagePath = req.file.path;
+
+        console.log(id, name, category, guest, oldImgId, imagePath);
+
+        const tableItem = await Table.findById(id);
+        if (!tableItem) {
+            return res.status(404).json({ message: 'Table item not found' });
+        }
+
+        // Upload new image and delete old image in parallel
+        const [uploadNewImage, deleteOldImage] = await Promise.all([
+            uploadFile(imagePath, "tables"),
+            deleteFile(oldImgId)
+        ]);
+
+        if (!uploadNewImage) {
+            return res.status(400).json({ message: 'Error uploading table image' });
+        }
+
+        if (!deleteOldImage) {
+            return res.status(400).json({ message: 'Error deleting old table image' });
+        }
 
         tableItem.table_name = name;
         tableItem.table_category = category;
@@ -96,15 +138,16 @@ const editTableItem = async (req, res) => {
         tableItem.table_image = {
             url: uploadNewImage.secure_url,
             public_id: uploadNewImage.public_id
-        }
+        };
 
         await tableItem.save();
-        res.status(200).json({success:true, message: 'table item updated successfully' });
+        res.status(200).json({ success: true, message: 'Table item updated successfully' });
     } catch (error) {
-        res.status(500).json({success:false, message: 'Internal server error on Edit table Item' });
-        // console.log(error)
+        console.error('Error editing table item:', error); // Log the error for debugging
+        res.status(500).json({ success: false, message: 'Internal server error on Edit table Item' });
     }
-}
+};
+
 
 
 

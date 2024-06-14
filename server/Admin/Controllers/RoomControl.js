@@ -95,9 +95,24 @@ const getRooms = async (req, res) => {
 const deleteRoom = async (req, res) => {
     try {
         const { id } = req.params;
-        // const {image_public_id} = req.body
+        const {image1, image2, image3, image4} = req.body;
+        console.log(image1, image2, image3, image4)
+
+        if(!image1 || !image2 || !image3 || !image4) {
+            return res.status(400).json({ message: 'Please provide all room images' });
+        }
+
+        console.log(image1, image2, image3, image4)
+
         const room = await Room.findByIdAndDelete(id);
-        // const deleteImage = await deleteFile(image_public_id);
+        
+        const deleteUploads = [image1, image2, image3, image4].map(id => deleteFile(id));   
+        const deleteImgs =  await Promise.all(deleteUploads);
+
+        if(!deleteImgs) {
+            return res.status(400).json({ message: 'Error deleting room images' });
+        }
+        
         if(!room) {
             return res.status(404).json({ message: 'Room item not found' });
         }
@@ -115,35 +130,39 @@ const deleteRoom = async (req, res) => {
 const editRoom = async (req, res) => {
     try {
         const { id } = req.params;
-        const { room_name, room_price, room_category } = req.body;
-        // const { img1_id, img2_id, img3_id, img4_id} = req.body;
-        
+        const { room_name, room_price, room_category, oldImgId1, oldImgId2, oldImgId3, oldImgId4 } = req.body;
         const { img1, img2, img3, img4 } = req.files;
 
+        console.log(img1, img2, img3, img4)
+
+        // Check if all required fields and images are provided
+        if (!room_name || !room_price || !room_category || !oldImgId1 || !oldImgId2 || !oldImgId3 || !oldImgId4) {
+            return res.status(400).json({ message: 'All fields are required.' });
+        }
         if (!img1 || !img2 || !img3 || !img4) {
             return res.status(400).json({ message: 'Please upload all four room images.' });
         }
 
-        
         const img1Path = img1[0].path;
         const img2Path = img2[0].path;
         const img3Path = img3[0].path;
         const img4Path = img4[0].path;
 
-        // Upload images and gather URLs
+        // Upload new images and gather URLs
         const imageUploads = [img1Path, img2Path, img3Path, img4Path].map(path => uploadFile(path, 'rooms'));
         const [uploadedImg1, uploadedImg2, uploadedImg3, uploadedImg4] = await Promise.all(imageUploads);
 
-        // delete old images
-        // const deleteUploads = [img1_id, img2_id, img3_id, img4_id].map(id => deleteFile(id));
-        // await Promise.all(deleteUploads);
+        // Delete old images
+        const deleteUploads = [oldImgId1, oldImgId2, oldImgId3, oldImgId4].map(id => deleteFile(id));
+        await Promise.all(deleteUploads);
 
+        // Find the room by id
         const room = await Room.findById(id);
-
-        if(!room) {
+        if (!room) {
             return res.status(404).json({ message: 'Room item not found' });
         }
 
+        // Update the room data
         room.room_name = room_name;
         room.room_price = room_price;
         room.room_category = room_category;
@@ -164,18 +183,17 @@ const editRoom = async (req, res) => {
             public_id: uploadedImg4.public_id
         };
 
-        const updateRoom = await room.save();
-        if(!updateRoom) {
-            return res.status(400).json({ message: 'Error updating room item' });
-        }
+        // Save the updated room data
+        await room.save();
 
-        res.status(200).json({success:true, message: 'Room item edited successfully' });
+        res.status(200).json({ success: true, message: 'Room item edited successfully' });
 
     } catch (error) {
-        res.status(500).json({success:false, message: 'Internal server error on Edit room Item' });
-        // console.log(error)
+        console.error('Error editing room item:', error); // Log the error for debugging
+        res.status(500).json({ success: false, message: 'Internal server error on Edit room Item' });
     }
-}
+};
+
 
         
 
