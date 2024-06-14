@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import  {allRooms} from "../data";
 import "../Css/Rooms.css"
 import { FaWifi } from "react-icons/fa";
 import { TbAirConditioning } from "react-icons/tb";
@@ -12,9 +11,29 @@ import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 
 const RoomReserve = () => {
+  const [allRooms, setAllRooms] = useState([]);
+  const [booked, setBooked] = useState(true);
+
+  const getAllRoomsClient = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/admin/get-rooms");
+      const data = await response.json();
+      setAllRooms(data.rooms || []);
+    } catch (error) {
+      console.error('Error fetching rooms:', error);
+    }
+  };
+
+  useEffect(() => {
+    getAllRoomsClient();
+  }, []);
+
   const { id } = useParams();
-  const room = allRooms.find(room => room.id === parseInt(id));
-  const [booked, setBooked] = useState(true)
+  const room = allRooms.find(room => room._id === id);
+
+  if (!room) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -23,31 +42,31 @@ const RoomReserve = () => {
       <div className="room-reserve">
         <div className="left-part">
           <div className="room-reserve-img-div">
-            <img src={room.image} alt={room.name} className="main-img" />
+            <img src={room.room_image1.url} alt={room.room_name} className="main-img" />
             <div className='small-imgs-div'>
-              <img src={room.smallImg1} alt="Small 1" />
-              <img src={room.smallImg2} alt="Small 2" />
-              <img src={room.smallImg3} alt="Small 3" />
+              <img src={room.room_image2.url} alt="Small 1" />
+              <img src={room.room_image3.url} alt="Small 2" />
+              <img src={room.room_image3.url} alt="Small 3" />
             </div>
           </div>
           <div className="room-reserve-desc">
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
               <div className="nameandrating" style={{display:"flex",alignItems:"center"}}>
                 <p style={{ fontFamily: "Lato", fontSize: "1.8rem", letterSpacing: "2px"}}>
-                    {room.name}
+                    {room.room_name}
                 </p>
                  <p className="room-rating">
-                        <IoStarSharp className='star-icons'/>{room.rating}
+                        <IoStarSharp className='star-icons'/>4.5
                     </p>
                 </div>
                 <div className="price-div-2">
-                    <p className="room-price-2">Rs {room.price}</p>
+                    <p className="room-price-2">Rs {room.room_price}</p>
                 </div>
             </div>
-            <p style={{fontSize:"1rem",fontFamily:"Lato",lineHeight:"2rem"}}>{room.description}</p>
+            <p style={{fontSize:"1rem",fontFamily:"Lato",lineHeight:"2rem"}}>Later</p>
             <div style={{display:"flex",gap:"1rem",alignItems:"center",margin:"1.2rem 0rem"}}>
               <FaUser/>
-              <span>Up to {room.guests} guest/s</span>
+              <span>Up to {room.room_guests} guest/s</span>
             </div>
             <div style={{display:"flex",alignItems:"center",gap:".8rem",marginTop:"1rem"}}>
               <div style={{background:"#ff8800",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".2rem .7rem",borderRadius:"2rem"}}>
