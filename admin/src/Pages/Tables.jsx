@@ -167,7 +167,7 @@ const Tables = () => {
                   <TableRow key={item._id} className='table-row'>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell className='table-row'>
-                      {item.table_image ? <img src={item.table_image} alt={item.table_name} className="menu-img" /> : 'No Image'}
+                      {item.table_image ? <img src={item.table_image.url} alt={item.table_name} className="menu-img" /> : 'No Image'}
                     </TableCell>
                     <TableCell className='table-row'>{item.table_name}</TableCell>
                     <TableCell className='table-row'>{item.table_category}</TableCell>
