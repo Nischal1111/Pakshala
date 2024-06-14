@@ -194,6 +194,9 @@ const Rooms = () => {
     formData.append('img2', newRoom.miniImg1);
     formData.append('img3', newRoom.miniImg2);
     formData.append('img4', newRoom.miniImg3);
+    
+
+    // console.log('rd',roomData)
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/add-room`, {
@@ -205,6 +208,10 @@ const Rooms = () => {
       if (data.success) {
         console.log(data.message);
         getAllRooms();
+        setNewRoom({ title: '', category: '', price: '', img: null, miniImg1: null, miniImg2: null, miniImg3: null });
+        setImagePreview(null);
+        setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
+        handleClose();
       } else {
         console.error('Error adding room:', data.error);
       }
@@ -212,10 +219,7 @@ const Rooms = () => {
       console.error('Error adding room:', error);
     }
 
-    setNewRoom({ title: '', category: '', price: '', img: null, miniImg1: null, miniImg2: null, miniImg3: null });
-    setImagePreview(null);
-    setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
-    handleClose();
+    
   };
 
   const handleEdit = (id) => {
@@ -235,11 +239,7 @@ const Rooms = () => {
 
   const handleEditSubmit = async () => {
 
-    console.log('img1', editRoomData.room_image1);
-    console.log('img2', editRoomData.room_image2);
-    console.log('img3', editRoomData.room_image3);
-    console.log('img4', editRoomData.room_image4);
-
+    
     const formData = new FormData();
     formData.append('room_name', editRoomData.room_name);
     formData.append('room_category', editRoomData.room_category);
@@ -248,21 +248,23 @@ const Rooms = () => {
     formData.append('img2', editRoomData.room_image2);
     formData.append('img3', editRoomData.room_image3);
     formData.append('img4', editRoomData.room_image4);
-    formData.append('oldImgId1', editRoomData.room_image1.public_id);
-    formData.append('oldImgId2', editRoomData.room_image2.public_id);
-    formData.append('oldImgId3', editRoomData.room_image3.public_id);
-    formData.append('oldImgId4', editRoomData.room_image4.public_id);
 
-    console.log('Edited Data:', {
-      id: editRoomData._id,
-      room_name: editRoomData.room_name,
-      room_category: editRoomData.room_category,
-      room_price: editRoomData.room_price,
-      img1: editRoomData.room_image1,
-      img2: editRoomData.room_image2,
-      img3: editRoomData.room_image3,
-      img4: editRoomData.room_image4
-    });
+    // ==> Nischal do here <==
+    // formData.append('oldImgId1', editRoomData.room_image1.public_id);
+    // formData.append('oldImgId2', editRoomData.room_image2.public_id);
+    // formData.append('oldImgId3', editRoomData.room_image3.public_id);
+    // formData.append('oldImgId4', editRoomData.room_image4.public_id);
+
+    // console.log('Edited Data:', {
+    //   id: editRoomData._id,
+    //   room_name: editRoomData.room_name,
+    //   room_category: editRoomData.room_category,
+    //   room_price: editRoomData.room_price,
+    //   img1: editRoomData.room_image1,
+    //   img2: editRoomData.room_image2,
+    //   img3: editRoomData.room_image3,
+    //   img4: editRoomData.room_image4
+    // });
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/update-room/${editRoomData._id}`, {
