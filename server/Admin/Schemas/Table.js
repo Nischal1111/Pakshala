@@ -6,7 +6,17 @@ const TablesSchema = new mongoose.Schema({
         required: true
     },
     table_image: {
-        type: String,
+        type: {
+            url: {
+                type: String,
+                required: true
+            },
+            public_id: {
+                type: String,
+                required: true
+            },
+        
+        },
         required: true
     },
     table_category: {

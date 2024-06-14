@@ -6,15 +6,24 @@ import { Edit, Delete } from '@mui/icons-material';
 const RoomList = ({ roomData, setRoomData, handleEdit }) => {
   const [search, setSearch] = useState('');
 
+
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
   };
+
+  // Delete room
 
   const handleDelete = async (id) => {
      //eslint-disable-next-line no-restricted-globals
     const userConfirmed = confirm("Are you sure you want to delete this room?");
     if (userConfirmed) {
-      setRoomData(roomData.filter(item => item.id !== id));
+      const deleteR = await fetch(`${process.env.REACT_APP_API_URL}/delete-room/${id}`, {
+        method: 'DELETE'
+      });
+      const data = await deleteR.json();
+      if(data.success){
+        window.location.reload();
+      }
     }
   };
 
@@ -45,7 +54,7 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
                 <TableRow key={item.id} className='table-row'>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell className='table-row'>
-                    {item.room_image1 ? <img src={item.room_image1} alt={item.room_name} className="menu-img" /> : 'No Image'}
+                    {item.room_image1 ? <img src={item.room_image1.url} alt={item.room_name} className="menu-img" /> : 'No Image'}
                   </TableCell>
                   <TableCell className='table-row'>{item.room_name}</TableCell>
                   <TableCell className='table-row'>{item.room_category}</TableCell>
@@ -82,7 +91,7 @@ const Rooms = () => {
 
   const getAllRooms = async () => {
     try {
-      const response = await fetch('http://localhost:4000/admin/get-rooms');
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-rooms`);
       const data = await response.json();
       setRoomData(data.rooms || []);
       console.log(data.rooms);
@@ -133,6 +142,9 @@ const Rooms = () => {
     }
   };
 
+
+  // Add new room
+
   const handleSubmit = async () => {
     const newErrors = {
       title: newRoom.title.trim() === '',
@@ -159,7 +171,7 @@ const Rooms = () => {
       miniImg3: miniImagePreview.miniImg3,
     };
 
-    console.log(newRoomData)
+    // console.log(newRoomData)
 
     const formData = new FormData();
     formData.append('room_name', newRoom.title);
@@ -199,7 +211,7 @@ const Rooms = () => {
     console.log(roomToEdit,index)
     console.log(`Editing room no. ${index + 1}`);
     setEditRoomData(roomToEdit);
-    setEditImagePreview(roomToEdit.room_image1||null);
+    setEditImagePreview(roomToEdit.room_image1 ||null);
     setMiniImagePreview({
       miniImg1: roomToEdit.room_image2 || null,
       miniImg2: roomToEdit.room_image3 || null,
