@@ -12,7 +12,7 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
 
   // Delete room
   const handleDelete = async (id) => {
-    const itemdel = roomData.find(room=>room._id===id)
+    const itemdel = roomData.find(room => room._id === id)
     
     //eslint-disable-next-line no-restricted-globals
     const userConfirmed = confirm("Are you sure you want to delete this room?");
@@ -55,7 +55,7 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
             </TableHead>
             <TableBody>
               {filteredRooms.map((item, index) => (
-                <TableRow key={item.id} className='table-row'>
+                <TableRow key={item.room_name} className='table-row'>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell className='table-row'>
                     {item.room_image1 ? <img src={item.room_image1.url} alt={item.room_name} className="menu-img" /> : 'No Image'}
@@ -116,6 +116,7 @@ const Rooms = () => {
     setEditingIndex(null);
     setImagePreview(null);
     setEditImagePreview(null);
+    setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
   };
 
   const handleChange = (event) => {
@@ -124,9 +125,15 @@ const Rooms = () => {
       if (name === 'img') {
         setEditRoomData({ ...editRoomData, room_image1: files[0] });
         setEditImagePreview(URL.createObjectURL(files[0]));
-      } else if (name.startsWith('miniImg')) {
-        setEditRoomData({ ...editRoomData, [name]: files[0] });
-        setMiniImagePreview({ ...miniImagePreview, [name]: URL.createObjectURL(files[0]) });
+      } else if (name === 'miniImg1') {
+        setEditRoomData({ ...editRoomData, room_image2: files[0] });
+        setMiniImagePreview({ ...miniImagePreview, miniImg1: URL.createObjectURL(files[0]) });
+      } else if (name === 'miniImg2') {
+        setEditRoomData({ ...editRoomData, room_image3: files[0] });
+        setMiniImagePreview({ ...miniImagePreview, miniImg2: URL.createObjectURL(files[0]) });
+      } else if (name === 'miniImg3') {
+        setEditRoomData({ ...editRoomData, room_image4: files[0] });
+        setMiniImagePreview({ ...miniImagePreview, miniImg3: URL.createObjectURL(files[0]) });
       } else {
         setEditRoomData({ ...editRoomData, [name]: value });
       }
@@ -135,10 +142,18 @@ const Rooms = () => {
         setNewRoom({ ...newRoom, img: files[0] });
         setImagePreview(URL.createObjectURL(files[0]));
         setErrors({ ...errors, img: false });
-      } else if (name.startsWith('miniImg')) {
-        setNewRoom({ ...newRoom, [name]: files[0] });
-        setMiniImagePreview({ ...miniImagePreview, [name]: URL.createObjectURL(files[0]) });
-        setErrors({ ...errors, [name]: false });
+      } else if (name === 'miniImg1') {
+        setNewRoom({ ...newRoom, miniImg1: files[0] });
+        setMiniImagePreview({ ...miniImagePreview, miniImg1: URL.createObjectURL(files[0]) });
+        setErrors({ ...errors, miniImg1: false });
+      } else if (name === 'miniImg2') {
+        setNewRoom({ ...newRoom, miniImg2: files[0] });
+        setMiniImagePreview({ ...miniImagePreview, miniImg2: URL.createObjectURL(files[0]) });
+        setErrors({ ...errors, miniImg2: false });
+      } else if (name === 'miniImg3') {
+        setNewRoom({ ...newRoom, miniImg3: files[0] });
+        setMiniImagePreview({ ...miniImagePreview, miniImg3: URL.createObjectURL(files[0]) });
+        setErrors({ ...errors, miniImg3: false });
       } else {
         setNewRoom({ ...newRoom, [name]: value });
         setErrors({ ...errors, [name]: false });
@@ -162,16 +177,6 @@ const Rooms = () => {
       setErrors(newErrors);
       return;
     }
-
-    const newRoomData = {
-      ...newRoom,
-      id: roomData.length + 1,
-      price: parseFloat(newRoom.price),
-      img: imagePreview,
-      miniImg1: miniImagePreview.miniImg1,
-      miniImg2: miniImagePreview.miniImg2,
-      miniImg3: miniImagePreview.miniImg3,
-    };
 
     const formData = new FormData();
     formData.append('room_name', newRoom.title);
@@ -230,6 +235,17 @@ const Rooms = () => {
     formData.append('img2', editRoomData.room_image2);
     formData.append('img3', editRoomData.room_image3);
     formData.append('img4', editRoomData.room_image4);
+
+    console.log('Edited Data:', {
+      id: editRoomData._id,
+      room_name: editRoomData.room_name,
+      room_category: editRoomData.room_category,
+      room_price: editRoomData.room_price,
+      img1: editRoomData.room_image1,
+      img2: editRoomData.room_image2,
+      img3: editRoomData.room_image3,
+      img4: editRoomData.room_image4
+    });
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/update-room/${editRoomData._id}`, {

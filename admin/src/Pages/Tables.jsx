@@ -123,8 +123,8 @@ const Tables = () => {
   };
 
   const handleDelete = async (id) => {
-    //eslint-disable-next-line no-restricted-globals
     const itemToDelete = tableData.find(item => item._id === id);
+    //eslint-disable-next-line no-restricted-globals
     const userConfirmed = window.confirm("Are you sure you want to delete this table?");
     if (userConfirmed) {
       try {
