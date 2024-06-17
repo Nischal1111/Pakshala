@@ -139,6 +139,7 @@ const adminLogout = async(req, res) => {
         // Get admin id from authMiddleware
         const userId = req.admin._id;
 
+        //for finding the admin
         const admin = await Admin.findById(userId);
         if (!admin) {
             return res.status(400).json({ success: false, message: 'Admin not found' });
