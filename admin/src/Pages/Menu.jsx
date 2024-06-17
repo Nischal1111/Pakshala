@@ -96,15 +96,28 @@ const Special = () => {
 
 const Menu = () => {
   const [file, setFile] = useState(null);
+  const [drinkfile, setDrinkFile] = useState(null);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile && selectedFile.type === "application/pdf") {
       setFile(URL.createObjectURL(selectedFile));
+      
     } else {
       alert("Please upload a valid PDF file.");
     }
+    
   };
+
+  const handleDrink=(event)=>{
+    const selectedFile2 = event.target.files[0];
+    if (selectedFile2 && selectedFile2.type === "application/pdf") {
+      setDrinkFile(URL.createObjectURL(selectedFile2));
+      
+    } else {
+      alert("Please upload a valid PDF file.");
+    }
+  }
 
   return (
     <>
@@ -120,7 +133,7 @@ const Menu = () => {
             onChange={handleFileChange}
           />
           <label htmlFor="raised-button-file">
-            <Button variant="contained" component="span" className='upload-img2'>
+            <Button variant="contained" component="span" className='upload-img2' style={{marginLeft:"2rem",marginTop:"1rem",marginBottom:"1rem"}}>
               Upload Menu File
             </Button>
           </label>
@@ -132,6 +145,30 @@ const Menu = () => {
                 height="600px"
                 style={{ border: "none", marginTop: "20px" }}
                 title="Menu PDF"
+              ></iframe>
+            </div>
+          )}
+          <input
+            accept="application/pdf"
+            style={{ display: 'none' }}
+            id="raised-drink-file"
+            type="file"
+            name="DrinkPDF"
+            onChange={handleDrink}
+          />
+          <label htmlFor="raised-drink-file">
+            <Button variant="contained" component="span" className='upload-img2'style={{marginLeft:"2rem",marginTop:"1rem",marginBottom:"1rem"}}>
+              Upload Drinks File
+            </Button>
+          </label>
+          {drinkfile && (
+            <div className='pdf-viewer'>
+              <iframe
+                src={drinkfile}
+                width="100%"
+                height="600px"
+                style={{ border: "none", marginTop: "20px" }}
+                title="DrinkPDF"
               ></iframe>
             </div>
           )}

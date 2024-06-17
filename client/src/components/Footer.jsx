@@ -6,6 +6,7 @@ import PakshalaLogo from "../assets/pakshalalogo.png"
 import Icon1 from '../assets/nav-icon1.svg';
 import Icon2 from '../assets/nav-icon2.svg';
 import Icon3 from '../assets/nav-icon3.svg';
+import {Link} from "react-router-dom"
 
 const Footer = () => {
   return (
@@ -43,10 +44,21 @@ const Footer = () => {
         </div>
         <div className="quick-links">
             <h2>Quick links</h2>
-            <p>Menu</p>
-            <p>Reservations</p>
-            <p>About</p>
-            <p>Contacts</p>
+            <Link to="/">
+                <p>Home</p>
+            </Link>
+            <Link to="/menu">
+                <p>Menu</p>
+            </Link>
+            <Link to="/rooms">
+                <p>Rooms</p>
+            </Link>
+            <Link to="/tables">
+                <p>Tables</p>
+            </Link>
+            <Link to="/about">
+                <p>About</p>
+            </Link>
         </div>
         </div>
         <span className='footer-last'>Privacy Policy | Terms & Condition | Cookie Center | Security & Safety | | © 2024 Pakshala Restro</span>

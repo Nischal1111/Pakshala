@@ -167,7 +167,7 @@
 }
 
 .about--bg{
-    height: 140%;
+    height: 180vh;
     width: 100vw;
     object-fit: cover;
 }
