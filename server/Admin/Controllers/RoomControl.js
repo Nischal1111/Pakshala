@@ -96,13 +96,13 @@ const deleteRoom = async (req, res) => {
     try {
         const { id } = req.params;
         const {image1, image2, image3, image4} = req.body;
-        console.log(image1, image2, image3, image4)
+        // console.log(image1, image2, image3, image4)
 
         if(!image1 || !image2 || !image3 || !image4) {
             return res.status(400).json({ message: 'Please provide all room images' });
         }
 
-        console.log(image1, image2, image3, image4)
+        // console.log(image1, image2, image3, image4)
 
         const room = await Room.findByIdAndDelete(id);
         
@@ -133,7 +133,7 @@ const editRoom = async (req, res) => {
         const { room_name, room_price, room_category } = req.body;
         const { img1, img2, img3, img4 } = req.files;
 
-        console.log(img1, img2, img3, img4)
+        // console.log(img1, img2, img3, img4)
 
         // Check if all required fields and images are provided
         // if (!room_name || !room_price || !room_category || !oldImgId1 || !oldImgId2 || !oldImgId3 || !oldImgId4) {
@@ -148,19 +148,29 @@ const editRoom = async (req, res) => {
         const img3Path = img3[0].path;
         const img4Path = img4[0].path;
 
-        // Upload new images and gather URLs
-        const imageUploads = [img1Path, img2Path, img3Path, img4Path].map(path => uploadFile(path, 'rooms'));
-        const [uploadedImg1, uploadedImg2, uploadedImg3, uploadedImg4] = await Promise.all(imageUploads);
-
-        // Delete old images
-        // const deleteUploads = [oldImgId1, oldImgId2, oldImgId3, oldImgId4].map(id => deleteFile(id));
-        // await Promise.all(deleteUploads);
+       
 
         // Find the room by id
         const room = await Room.findById(id);
         if (!room) {
             return res.status(404).json({ message: 'Room item not found' });
         }
+
+        
+        const oldImgId1 = room.room_image1.public_id;
+        const oldImgId2= room.room_image2.public_id;
+        const oldImgId3 = room.room_image3.public_id;
+        const oldImgId4 = room.room_image4.public_id;
+
+
+         // Upload new images and gather URLs
+         const imageUploads = [img1Path, img2Path, img3Path, img4Path].map(path => uploadFile(path, 'rooms'));
+         const [uploadedImg1, uploadedImg2, uploadedImg3, uploadedImg4] = await Promise.all(imageUploads);
+ 
+         // Delete old images
+         const deleteUploads = [oldImgId1, oldImgId2, oldImgId3, oldImgId4].map(id => deleteFile(id));
+         await Promise.all(deleteUploads);
+
 
         // Update the room data
         room.room_name = room_name;
@@ -196,9 +206,6 @@ const editRoom = async (req, res) => {
 
 
         
-
-
-
 
 
 
