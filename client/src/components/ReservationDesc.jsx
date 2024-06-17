@@ -22,7 +22,7 @@ const ReservationDesc = () => {
             Enjoy your stay in one of 280 rooms and suites, with views of either the Boudhanath Stupa or the lush gardens and surrounding mountain ranges.
             Every room and suite has its own distinctly Nepalese interior, including local artifacts, wooden flooring and Tibetan handwoven carpeting.
           </motion.p>
-          <Link to="/reservations">
+          <Link to="/rooms">
             <button className="res-button">All Rooms</button>
           </Link>
         </div>

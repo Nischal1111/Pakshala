@@ -209,10 +209,7 @@ export const allRooms = [
 export const ImgGallery = [
     "https://plus.unsplash.com/premium_photo-1682089821031-05d132d2be0e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG9saXxlbnwwfHwwfHx8MA%3D%3D",
     "https://images.unsplash.com/photo-1603228254119-e6a4d095dc59?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aG9saXxlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1519802772250-a52a9af0eacb?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvbGl8ZW58MHx8MHx8fDA%3D",
     "https://images.unsplash.com/photo-1617184003170-1f266c325ff3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG9saXxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1519802772250-a52a9af0eacb?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvbGl8ZW58MHx8MHx8fDA%3D",
     "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVldGluZ3N8ZW58MHx8MHx8fDA%3D",
-    "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWVldGluZ3N8ZW58MHx8MHx8fDA%3D",
-    "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmlydGhkYXklMjBvcGFydHxlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1601268588577-319223ba7cb3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YmlydGhkYXklMjBwYXJ0eXxlbnwwfHwwfHx8MA%3D%3D"
 ];
