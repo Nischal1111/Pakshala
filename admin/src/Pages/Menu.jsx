@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import "../css/menu.css";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { Button, Modal, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import {userLogged} from "../components/Cookie"
+
 
 const Special = () => {
   const [open, setOpen] = useState(false);
@@ -95,6 +98,14 @@ const Special = () => {
 };
 
 const Menu = () => {
+    const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userLogged()) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   const [file, setFile] = useState(null);
   const [drinkfile, setDrinkFile] = useState(null);
 

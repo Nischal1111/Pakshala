@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import {userLogged} from "../components/Cookie"
 
 const Tables = () => {
+
+    const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userLogged()) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   const [tableData, setTableData] = useState([]);
   const [open, setOpen] = useState(false);
   const [newTable, setNewTable] = useState({ title: '', category: '', guests: '', img: null });

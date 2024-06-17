@@ -1,8 +1,17 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React,{useEffect} from 'react';
+import { Link, useLocation,useNavigate } from 'react-router-dom';
 import '../css/sidebar.css';
+import Cookies from "js-cookie"
+import {userLogged} from "../components/Cookie"
 
 const Sidebar = () => {
+    const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userLogged()) {
+      navigate('/login');
+    }
+  }, [navigate]);
   const location = useLocation();
 
   const activePage = (pathname) => {
@@ -21,6 +30,8 @@ const Sidebar = () => {
       const result = await response.json();
       if (result.success) {
         alert('Logout successful');
+        Cookies.remove("accessToken")
+
       }
     } catch (error) {
       console.error('Error:', error);

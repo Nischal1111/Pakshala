@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import "../css/menu.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import {userLogged} from "../components/Cookie"
 
 const RoomList = ({ roomData, setRoomData, handleEdit }) => {
   const [search, setSearch] = useState('');
@@ -57,6 +59,7 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
                 <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Image</TableCell>
                 <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Name</TableCell>
                 <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Category</TableCell>
+                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Guests</TableCell>
                 <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Price</TableCell>
                 <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Actions</TableCell>
               </TableRow>
@@ -70,6 +73,7 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
                   </TableCell>
                   <TableCell className='table-row'>{item.room_name}</TableCell>
                   <TableCell className='table-row'>{item.room_category}</TableCell>
+                  {/* <TableCell className='table-row'>{item.room_guests}</TableCell> */}
                   <TableCell className='table-row'>Rs. {item.room_price}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleEdit(item._id)}>
@@ -90,10 +94,19 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
 };
 
 const Rooms = () => {
+
+    const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userLogged()) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   const [roomData, setRoomData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [newRoom, setNewRoom] = useState({ title: '', category: '', price: '', img: null, miniImg1: null, miniImg2: null, miniImg3: null });
-  const [errors, setErrors] = useState({ title: false, category: false, price: false, img: false, miniImg1: false, miniImg2: false, miniImg3: false });
+  const [newRoom, setNewRoom] = useState({ title: '', category: '', price: '',guests:"", img: null, miniImg1: null, miniImg2: null, miniImg3: null });
+  const [errors, setErrors] = useState({ title: false, category: false, price: false,guests:false, img: false, miniImg1: false, miniImg2: false, miniImg3: false });
   const [imagePreview, setImagePreview] = useState(null);
   const [miniImagePreview, setMiniImagePreview] = useState({ miniImg1: null, miniImg2: null, miniImg3: null });
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -175,6 +188,8 @@ const Rooms = () => {
       title: newRoom.title.trim() === '',
       category: newRoom.category.trim() === '',
       price: newRoom.price.trim() === '',
+      price: newRoom.guests.trim() === '',
+
       img: newRoom.img === null,
       miniImg1: newRoom.miniImg1 === null,
       miniImg2: newRoom.miniImg2 === null,
@@ -208,7 +223,7 @@ const Rooms = () => {
       if (data.success) {
         console.log(data.message);
         getAllRooms();
-        setNewRoom({ title: '', category: '', price: '', img: null, miniImg1: null, miniImg2: null, miniImg3: null });
+        setNewRoom({ title: '', category: '', price: '',guests:"", img: null, miniImg1: null, miniImg2: null, miniImg3: null });
         setImagePreview(null);
         setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
         handleClose();
@@ -249,22 +264,6 @@ const Rooms = () => {
     formData.append('img3', editRoomData.room_image3);
     formData.append('img4', editRoomData.room_image4);
 
-    // ==> Nischal do here <==
-    // formData.append('oldImgId1', editRoomData.room_image1.public_id);
-    // formData.append('oldImgId2', editRoomData.room_image2.public_id);
-    // formData.append('oldImgId3', editRoomData.room_image3.public_id);
-    // formData.append('oldImgId4', editRoomData.room_image4.public_id);
-
-    // console.log('Edited Data:', {
-    //   id: editRoomData._id,
-    //   room_name: editRoomData.room_name,
-    //   room_category: editRoomData.room_category,
-    //   room_price: editRoomData.room_price,
-    //   img1: editRoomData.room_image1,
-    //   img2: editRoomData.room_image2,
-    //   img3: editRoomData.room_image3,
-    //   img4: editRoomData.room_image4
-    // });
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/update-room/${editRoomData._id}`, {
@@ -327,6 +326,17 @@ const Rooms = () => {
               margin="normal"
               error={errors.price}
               helperText={errors.price ? "Price is required" : ""}
+            />
+            <TextField
+              label="Guests"
+              name="guests"
+              type="number"
+              value={newRoom.guests}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              error={errors.guests}
+              helperText={errors.price ? "No. of guests is required" : ""}
             />
             <input
               accept="image/*"
@@ -428,6 +438,15 @@ const Rooms = () => {
               name="room_price"
               type="number"
               value={editRoomData?.room_price || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="guests"
+              name="room_guests"
+              type="number"
+              // value={editRoomData?.room_guests || ''}
               onChange={handleChange}
               fullWidth
               margin="normal"

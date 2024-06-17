@@ -78,7 +78,7 @@ const adminLogin = async (req, res) => {
         });
 
         res.cookie('accessToken', authResult.accessToken, {
-            httpOnly: true,
+            httpOnly: false,
             // sameSite: 'none',
             expires: new Date(new Date().getTime() + 60 * 60 * 1000)
         });
