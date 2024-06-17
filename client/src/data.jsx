@@ -106,20 +106,20 @@ export const allTables =[
     },
 ]
 export const allRooms = [
-    {
-        id: 1,
-        category: 'premium',
-        name: 'Single Room',
-        price: 3000,
-        bed: 'single',
-        guests: 1,
-        image: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=800',
-        rating: "4.0",
-        description: 'The rooms have on-call service, housekeeping service, 24/7 stable and fast Wi-Fi, assistance, airport transfers and lodging if previously informed, and air-conditioned rooms with comfortable beds, comfortable and best hospitality. Only lunch and dinner are served to the room. Laundry service is available for additional costs.',
-        smallImg1: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=400',
-        smallImg2: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=400',
-        smallImg3: 'https://images.pexels.com/photos/5816562/pexels-photo-5816562.jpeg?auto=compress&cs=tinysrgb&w=400'
-    },
+    // {
+    //     id: 1,
+    //     category: 'premium',
+    //     name: 'Single Room',
+    //     price: 3000,
+    //     bed: 'single',
+    //     guests: 1,
+    //     image: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     rating: "4.0",
+    //     description: 'The rooms have on-call service, housekeeping service, 24/7 stable and fast Wi-Fi, assistance, airport transfers and lodging if previously informed, and air-conditioned rooms with comfortable beds, comfortable and best hospitality. Only lunch and dinner are served to the room. Laundry service is available for additional costs.',
+    //     smallImg1: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=400',
+    //     smallImg2: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=400',
+    //     smallImg3: 'https://images.pexels.com/photos/5816562/pexels-photo-5816562.jpeg?auto=compress&cs=tinysrgb&w=400'
+    // },
     {
         id: 2,
         category: 'premium',
