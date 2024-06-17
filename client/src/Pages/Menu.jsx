@@ -6,6 +6,9 @@ import { fadeIn } from "../motion/motion";
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import MenuForm from "../components/MenuForm"
+import { Link } from 'react-router-dom';
+import Footer from "../components/Footer"
 
 const MenuMain = () => {
   return (
@@ -38,9 +41,6 @@ const SpecialMenuCard = ({ menu, index }) => {
         </div>
         <p>Rs {menu.price}</p>
       </CardContent>
-       <div className="overlay2">
-                <h2>Add to cart</h2>
-            </div>
     </motion.div>
   )
 }
@@ -97,6 +97,16 @@ const Menu = () => {
         transition={{ duration: 2, ease: [0.17, 0.67, 0.83, 0.67] }}>
         <MenuMain />
         <MenuSpecial specialMenu={specialMenu} />
+        <div className=''>
+          <p>
+            You can view our menu <Link>here.</Link> You will be redirected to a new page where you can explore all our offerings. Once you've made your selection, please use the form below to place your order.
+          </p>
+          <button className='overlay2'>
+            <h2> View Menu </h2>
+          </button>
+        </div>
+        <MenuForm/>
+        <Footer/>
       </motion.div>
     </>
   )
