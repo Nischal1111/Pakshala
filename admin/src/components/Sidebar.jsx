@@ -9,6 +9,24 @@ const Sidebar = () => {
     return location.pathname === pathname ? "activeSideNav" : "";
   };
 
+  const adminLogout = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/logout-admin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const result = await response.json();
+      if (result.success) {
+        alert('Logout successful');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   return (
     <div className="left">
       <div className="leftContent">
@@ -46,7 +64,7 @@ const Sidebar = () => {
             </button>
           </Link>
           <Link to="/login" className="nav-link">
-            <button className="distnav--button">
+            <button onClick={adminLogout} className="distnav--button">
               Logout
             </button>
           </Link>

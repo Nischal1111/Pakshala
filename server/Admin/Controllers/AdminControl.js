@@ -8,11 +8,11 @@ const bcrypt = require('bcrypt');
 
 const addAdmin = async (req, res) => {
     try {
-        const { firstname, lastname, email, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
 
-        // if (!firstname || !lastname || !email || !password) {
-        //     return res.status(400).json({ success: false, message: 'All fields are required' });
-        // }
+        if (!firstName || !lastName || !email || !password) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
 
         // // Validate email format using regex
         // if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -28,8 +28,8 @@ const addAdmin = async (req, res) => {
         const hashedPassword = bcrypt.hashSync(password, salt);
 
         const newAdmin = await Admin.create({
-            firstname,
-            lastname,
+            firstname:firstName,
+            lastname:lastName,
             email,
             password: hashedPassword,
             refreshToken: ''
@@ -73,13 +73,13 @@ const adminLogin = async (req, res) => {
         // Set cookies and send response
         res.cookie('refreshToken', authResult.refreshToken, {
             httpOnly: true,
-            sameSite: 'none',
+            // sameSite: 'none',
             expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
         });
 
         res.cookie('accessToken', authResult.accessToken, {
             httpOnly: true,
-            sameSite: 'none',
+            // sameSite: 'none',
             expires: new Date(new Date().getTime() + 60 * 60 * 1000)
         });
 
@@ -136,6 +136,7 @@ const refreshAccessToken = async(req, res) => {
 //logout
 const adminLogout = async(req, res) => {
     try {
+        // Get admin id from authMiddleware
         const userId = req.admin._id;
 
         const admin = await Admin.findById(userId);

@@ -120,20 +120,20 @@ export const allRooms = [
     //     smallImg2: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=400',
     //     smallImg3: 'https://images.pexels.com/photos/5816562/pexels-photo-5816562.jpeg?auto=compress&cs=tinysrgb&w=400'
     // },
-    {
-        id: 2,
-        category: 'premium',
-        name: 'Single Bed',
-        price: 3000,
-        bed: 'single',
-        guests: 1,
-        image: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=800',
-        rating: "3.9",
-        description: 'The rooms have on-call service, housekeeping service, 24/7 stable and fast Wi-Fi, assistance, airport transfers and lodging if previously informed, and air-conditioned rooms with comfortable beds, comfortable and best hospitality. Breakfast, lunch, and dinner are served to the room, but premium rooms do not have breakfast. Laundry service is available for additional costs.',
-        smallImg1: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=400',
-        smallImg2: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=400',
-        smallImg3: 'https://images.pexels.com/photos/5816562/pexels-photo-5816562.jpeg?auto=compress&cs=tinysrgb&w=400'
-    },
+    // {
+    //     id: 2,
+    //     category: 'premium',
+    //     name: 'Single Bed',
+    //     price: 3000,
+    //     bed: 'single',
+    //     guests: 1,
+    //     image: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     rating: "3.9",
+    //     description: 'The rooms have on-call service, housekeeping service, 24/7 stable and fast Wi-Fi, assistance, airport transfers and lodging if previously informed, and air-conditioned rooms with comfortable beds, comfortable and best hospitality. Breakfast, lunch, and dinner are served to the room, but premium rooms do not have breakfast. Laundry service is available for additional costs.',
+    //     smallImg1: 'https://images.pexels.com/photos/1139784/pexels-photo-1139784.jpeg?auto=compress&cs=tinysrgb&w=400',
+    //     smallImg2: 'https://images.pexels.com/photos/20390786/pexels-photo-20390786/free-photo-of-interior-design-of-room-in-house.jpeg?auto=compress&cs=tinysrgb&w=400',
+    //     smallImg3: 'https://images.pexels.com/photos/5816562/pexels-photo-5816562.jpeg?auto=compress&cs=tinysrgb&w=400'
+    // },
     {
         id: 3,
         category: 'premium',
@@ -212,4 +212,17 @@ export const ImgGallery = [
     "https://images.unsplash.com/photo-1617184003170-1f266c325ff3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG9saXxlbnwwfHwwfHx8MA%3D%3D",
     "https://images.unsplash.com/photo-1519802772250-a52a9af0eacb?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvbGl8ZW58MHx8MHx8fDA%3D",
     "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVldGluZ3N8ZW58MHx8MHx8fDA%3D",
+<<<<<<< HEAD
+    "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWVldGluZ3N8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmlydGhkYXklMjBvcGFydHxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1601268588577-319223ba7cb3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YmlydGhkYXklMjBwYXJ0eXxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1628336707631-68131ca720c3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fGJpcnRoZGF5JTIwcGFydHl8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1517456793572-1d8efd6dc135?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fGJpcnRoZGF5JTIwcGFydHl8ZW58MHx8MHx8fDA%3D",
+    "https://images.unsplash.com/photo-1503315082045-a2bfb5e7f56e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnJpZGFsJTIwc2hvd2VyfGVufDB8fDB8fHww",
+    "https://images.unsplash.com/photo-1628711898288-6e1eff7693f0?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGJyaWRhbCUyMHNob3dlcnxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1587407627257-27b7127c868c?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1683121128953-9a7f08b82198?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1534014003122-b516fbde05d5?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D"
+=======
+>>>>>>> 033485cb1d907cc5fafd0de5845ab772e5d48895
 ];
