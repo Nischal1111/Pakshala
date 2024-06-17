@@ -13,7 +13,7 @@ const {
 
 
 // Add new admin
-adminRoutes.route('/add-admin').post(addAdmin);
+adminRoutes.route('/register-admin').post(addAdmin);
 
 // Login admin
 adminRoutes.route('/login-admin').post(adminLogin);

@@ -13,14 +13,38 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const formData = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
-    });
+    };
+    
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/register-admin`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          alert('Sign up successful');
+        }
+
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
   };
+
+
 
   return (
     <ThemeProvider theme={defaultTheme}>

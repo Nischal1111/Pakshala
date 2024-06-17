@@ -16,7 +16,9 @@ const Tables = () => {
   // Function to fetch table data
   const getAllTableItems = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-items`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-items`,{
+        credentials: 'include'
+      });
       const data = await response.json();
       if (data.success) {
         setTableData(data.tableItems);
@@ -87,6 +89,7 @@ const Tables = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/add-table-item`, {
         method: 'POST',
+        credentials: 'include',
         body: formData
       });
 
@@ -132,6 +135,7 @@ const Tables = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/edit-table-item/${editTableData._id}`, {
         method: 'PATCH',
+        credentials: 'include',
         body: formData
       });
       const data = await response.json();
@@ -159,6 +163,7 @@ const Tables = () => {
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-table-item/${id}`, {
           method: 'DELETE',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json'
           },

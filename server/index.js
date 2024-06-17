@@ -25,8 +25,9 @@ const MenuPdfRoutes = require('./Admin/Routes/MenuPdfRoutes');
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+// app.use(express.static('public'));
 app.use(cors({
+    origin: process.env.ADMIN_URL,
     credentials: true,
 }));
 app.use(cookieParser());
