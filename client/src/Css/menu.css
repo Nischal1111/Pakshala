@@ -117,3 +117,25 @@ form .menu--btn:hover {
     transition: .3s all;
     transform: scale(1.1);
 }
+
+.view-menu{
+    display: flex;
+    margin: 2rem;
+    padding: 1rem;
+    background-color: rgb(253, 235, 238);
+    align-items: center;
+    flex-direction: column;
+
+    p{
+        font-size: 1.3rem;
+        
+    }
+    div{
+        display: flex;
+        gap: 3rem;
+
+        h2{
+            font-size: 1.2rem;
+        }
+    }
+}

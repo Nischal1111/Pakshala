@@ -48,7 +48,7 @@ const Nav = () => {
         </Link>
       </div>
       <div>
-        <button className='location-button'><span> Location </span></button>
+        <button className='location-button' onClick={()=>window.open("https://maps.app.goo.gl/s9Xgkrmjab5SZnTj6","_blank")}><span> Location </span></button>
       </div>
     </div>
   )

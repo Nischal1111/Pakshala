@@ -1,9 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import "../Css/About.css"
 
 const ContactForm = () => {
   const { hash } = useLocation();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleNameChange = (event) => setName(event.target.value);
+  const handleEmailChange = (event) => setEmail(event.target.value);
+  const handleContactChange = (event) => setContact(event.target.value);
+  const handleMessageChange = (event) => setMessage(event.target.value);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(name, email, contact, message);
+    setName("");
+    setEmail("");
+    setContact("");
+    setMessage("");
+  };
 
   useEffect(() => {
     if (hash) {
@@ -19,12 +37,45 @@ const ContactForm = () => {
       <div className="contact-container-form">
         <h3>Send us Message</h3>
         <div className='contact--form'>
-          <form action='https://formspree.io/f/meqwnega' method='POST'>
-            <input className='contact--input' placeholder='Enter your Username' name='username' type='text' autoComplete='off' required />
-            <input className='contact--input' placeholder='Enter your E-mail' name='Email' type='email' autoComplete='off' required />
-            <input className='menu--input' placeholder='Enter your contact number' name='contact' type='number' autoComplete='off' required />
-            <textarea name='message' placeholder='Enter your message' cols='30' rows='6' autoComplete='off' required></textarea>
-            <input type='submit' value='Send' className='contact--btn' />
+          <form onSubmit={handleSubmit}>
+            <input
+              className='contact--input'
+              placeholder='Enter your Fullname'
+              type='text'
+              autoComplete='off'
+              required
+              value={name}
+              onChange={handleNameChange}
+            />
+            <input
+              className='contact--input'
+              placeholder='Enter your E-mail'
+              type='email'
+              autoComplete='off'
+              required
+              value={email}
+              onChange={handleEmailChange}
+            />
+            <input
+              className='menu--input'
+              placeholder='Enter your contact number'
+              type='number'
+              autoComplete='off'
+              required
+              value={contact}
+              onChange={handleContactChange}
+            />
+            <textarea
+              name='message'
+              placeholder='Enter your message'
+              cols='30'
+              rows='6'
+              autoComplete='off'
+              required
+              value={message}
+              onChange={handleMessageChange}
+            ></textarea>
+            <button type="submit" className='contact--btn'>Send</button>
           </form>
         </div>
       </div>

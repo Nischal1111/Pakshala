@@ -13,10 +13,12 @@ const HomeDescripton = () => {
       >
         <h1 className='desc-h1'>Pakshala Restro and Bar</h1>
         <p className='desc-p'>
-          Set on 37 acres of landscaped grounds, Hyatt Regency Kathmandu is a luxury five-star hotel designed in traditional Newari-style architecture, ideally located 
-          only 4 kilometres away from the international airport. Situated in a city with a plethora of ancient sites and fascinating architecture, our hotel is a 
-          gateway to the city’s top attractions like Boudhanath, Pashupatinath, Basantapur, Thamel, Bhaktapur Durbar Square, Patan Durbar Square and much more. 
-          You not only experience luxurious hospitality, but you also get a cultural fest while at Hyatt Regency Kathmandu.
+          Pakshala Restro Bar and Hotel boasts an array of special features that elevate it to a
+          league of its own in the hospitality industry. Firstly, its culinary offerings are a standout
+          feature, with a diverse menu that celebrates both local flavors and international cuisine,
+          prepared by top-tier chefs known for their innovation and expertise. The restro bar itself
+          is a vibrant hub, offering an extensive selection of craft cocktails, fine wines, and spirits
+          in an inviting atmosphere perfect for socializing or unwinding after a day of exploration.
         </p>
       </motion.div>
       <div className="img-div">

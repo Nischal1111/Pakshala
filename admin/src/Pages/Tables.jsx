@@ -3,9 +3,14 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { Edit, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import {userLogged} from "../components/Cookie"
+import {ToastContainer} from "react-toastify"
+import {notify} from "../components/Notify"
+import {delnotify} from "../components/delnotify"
+
+import { ImSpinner2 } from "react-icons/im";
 
 const Tables = () => {
-
+  const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,6 +84,7 @@ const Tables = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true)
     const newErrors = {
       title: newTable.title.trim() === '',
       category: newTable.category.trim() === '',
@@ -106,6 +112,8 @@ const Tables = () => {
 
       const data = await response.json();
       if (data.success) {
+        notify()
+        setLoading(false)
         console.log(data.message);
         getAllTableItems();
       } else {
@@ -135,7 +143,7 @@ const Tables = () => {
 
   const handleEditSubmit = async () => {
     // console.log('Updated Values:', editTableData); // Log updated values
-  
+    setLoading(true)
     const formData = new FormData();
     formData.append('name', editTableData.title);
     formData.append('category', editTableData.category);
@@ -151,13 +159,16 @@ const Tables = () => {
       });
       const data = await response.json();
       if (data.success) {
+        setLoading(false)
         console.log(data.message);
         getAllTableItems();
         handleClose();
       } else {
+        setLoading(false)
         console.error('Error editing table item:', data.message);
       }
     }catch (error) {
+      setLoading(false)
       console.error('Error editing table item:', error);
     }
   };
@@ -183,6 +194,7 @@ const Tables = () => {
 
         const data = await response.json();
         if (data.success) {
+          delnotify()
           setTableData(tableData.filter(item => item._id !== id));
         } else {
           console.error('Error deleting table item:', data.error);
@@ -196,6 +208,7 @@ const Tables = () => {
   return (
     <>
       <div className="menu-content">
+        <ToastContainer/>
         <button onClick={handleOpen} className='add-item'>Add Table</button>
         <div className='menu-table'>
           <TableContainer component={Paper}>
@@ -287,14 +300,17 @@ const Tables = () => {
             </label>
             {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
             {errors.img && <p style={{ color: 'red' }}>Image is required</p>}
-            <Box display="flex" justifyContent="space-between" marginTop="16px">
+            {loading ? <div className='loading-spinner'>
+                        <ImSpinner2 className='loading' />
+                    </div>:(<Box display="flex" justifyContent="space-between" marginTop="16px">
               <Button variant="contained" color="primary" onClick={handleSubmit}>
                 Add
               </Button>
               <Button variant="contained" color="secondary" onClick={handleClose} style={{ backgroundColor: 'red' }}>
                 Cancel
               </Button>
-            </Box>
+            </Box>)}
+            
           </form>
         </Box>
       </Modal>
@@ -342,14 +358,16 @@ const Tables = () => {
               </Button>
             </label>
             {editImagePreview && <img src={editImagePreview.url} alt="Preview" className="image-preview" />}
-            <Box display="flex" justifyContent="space-between" marginTop="16px">
+            {loading ? (<div className='loading-spinner'>
+                        <ImSpinner2 className='loading' />
+                    </div>):(<Box display="flex" justifyContent="space-between" marginTop="16px">
               <Button variant="contained" color="primary" onClick={handleEditSubmit}>
                 Update
               </Button>
               <Button variant="contained" color="secondary" onClick={handleClose}>
                 Cancel
               </Button>
-            </Box>
+            </Box>)}
           </form>
         </Box>
       </Modal>

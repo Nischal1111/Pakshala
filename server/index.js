@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static('public'));
 app.use(cors({
-    origin: process.env.ADMIN_URL,
+    origin: [process.env.ADMIN_URL,process.env.CLIENT_URL],
     credentials: true,
 }));
 app.use(cookieParser());

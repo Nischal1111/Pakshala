@@ -97,13 +97,18 @@ const Menu = () => {
         transition={{ duration: 2, ease: [0.17, 0.67, 0.83, 0.67] }}>
         <MenuMain />
         <MenuSpecial specialMenu={specialMenu} />
-        <div className=''>
-          <p>
+        <div className='view-menu'>
+          <p className=''>
             You can view our menu <Link>here.</Link> You will be redirected to a new page where you can explore all our offerings. Once you've made your selection, please use the form below to place your order.
           </p>
-          <button className='overlay2'>
-            <h2> View Menu </h2>
+          <div>
+          <button className='overlay2' onClick={()=>window.open("","_blank")}>
+            <h2> View Food Menu </h2>
           </button>
+          <button className='overlay2' onClick={()=>window.open("","_blank")}>
+            <h2> View Drink Menu </h2>
+          </button>
+          </div>
         </div>
         <MenuForm/>
         <Footer/>

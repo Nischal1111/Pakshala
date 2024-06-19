@@ -8,10 +8,13 @@ const AboutDesc = () => {
         <div className="about-container">
             <div className="about-text">
                 <h1 className='about-title'>ABOUT US</h1>
-                <p>Set on 37 acres of landscaped grounds, Pakshala Kathmandu is a luxury five-star hotel designed in traditional Newari-style architecture, ideally located 
-                    only 4 kilometres away from the international airport. Situated in a city with a plethora of ancient sites and fascinating architecture, our hotel is a 
-                    gateway to the city’s top attractions like Boudhanath, Pashupatinath, Basantapur, Thamel, Bhaktapur Durbar Square, Patan Durbar Square and much more. 
-                    You not only experience luxurious hospitality, but you also get a cultural fest while at Pakshala Kathmandu.
+                <p>Located in the heart of Kathmandu, Pakshala Restro Bar and Hotel stands as a beacon of modern
+                    elegance and culinary delight. Nestled amidst the bustling streets, this premier establishment
+                    offers a seamless blend of exquisite dining experiences and luxurious accommodations,
+                    promising both locals and travelers alike an unforgettable stay. With its chic ambiance,
+                    impeccable service, and a menu curated to satisfy the most discerning palates, Pakshala Restro
+                    Bar and Hotel epitomizes urban sophistication, making it a coveted destination for indulgence
+                    and relaxation in the city.
                 </p>
             </div>
             <div className="about-img">
