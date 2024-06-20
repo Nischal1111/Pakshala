@@ -2,7 +2,7 @@
 const express = require('express');
 const roomRoutes = express.Router();
 
-// const jwtAuth = require('../Middleware/authMiddleware');
+const jwtAuth = require('../Middleware/authMiddleware');
 
 const multer = require('multer');
 
@@ -18,7 +18,7 @@ const {
   editRoom
 } = require('../Controllers/RoomControl');
 
-// roomRoutes.use(jwtAuth)  // all routes are secured
+roomRoutes.use(jwtAuth)  // all routes are secured
 
 
 // adding room item

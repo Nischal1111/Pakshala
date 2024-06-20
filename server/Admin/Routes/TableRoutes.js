@@ -2,7 +2,7 @@
 const express = require('express');
 const tableRoutes = express.Router();
 
-// const jwtAuth = require('../Middleware/authMiddleware');
+const jwtAuth = require('../Middleware/authMiddleware');
 
 const multer = require('multer');
 
@@ -18,7 +18,7 @@ const {
   editTableItem
 } = require('../Controllers/TableControl');
 
-// tableRoutes.use(jwtAuth)  // all routes are secured
+tableRoutes.use(jwtAuth)  // all routes are secured
 
 // adding roomitem
 tableRoutes.post('/add-table-item', uploader.single('img') ,addTableItem);

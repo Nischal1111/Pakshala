@@ -11,6 +11,8 @@ const addMenuPdf = async (req, res) => {
     }
 
     try {
+
+        const {menu_type} = req.body;
         
         const filePath = file.path;
 
@@ -30,7 +32,8 @@ const addMenuPdf = async (req, res) => {
         // Create new menu pdf
         const menuPdf = new MenuPdf({
             menu_url: uploadedFile.secure_url,
-            menu_public_id: uploadedFile.public_id
+            menu_public_id: uploadedFile.public_id,
+            menu_type
         });
 
         if(!menuPdf){

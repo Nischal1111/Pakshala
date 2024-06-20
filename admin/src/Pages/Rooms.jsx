@@ -205,6 +205,7 @@ const Rooms = () => {
     formData.append('room_name', newRoom.title);
     formData.append('room_category', newRoom.category);
     formData.append('room_price', newRoom.price);
+    formData.append('room_guests', newRoom.guests);
     formData.append('img1', newRoom.img);
     formData.append('img2', newRoom.miniImg1);
     formData.append('img3', newRoom.miniImg2);

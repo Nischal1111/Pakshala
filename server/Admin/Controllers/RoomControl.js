@@ -8,7 +8,7 @@ const {uploadFile , deleteFile} = require('../../Middlewares/UploadFile');
 // room_name, room_price, room_image1, room_image2, room_image3, room_image4,  room_category
 
 const addRoom = async (req, res) => {
-    const { room_name, room_price, room_category } = req.body;
+    const { room_name, room_price,room_guests ,room_category } = req.body;
 
     // Validate required fields
     if (!room_name || !room_price || !room_category) {
@@ -43,6 +43,7 @@ const addRoom = async (req, res) => {
         const room = new Room({
             room_name,
             room_price,
+            room_guests,
             room_image1: {
                 url: uploadedImg1.secure_url,
                 public_id: uploadedImg1.public_id
