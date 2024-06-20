@@ -14,11 +14,11 @@ const ContactForm = () => {
 
     const handleSubmit = (e) => {
       e.preventDefault()
-    console.log(name, email, contact, message);
-    setName("");
-    setEmail("");
-    setContact("");
-    setMessage("");
+      console.log(name, email, contact, message);
+      setName("");
+      setEmail("");
+      setContact("");
+      setMessage("");
   };
   return (
     <div className='menu-choose2'>

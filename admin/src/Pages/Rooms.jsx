@@ -60,6 +60,8 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
                 <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Name</TableCell>
                 <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Category</TableCell>
                 <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Guests</TableCell>
+                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Single Beds</TableCell>
+                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Double Beds</TableCell>
                 <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Price</TableCell>
                 <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Actions</TableCell>
               </TableRow>
@@ -73,7 +75,9 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
                   </TableCell>
                   <TableCell className='table-row'>{item.room_name}</TableCell>
                   <TableCell className='table-row'>{item.room_category}</TableCell>
-                  {/* <TableCell className='table-row'>{item.room_guests}</TableCell> */}
+                  <TableCell className='table-row'>{item.room_guests}</TableCell>
+                  <TableCell className='table-row'>{item.single_beds !== 0 && item.single_beds}</TableCell>
+                  <TableCell className='table-row'>{item.double_beds !== 0 && item.double_beds}</TableCell>
                   <TableCell className='table-row'>Rs. {item.room_price}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleEdit(item._id)}>
@@ -105,8 +109,8 @@ const Rooms = () => {
 
   const [roomData, setRoomData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [newRoom, setNewRoom] = useState({ title: '', category: '', price: '',guests:"", img: null, miniImg1: null, miniImg2: null, miniImg3: null });
-  const [errors, setErrors] = useState({ title: false, category: false, price: false,guests:false, img: false, miniImg1: false, miniImg2: false, miniImg3: false });
+  const [newRoom, setNewRoom] = useState({ title: '', category: '', price: '',guests:"", single_beds: 0, double_beds: 0, img: null, miniImg1: null, miniImg2: null, miniImg3: null });
+  const [errors, setErrors] = useState({ title: false, category: false, price: false,guests:false, single_beds: false, double_beds: false, img: false, miniImg1: false, miniImg2: false, miniImg3: false });
   const [imagePreview, setImagePreview] = useState(null);
   const [miniImagePreview, setMiniImagePreview] = useState({ miniImg1: null, miniImg2: null, miniImg3: null });
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -188,8 +192,9 @@ const Rooms = () => {
       title: newRoom.title.trim() === '',
       category: newRoom.category.trim() === '',
       price: newRoom.price.trim() === '',
-      price: newRoom.guests.trim() === '',
-
+      guests: newRoom.guests.trim() === '',
+      single_beds: newRoom.single_beds === '',
+      double_beds: newRoom.double_beds === '',
       img: newRoom.img === null,
       miniImg1: newRoom.miniImg1 === null,
       miniImg2: newRoom.miniImg2 === null,
@@ -206,6 +211,8 @@ const Rooms = () => {
     formData.append('room_category', newRoom.category);
     formData.append('room_price', newRoom.price);
     formData.append('room_guests', newRoom.guests);
+    formData.append('single_beds', newRoom.single_beds);
+    formData.append('double_beds', newRoom.double_beds);
     formData.append('img1', newRoom.img);
     formData.append('img2', newRoom.miniImg1);
     formData.append('img3', newRoom.miniImg2);
@@ -224,7 +231,7 @@ const Rooms = () => {
       if (data.success) {
         console.log(data.message);
         getAllRooms();
-        setNewRoom({ title: '', category: '', price: '',guests:"", img: null, miniImg1: null, miniImg2: null, miniImg3: null });
+        setNewRoom({ title: '', category: '', price: '',guests:"", single_beds: 0, double_beds: 0, img: null, miniImg1: null, miniImg2: null, miniImg3: null });
         setImagePreview(null);
         setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
         handleClose();
@@ -254,17 +261,17 @@ const Rooms = () => {
   };
 
   const handleEditSubmit = async () => {
-
-    
     const formData = new FormData();
     formData.append('room_name', editRoomData.room_name);
     formData.append('room_category', editRoomData.room_category);
     formData.append('room_price', editRoomData.room_price);
+    formData.append('room_guests', editRoomData.room_guests);
+    formData.append('single_beds', editRoomData.single_beds);
+    formData.append('double_beds', editRoomData.double_beds);
     formData.append('img1', editRoomData.room_image1);
     formData.append('img2', editRoomData.room_image2);
     formData.append('img3', editRoomData.room_image3);
     formData.append('img4', editRoomData.room_image4);
-
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/update-room/${editRoomData._id}`, {
@@ -283,8 +290,6 @@ const Rooms = () => {
     } catch (error) {
       console.error('Error updating room:', error);
     }
-
-   
   };
 
   return (
@@ -337,7 +342,29 @@ const Rooms = () => {
               fullWidth
               margin="normal"
               error={errors.guests}
-              helperText={errors.price ? "No. of guests is required" : ""}
+              helperText={errors.guests ? "No. of guests is required" : ""}
+            />
+            <TextField
+              label="Single Beds"
+              name="single_beds"
+              type="number"
+              value={newRoom.single_beds}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              error={errors.single_beds}
+              helperText={errors.single_beds ? "Single beds is required" : ""}
+            />
+            <TextField
+              label="Double Beds"
+              name="double_beds"
+              type="number"
+              value={newRoom.double_beds}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              error={errors.double_beds}
+              helperText={errors.double_beds ? "Double beds is required" : ""}
             />
             <input
               accept="image/*"
@@ -444,10 +471,28 @@ const Rooms = () => {
               margin="normal"
             />
             <TextField
-              label="guests"
+              label="Guests"
               name="room_guests"
               type="number"
-              // value={editRoomData?.room_guests || ''}
+              value={editRoomData?.room_guests || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Single Beds"
+              name="single_beds"
+              type="number"
+              value={editRoomData?.single_beds || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Double Beds"
+              name="double_beds"
+              type="number"
+              value={editRoomData?.double_beds || ''}
               onChange={handleChange}
               fullWidth
               margin="normal"
