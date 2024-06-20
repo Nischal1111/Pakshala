@@ -20,6 +20,10 @@ const RoomSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    room_guests: {
+        type: Number,
+        required: true
+    },
     room_image1: {
         type: ImageSchema,
         required: true

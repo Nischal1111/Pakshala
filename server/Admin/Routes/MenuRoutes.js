@@ -4,6 +4,8 @@ const menuRoutes = express.Router();
 
 const multer = require('multer');
 
+const jwtAuth = require('../Middleware/authMiddleware');
+
 const uploader= multer({
     storage: multer.diskStorage({})
 });
@@ -15,6 +17,9 @@ const {
   deleteMenuItem
 } = require('../Controllers/MenuControl');
 
+
+// middleware
+menuRoutes.use(jwtAuth);
 
 
 // adding menu item

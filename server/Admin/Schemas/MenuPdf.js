@@ -8,6 +8,10 @@ const pdfMenuSchema = new mongoose.Schema({
     menu_public_id: {
         type: String,
         required: true
+    },
+    menu_type: {
+        type: String,
+        required: true
     }
 },{
     timestamps: true

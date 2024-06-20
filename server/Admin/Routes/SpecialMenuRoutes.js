@@ -3,6 +3,8 @@ const SpecialMenuRoutes = express.Router();
 
 const multer = require('multer');
 
+const jwtAuth = require('../Middleware/authMiddleware');
+
 const{
     getSpecialMenuItems,
     addSpecialMenuItem,
@@ -13,6 +15,9 @@ const{
 const uploader = multer({
     storage: multer.diskStorage({})
 });
+
+// middleware
+SpecialMenuRoutes.use(jwtAuth);
 
 
 
