@@ -1,49 +1,90 @@
-.home-desc{
+.home-desc {
     display: flex;
-    height: 100vh;
+    flex-direction: column-reverse;
+    align-items: center;
+    height: auto;
     width: 100vw;
     gap: 2rem;
     padding-bottom: 1rem;
     background-color: rgb(248, 246, 244);
 }
 
-.desc-text{
-    padding-top: 8rem;
-    width: 50%;
+.desc-text {
+    padding-top: 2rem;
+    width: 90%;
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-bottom: 2rem;
 }
-.img-div{
-    width:40%;
-    margin-top: 6rem;
-    padding: 2rem;
-    height: 70%;
+
+.img-div {
+    width: 90%;
+    margin-top: 2rem;
+    height: auto;
     background-color: rgb(249, 246, 242);
-    border-radius: 15rem 0rem 12rem 0rem;
+    border-radius:.3rem;
     box-shadow: 8px 16px 32px rgba(213, 98, 35, 0.4);
 }
-.img-desc{
-    position: relative;
+
+.img-desc {
     width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: cover;
-    border-radius: 12rem 0rem 10rem 0rem;
+    border-radius: .3rem;
 }
 
-.desc-text .desc-h1{
+.desc-text .desc-h1 {
     letter-spacing: 1px;
-    margin-bottom: 1rem;
-        font-size: 2.5rem;
-        font-weight: 600;
-        font-family: "Inika";
+    font-size: 1.5rem;
+    margin: -1rem 2rem 1rem 2rem;
+    font-weight: 600;
+    font-family: "Inika";
+    text-align: center;
 }
 
-.desc-text .desc-p{
-    font-size: 1.1rem;
-    line-height: 2.5rem;
+.desc-text .desc-p {
+    font-size: 0.9rem;
+    line-height: 1.4rem;
     text-align: justify;
-    width: 70%;
+    width: 100%;
     font-weight: 400;
+    padding: 0 1rem;
 }
 
+@media (min-width: 768px) {
+    .home-desc {
+        flex-direction: row;
+        height: 100vh;
+    }
+
+    .desc-text {
+        padding-top: 8rem;
+        width: 50%;
+    }
+
+    .img-div {
+        width: 40%;
+        padding: 2rem;
+        height: 70%;
+        border-radius: 15rem 0rem 12rem 0rem;
+    }
+
+    .img-desc {
+        height: 100%;
+        border-radius: 12rem 0rem 10rem 0rem;
+    }
+
+    .desc-text .desc-h1 {
+        font-size: 2.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .desc-text .desc-p {
+        font-size: 1.2rem;
+        line-height: 2.5rem;
+        width: 70%;
+        padding: 0rem;
+    }
+}
