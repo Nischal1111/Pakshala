@@ -28,6 +28,25 @@ const uploadFile = async (file,folder) => {
     }
 }
 
+
+//for pdf files
+const uploadFilePdf = async (file,folder) => {
+    try {
+        const uploadResult = await cloudinary.uploader.upload(file, {
+            folder:`${folder}`,
+            resource_type: 'auto',
+            format: 'pdf'
+        });
+        if(!uploadResult) {
+            throw new Error('Error uploading file');
+        }
+        // console.log(uploadResult);
+        return uploadResult;
+    } catch (error) {
+        console.log("Error on cloudinary :",error);
+    }
+}
+
 // delete file
 
 const deleteFile = async (public_id) => {
@@ -47,6 +66,7 @@ const deleteFile = async (public_id) => {
 
 module.exports = {
     uploadFile,
+    uploadFilePdf,
     deleteFile
 };
 

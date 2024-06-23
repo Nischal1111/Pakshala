@@ -24,6 +24,7 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ 
           image1: itemdel.room_image1.public_id,
           image2: itemdel.room_image2.public_id,
@@ -120,7 +121,14 @@ const Rooms = () => {
 
   const getAllRooms = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-rooms`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-rooms`,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      
+      });
       const data = await response.json();
       setRoomData(data.rooms || []);
       console.log(data.rooms);
@@ -219,11 +227,15 @@ const Rooms = () => {
     formData.append('img4', newRoom.miniImg3);
     
 
-    // console.log('rd',roomData)
+    console.log('rd',newRoom)
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/add-room`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
         body: formData
       });
 
@@ -276,6 +288,7 @@ const Rooms = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/update-room/${editRoomData._id}`, {
         method: 'PATCH',
+        credentials: 'include',
         body: formData
       });
 

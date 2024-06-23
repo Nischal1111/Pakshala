@@ -1,50 +1,51 @@
 const MenuPdf = require('../Schemas/MenuPdf');
 
-const {uploadFile , deleteFile} = require('../../Middlewares/UploadFile');
+const {uploadFile, uploadFilePdf , deleteFile} = require('../../Middlewares/UploadFile');
 
 
 // add file
 const addMenuPdf = async (req, res) => {
-    // Validate required fields
-    if (!req.file) {
-        return res.status(400).json({success:false, message: 'Please upload menu pdf.' });
-    }
-
     try {
+        const menuFile = req.files['file'] ? req.files['file'][0] : null;
+        const drinkFile = req.files['drink'] ? req.files['drink'][0] : null;
 
-        const {menu_type} = req.body;
-        
-        const filePath = file.path;
-
-        if (!filePath) {
-            return res.status(400).json({success:false, message: 'Please upload menu pdf.' });
-        }// Destructure and validate files
-        const { file } = req;
-
-        if (!file) {
-            return res.status(400).json({success:false, message: 'Please upload menu pdf.' });
+        if (!menuFile || !drinkFile) {
+            return res.status(400).json({ success: false, message: 'Both menu and drink files are required.' });
         }
 
+        // Process the uploaded files
+        const menuFilePath = menuFile.path;
+        const drinkFilePath = drinkFile.path;
 
-        // Upload file and gather URL
-        const uploadedFile = await uploadFile(filePath, 'menu_pdf');
+        console.log('Menu file path:', menuFilePath);
+        console.log('Drink file path:', drinkFilePath);
 
-        // Create new menu pdf
+        // Upload files and gather URLs (assuming uploadFile is a function that handles the file upload)
+        const uploadedMenuFile = await uploadFilePdf(menuFilePath, 'menus');
+        const uploadedDrinkFile = await uploadFilePdf(drinkFilePath, 'menus');
+
+        // Create new menu and drink records
         const menuPdf = new MenuPdf({
-            menu_url: uploadedFile.secure_url,
-            menu_public_id: uploadedFile.public_id,
-            menu_type
+            menu_file: {
+                menu_url: uploadedMenuFile.secure_url,
+                menu_public_id: uploadedMenuFile.public_id
+            },
+            drink_file: {
+                menu_url: uploadedDrinkFile.secure_url,
+                menu_public_id: uploadedDrinkFile.public_id
+            }
         });
 
-        if(!menuPdf){
-            return res.status(400).json({success:false, message: 'Error in saving menu pdf.' });
-        }
+        // Save the menu and drink records to the database
+        await menuPdf.save();
 
-        res.status(201).json({success:true, message: 'Menu pdf added successfully.' });
+        res.status(201).json({ success: true, message: 'Menu and drink PDFs added successfully.' });
     } catch (error) {
-        res.status(500).json({success:false, message: 'Internal server error.' });
+        console.error('Error adding menu PDF:', error);
+        res.status(500).json({ success: false, message: 'Internal server error.' });
     }
-}
+};
+
 
 
 // get all menu pdfs
@@ -75,6 +76,7 @@ const deleteMenuPdf = async (req, res) => {
         }
 
         await deleteFile(menuPdf.menu_public_id);
+        await deleteFile(menuPdf.drink_public_id);
         await menuPdf.remove();
 
         res.status(200).json({success:true, message: 'Menu pdf deleted successfully.' });

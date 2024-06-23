@@ -9,27 +9,19 @@ const {uploadFile , deleteFile} = require('../../Middlewares/UploadFile');
 const addSpecialMenuItem = async (req, res) => {
     const { item_name } = req.body;
 
+    console.log(item_name)
+
+
     // Validate required fields
     if (!item_name) {
         return res.status(400).json({success:false, message: 'All fields are required.' });
     }
 
-    // Check if files are provided
-    if (!req.files) {
-        return res.status(400).json({success:false, message: 'Please upload special menu item image.' });
-    }
-    // console.log(req.files);
 
     try {
         // Destructure and validate files
-        const { img } = req.files;
+        const imgPath = req.file.path;
 
-        if (!img) {
-            return res.status(400).json({success:false, message: 'Please upload special menu item image.' });
-        }
-
-        
-        const imgPath = img[0].path;
 
         // Upload image and gather URL
         const uploadedImg = await uploadFile(imgPath, 'special_menu');

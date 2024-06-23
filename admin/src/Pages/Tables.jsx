@@ -103,6 +103,8 @@ const Tables = () => {
     formData.append('guest', newTable.guests);
     formData.append('img', newTable.img);
 
+    console.log('New Table:', newTable);
+
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/add-table-item`, {
         method: 'POST',
