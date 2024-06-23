@@ -81,6 +81,7 @@
     position: relative;
     background-color: transparent;
     transition: 0.2s ease-in-out;
+    visibility:initial;
 }
 
 .location-button span {
@@ -133,53 +134,54 @@
     width: 100vw;
     object-fit: contain;
 }
-.dropdown {
-    position:absolute;
-    top:3.1rem;
-    left: 38%;
-    width: 8rem;
+
+.hamburger {
+    display: none;
+    flex-direction: column;
     cursor: pointer;
-    padding: .3rem;
-    background-color: #FEF5EB;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    border-radius: 0.3rem;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    z-index: 1000;
+    margin-right: 2rem;
 }
 
-.dropdown.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: black;
+    margin: 4px 0;
+    transition: 0.4s;
 }
 
-.sub-menu {
-    font-size: .8rem;
-    font-family: "Lato";
-    color: rgb(98, 97, 97);
-    font-weight: 400;
-    text-decoration: none;
-    border-radius: 0.3rem;
-    letter-spacing: 1.5px;
-    transition: 0.3s all;
-    padding: .3rem;
+@media (max-width: 768px) {
+    .nav-link {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 4rem;
+        left: 0;
+        background-color: #FEF5EB;
+        z-index: 9;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, .2);
+    }
 
-    li{
-        padding: .4rem .6rem;
-        border-radius: .2rem;
+    .nav-link-item {
+        margin: 1rem 0;
+        text-align: center;
+    }
+
+    .nav-link.show {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+        position: absolute;
+        right: 0;
+    }
+
+    .location-button {
+       visibility: hidden;
     }
 }
-
-.sub-menu li:hover{
-    background-color: #fddfbe;
-    color: #121212;
-    transition: .3s all;
-    transform: scale(1.08);
-}
-
 /* FooterCSS */
 
 .footer{
@@ -290,6 +292,11 @@
     font-weight: 700;
     margin-bottom: 2rem;
     }
+
+@media (max-width: 768px) {
+    
+}
+
 
 /* Events */
 .galleryImg {

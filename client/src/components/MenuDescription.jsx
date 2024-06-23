@@ -12,7 +12,7 @@ const MenuDescription = () => {
   return (
     <motion.div className='menu-desc' >
         <motion.div className="images-div" variants={fadeIn('up', 'tween', .2, .7) } initial="hidden" whileInView="show" viewport={{once:"true"}}>
-            <div style={{width:"100%",display:"flex"}}>
+            <div style={{width:"100%",display:"flex"}} className='images-div-menu-food'>
             <div className="main-food-div">
                 <img src={mainFood} alt="main-food" className='mainfood-img'/>
             </div>

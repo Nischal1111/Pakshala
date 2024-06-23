@@ -28,13 +28,13 @@ const ServiceCard = ({ item,index }) => {
                 <Typography gutterBottom variant="h5" component="div" style={{fontFamily:"Lato",fontSize:"1.4rem",letterSpacing:"2px"}}>
                     {item.name}
                 </Typography>
-                <Typography variant="body2" style={{fontFamily:"Lato",fontSize:".9rem",letterSpacing:"1.2px",color:"black",lineHeight:"2rem"}}>
+                <Typography variant="body2" style={{fontFamily:"Lato",fontSize:".9rem",letterSpacing:"1.2px",color:"black",lineHeight:"2rem"}} className='service-card-desc'>
                     {item.description}
                 </Typography>
             </CardContent>
             <CardActions >
                 <Link to={item.link} style={{width:"100%"}}>
-                    <Button style={{fontSize: ".8rem",border: "1px solid white",background: "#C7C8CC",padding: ".5rem 1rem",color:"white",bottom:"0px",width:"30%",textTransform:"capitalize"}}>{item.button}</Button>
+                    <Button style={{fontSize: ".8rem",border: "1px solid white",background: "#C7C8CC",padding: ".5rem 1rem",color:"white",bottom:"0px",width:"30%",textTransform:"capitalize"}} className='service-card-button'>{item.button}</Button>
                 </Link>
             </CardActions>
         </motion.Card>
