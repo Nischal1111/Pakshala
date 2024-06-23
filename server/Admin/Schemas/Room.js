@@ -24,6 +24,14 @@ const RoomSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    room_single_beds: {
+        type: Number,
+        required: true
+    },
+    room_double_beds: {
+        type: Number,
+        required: true
+    },
     room_image1: {
         type: ImageSchema,
         required: true

@@ -1,6 +1,8 @@
 const express = require('express');
 const MenuPdfRoutes = express.Router();
 
+const jwtAuth = require('../Middleware/authMiddleware');
+
 const {
     addMenuPdf,
     getMenuPdfs,
@@ -13,13 +15,19 @@ const uploader = multer({
     storage: multer.diskStorage({})
 });
 
+// middleware
+MenuPdfRoutes.use(jwtAuth);
 
 // Get all menu pdfs
 MenuPdfRoutes.route('/get-menu-pdf').get(getMenuPdfs);
 
 
 // add menu pdf
-MenuPdfRoutes.route('/add-menu-pdf').post(uploader.single('file') ,addMenuPdf);
+MenuPdfRoutes.route('/add-menu-pdf').post(uploader.fields([
+    { name: 'file', maxCount: 1 },
+    { name: 'drink', maxCount: 1 }
+]) 
+,addMenuPdf);
 
 
 // delete menu pdf

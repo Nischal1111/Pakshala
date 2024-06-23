@@ -9,6 +9,11 @@ const cors = require('cors');
 require('dotenv').config()
 
 const cookieParser = require('cookie-parser');
+// const bodyParser = require('body-parser');
+
+// app.use(bodyParser.json({ limit: '50mb' })); 
+// app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
 
 port = process.env.PORT
 
