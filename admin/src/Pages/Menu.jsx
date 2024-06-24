@@ -3,7 +3,12 @@ import "../css/menu.css";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { Button, Modal, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { userLogged } from "../components/Cookie"
+import { userLogged } from "../components/Cookie";
+import { notify } from '../components/Notify';
+import { ToastContainer } from 'react-toastify';
+import { ImSpinner2 } from "react-icons/im";
+import { delnotify } from '../components/delnotify';
+import { FaRegEye } from "react-icons/fa";
 
 const Special = () => {
   const [open, setOpen] = useState(false);
@@ -11,9 +16,15 @@ const Special = () => {
   const [itemName, setItemName] = useState('');
   const [itemImage, setItemImage] = useState(null);
   const [imagePath, setImagePath] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setItemName('');
+    setItemImage(null);
+    setImagePath(null);
+  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -23,8 +34,8 @@ const Special = () => {
     }
   };
 
-  //adding special items to database
   const handleAddItem = async () => {
+    setLoading(true);
     if (itemName && imagePath) {
       const formData = new FormData();
       formData.append('item_name', itemName);
@@ -39,83 +50,83 @@ const Special = () => {
         const data = await response.json();
 
         if (data.success) {
-          alert('Special item added successfully.');
-          setItems([...items, { name: itemName, image: itemImage }]);
-          setItemName('');
-          setItemImage(null);
-          setImagePath(null);
+          notify();
+          setItems([...items, { _id: data.newItem._id, item_name: itemName, item_image: { url: itemImage } }]);
           handleClose();
         } else {
           alert('Failed to add special item.');
         }
       } catch (error) {
         console.log("Error on adding menu:", error);
+      } finally {
+        setLoading(false);
       }
     } else {
       alert("Please provide both an item name and image.");
+      setLoading(false);
     }
   };
 
-    //for getting all the special menus
-    const getSpecialMenu = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/get-special-menu`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-        const data = await response.json();
-        if(data.success){
-          console.log(data.specialMenuItems);
-          setItems(data.specialMenuItems)
-        }
-      } catch (error) {
-        console.log("Error on getting special menu:", error);
+  const getSpecialMenu = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-special-menu`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (data.success) {
+        setItems(data.specialMenuItems);
       }
-    };
-
-
-const handleRemoveItem = async (id) => {
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-special-menu/${id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    });
-    const data = await response.json();
-
-    if (data.success) {
-      const newItems = items.filter((item) => item._id !== id);
-      setItems(newItems);
-      alert('Special item deleted successfully.');
-    } else {
-      alert('Failed to delete special item.');
+    } catch (error) {
+      console.log("Error on getting special menu:", error);
     }
-  } catch (error) {
-    console.log("Error on deleting menu:", error);
-    alert('Failed to delete special item. Please try again.');
-  }
-};
+  };
 
+  const handleRemoveItem = async (id) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-special-menu/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      const data = await response.json();
 
-  
+      if (data.success) {
+        setItems(items.filter((item) => item._id !== id));
+        delnotify();
+      } else {
+        alert('Failed to delete special item.');
+      }
+    } catch (error) {
+      console.log("Error on deleting menu:", error);
+      alert('Failed to delete special item. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     getSpecialMenu();
   }, []);
 
-
   return (
     <section>
+      <ToastContainer />
       <div className='special-div'>
         <h1>Today's Special</h1>
         <div style={{ display: "flex" }}>
-          {items.map((item, index) => (
-            <div className='special-card' key={index}>
-              <img src={item.item_image.url} alt={item.item_name} style={{ width: "100%", height: "60%", objectFit: "cover" }} />
+          {items.map((item) => (
+            <div className='special-card' key={item._id}>
+              <img src={item.item_image?.url} alt={item.item_name} style={{ width: "100%", height: "60%", objectFit: "cover" }} />
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: ".5rem" }}>
                 <p style={{ fontSize: "1.2rem", letterSpacing: "3px", marginRight: "2rem" }}>{item.item_name}</p>
-                <FaTrash
-                  style={{ cursor: "pointer", color: "red", marginLeft: "2rem" }}
-                  onClick={() => handleRemoveItem(item._id)}
-                />
+                <div className='fa-trash'>
+                  <FaTrash
+                    style={{ cursor: "pointer", color: "red", marginLeft: "2rem" }}
+                    className='fa-trash-icon'
+                    onClick={() => handleRemoveItem(item._id)}
+                  />
+                </div>
               </div>
             </div>
           ))}
@@ -125,7 +136,7 @@ const handleRemoveItem = async (id) => {
         </div>
       </div>
       <Modal open={open} onClose={handleClose}>
-        <div className='modal-box' style={{maxHeight:"90vh",overflow:"auto"}}>
+        <div className='modal-box' style={{ maxHeight: "90vh", overflow: "auto" }}>
           <h2>Add Special Item</h2>
           <TextField
             label="Item Name"
@@ -143,7 +154,7 @@ const handleRemoveItem = async (id) => {
             onChange={handleImageChange}
           />
           <label htmlFor="item-image-file">
-            <Button variant="contained" component="span">
+            <Button variant="contained" component="span" style={{ border: "none", backgroundColor: "transparent", color: "blue", boxShadow: "none", textDecoration: "underline" }}>
               Upload Item Image
             </Button>
           </label>
@@ -152,18 +163,25 @@ const handleRemoveItem = async (id) => {
               <img src={itemImage} alt="Preview" style={{ width: '100%', height: 'auto', marginTop: '10px' }} />
             </div>
           )}
-          <Button variant="contained" color="primary" onClick={handleAddItem} style={{ marginTop: '10px' }}>
-            Add Item
-          </Button>
+          {loading ? (
+            <div className='loading-spinner'>
+              <ImSpinner2 className='loading' />
+            </div>
+          ) : (
+            <Button variant="contained" color="primary" onClick={handleAddItem} style={{ marginTop: '10px' }}>
+              Add Item
+            </Button>
+          )}
         </div>
       </Modal>
     </section>
   );
 };
 
+
 const Menu = () => {
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     if (!userLogged()) {
       navigate('/login');
@@ -171,9 +189,13 @@ const Menu = () => {
   }, [navigate]);
 
   const [file, setFile] = useState(null);
-  const[filePath, setFilePath] = useState(null); 
+  const [filePath, setFilePath] = useState(null);
   const [drinkfile, setDrinkFile] = useState(null);
   const [drinkFilePath, setDrinkFilePath] = useState(null);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [MenuPDF,setMenuPDF]=useState(null)
+  const [DrinkPDF,setDrinkPDF]=useState(null)
+    const [loading, setLoading] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -196,76 +218,72 @@ const Menu = () => {
     }
   };
 
-
-// for uploading menu and dirnk pdf
-
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('file', filePath);
     formData.append('drink', drinkFilePath);
 
     try {
-      const response =await fetch(`${process.env.REACT_APP_API_URL}/add-menu-pdf`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/add-menu-pdf`, {
         method: 'POST',
         credentials: 'include',
         body: formData,
       });
       const data = await response.json();
-      if(data.success){
-        alert('Menu added successfully');
+      if (data.success) {
+        notify()
+        setFile(null)
+        setDrinkFile(null)
+        setUploadSuccess(true); // Set upload success state to true
         getMenuPdf();
-      }else{
+      } else {
         alert('Failed to add menu');
       }
-      
     } catch (error) {
       console.log("Error on adding menu:", error);
-    } 
+    }
   };
 
-// for getting all the menu pdfs
-const getMenuPdf = async () => {
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/get-menu-pdf`, {
-      method: 'GET',
-      credentials: 'include',
-    });
-    const data = await response.json();
-    if(data.success){
-      console.log(data.menuPdfs);
+  const getMenuPdf = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-menu-pdf`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (data.success) {
+        console.log(data.menuPdfs[0].menu_file._id)
+        setMenuPDF(data.menuPdfs[0].menu_file.menu_url)
+        setDrinkPDF(data.menuPdfs[0].drink_file.menu_url)
+      }
+    } catch (error) {
+      console.log("Error on getting menu pdf:", error);
     }
-  } catch (error) {
-    console.log("Error on getting menu pdf:", error);
-  }
-}
+  };
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-menu-pdf/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (data.success) {
 
-// for deleting menu pdf
-
-const handleDelete = async(id) => {
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-menu-pdf/${id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    });
-    const data = await response.json();
-    if(data.success){
-      alert('Menu deleted successfully');
-      getMenuPdf();
-    }else{
-      alert('Failed to delete menu');
+        delnotify()
+        getMenuPdf();
+      } else {
+        alert('Failed to delete menu');
+      }
+    } catch (error) {
+      console.log("Error on deleting menu:", error);
     }
-  } catch (error) {
-    console.log("Error on deleting menu:", error);
-  }
-}
+  };
 
-useEffect(() => {
-  getMenuPdf();
-}, []);
-
-
+  useEffect(() => {
+    getMenuPdf();
+  }, []);
 
   return (
     <>
@@ -282,7 +300,7 @@ useEffect(() => {
               onChange={handleFileChange}
             />
             <label htmlFor="raised-button-file">
-              <Button variant="contained" component="span" className='upload-img2' style={{marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border:"none", color: "black",boxShadow:"none",color:"blue" }}>
+              <Button variant="contained" component="span" className='upload-img2' style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "none", color: "black", boxShadow: "none", color: "blue",textDecoration:"underline" }}>
                 Upload Menu File
               </Button>
             </label>
@@ -306,7 +324,7 @@ useEffect(() => {
               onChange={handleDrink}
             />
             <label htmlFor="raised-drink-file">
-              <Button variant="contained" component="span" className='upload-img2' style={{marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border:"none", color: "black",boxShadow:"none",color:"blue" }}>
+              <Button variant="contained" component="span" className='upload-img2' style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "none", color: "black", boxShadow: "none", color: "blue",textDecoration:"underline"}}>
                 Upload Drinks File
               </Button>
             </label>
@@ -317,14 +335,42 @@ useEffect(() => {
                   width="100%"
                   height="600px"
                   style={{ border: "none", marginTop: "20px" }}
-                  title="DrinkPDF"
+                  title="Drink PDF"
                 ></iframe>
               </div>
             )}
+            {loading ? <><div className='loading-spinner'>
+              <ImSpinner2 className='loading' />
+            </div></>:(<>
             <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "" }}>
               Confirm Upload
             </Button>
+            </>)}
           </form>
+          {uploadSuccess && (<>
+          <div style={{display:"flex",flexDirection:"column"}}>
+            <div>
+            <Button variant="contained" className='view-button' onClick={()=>window.open(MenuPDF,"_blank")} style={{marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "1px solid black", color: "black", boxShadow: "none"}}>
+              View Food Menu <FaRegEye style={{marginLeft:".5rem"}}/>
+            </Button>
+             <FaTrash
+                    style={{ cursor: "pointer", color: "red", marginLeft: "2rem" }}
+                    className='fa-trash-icon'
+                  />
+            </div>
+            <div>
+            <Button variant="contained" className='view-button' onClick={()=>window.open(DrinkPDF,"_blank")} style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "1px solid black", color: "black", boxShadow: "none" }}>
+              View Drink Menu <FaRegEye style={{marginLeft:".5rem"}}/>
+            </Button>
+             <FaTrash
+                    style={{ cursor: "pointer", color: "red", marginLeft: "2rem" }}
+                    className='fa-trash-icon'
+                    onClick={()=>handleDelete(MenuPDF._id)}
+                  />
+            </div>
+          </div>
+          </>
+          )}
         </div>
       </div>
     </>
@@ -332,3 +378,4 @@ useEffect(() => {
 };
 
 export default Menu;
+

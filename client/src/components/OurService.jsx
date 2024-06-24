@@ -24,11 +24,12 @@ const ServiceCard = ({ item,index }) => {
                 image={item.imgSrc}
                 className='service-img'
             />
+            <div className='responsive-service'>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{fontFamily:"Lato",fontSize:"1.4rem",letterSpacing:"2px"}}>
+                <Typography gutterBottom variant="h5" component="div" style={{fontFamily:"Lato",fontSize:"1.3rem",letterSpacing:"2px"}} className='service-name'>
                     {item.name}
                 </Typography>
-                <Typography variant="body2" style={{fontFamily:"Lato",fontSize:".9rem",letterSpacing:"1.2px",color:"black",lineHeight:"2rem"}} className='service-card-desc'>
+                <Typography variant="body2" style={{fontFamily:"Lato",fontSize:".9rem",letterSpacing:"1.2px",color:"black"}} className='service-card-desc'>
                     {item.description}
                 </Typography>
             </CardContent>
@@ -37,6 +38,7 @@ const ServiceCard = ({ item,index }) => {
                     <Button style={{fontSize: ".8rem",border: "1px solid white",background: "#C7C8CC",padding: ".5rem 1rem",color:"white",bottom:"0px",width:"30%",textTransform:"capitalize"}} className='service-card-button'>{item.button}</Button>
                 </Link>
             </CardActions>
+            </div>
         </motion.Card>
     );
 };
