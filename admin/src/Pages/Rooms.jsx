@@ -4,6 +4,10 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { Edit, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import {userLogged} from "../components/Cookie"
+import {notify} from "../components/Notify"
+import { ToastContainer } from 'react-toastify';
+import { ImSpinner2 } from 'react-icons/im';
+import { delnotify } from '../components/delnotify';
 
 const RoomList = ({ roomData, setRoomData, handleEdit }) => {
   const [search, setSearch] = useState('');
@@ -35,6 +39,9 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
       const data = await deleteR.json();
       if (data.success) {
         window.location.reload();
+        setTimeout(() => { 
+          delnotify()
+        }, 500);
         
       }else{
         console.log(data.message);
@@ -77,8 +84,8 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
                   <TableCell className='table-row'>{item.room_name}</TableCell>
                   <TableCell className='table-row'>{item.room_category}</TableCell>
                   <TableCell className='table-row'>{item.room_guests}</TableCell>
-                  <TableCell className='table-row'>{item.single_beds !== 0 && item.single_beds}</TableCell>
-                  <TableCell className='table-row'>{item.double_beds !== 0 && item.double_beds}</TableCell>
+                  <TableCell className='table-row'>{item.room_single_beds}</TableCell>
+                  <TableCell className='table-row'>{item.room_double_beds}</TableCell>
                   <TableCell className='table-row'>Rs. {item.room_price}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleEdit(item._id)}>
@@ -118,6 +125,7 @@ const Rooms = () => {
   const [editRoomData, setEditRoomData] = useState(null);
   const [editImagePreview, setEditImagePreview] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
+  const [loading,setLoading]=useState(false)
 
   const getAllRooms = async () => {
     try {
@@ -153,56 +161,59 @@ const Rooms = () => {
   };
 
   const handleChange = (event) => {
-    const { name, value, files } = event.target;
-    if (editModalOpen) {
-      if (name === 'img') {
-        setEditRoomData({ ...editRoomData, room_image1: files[0] });
-        setEditImagePreview(URL.createObjectURL(files[0]));
-      } else if (name === 'miniImg1') {
-        setEditRoomData({ ...editRoomData, room_image2: files[0] });
-        setMiniImagePreview({ ...miniImagePreview, miniImg1: URL.createObjectURL(files[0]) });
-      } else if (name === 'miniImg2') {
-        setEditRoomData({ ...editRoomData, room_image3: files[0] });
-        setMiniImagePreview({ ...miniImagePreview, miniImg2: URL.createObjectURL(files[0]) });
-      } else if (name === 'miniImg3') {
-        setEditRoomData({ ...editRoomData, room_image4: files[0] });
-        setMiniImagePreview({ ...miniImagePreview, miniImg3: URL.createObjectURL(files[0]) });
-      } else {
-        setEditRoomData({ ...editRoomData, [name]: value });
-      }
+  const { name, value, files } = event.target;
+  if (editModalOpen) {
+    if (name === 'img') {
+      setEditRoomData({ ...editRoomData, room_image1: files[0] });
+      setEditImagePreview(URL.createObjectURL(files[0]));
+    } else if (name === 'miniImg1') {
+      setEditRoomData({ ...editRoomData, room_image2: files[0] });
+      setMiniImagePreview({ ...miniImagePreview, miniImg1: URL.createObjectURL(files[0]) });
+    } else if (name === 'miniImg2') {
+      setEditRoomData({ ...editRoomData, room_image3: files[0] });
+      setMiniImagePreview({ ...miniImagePreview, miniImg2: URL.createObjectURL(files[0]) });
+    } else if (name === 'miniImg3') {
+      setEditRoomData({ ...editRoomData, room_image4: files[0] });
+      setMiniImagePreview({ ...miniImagePreview, miniImg3: URL.createObjectURL(files[0]) });
+    } else if (name === 'room_name' || name === 'room_category' || name === 'room_price' || name === 'room_guests' || name === 'room_single_beds' || name === 'room_double_beds') {
+      setEditRoomData({ ...editRoomData, [name]: name === 'room_price' || name === 'room_guests' || name === 'room_single_beds' || name === 'room_double_beds' ? parseInt(value, 10) : value });
     } else {
-      if (name === 'img') {
-        setNewRoom({ ...newRoom, img: files[0] });
-        setImagePreview(URL.createObjectURL(files[0]));
-        setErrors({ ...errors, img: false });
-      } else if (name === 'miniImg1') {
-        setNewRoom({ ...newRoom, miniImg1: files[0] });
-        setMiniImagePreview({ ...miniImagePreview, miniImg1: URL.createObjectURL(files[0]) });
-        setErrors({ ...errors, miniImg1: false });
-      } else if (name === 'miniImg2') {
-        setNewRoom({ ...newRoom, miniImg2: files[0] });
-        setMiniImagePreview({ ...miniImagePreview, miniImg2: URL.createObjectURL(files[0]) });
-        setErrors({ ...errors, miniImg2: false });
-      } else if (name === 'miniImg3') {
-        setNewRoom({ ...newRoom, miniImg3: files[0] });
-        setMiniImagePreview({ ...miniImagePreview, miniImg3: URL.createObjectURL(files[0]) });
-        setErrors({ ...errors, miniImg3: false });
-      } else {
-        setNewRoom({ ...newRoom, [name]: value });
-        setErrors({ ...errors, [name]: false });
-      }
+      setEditRoomData({ ...editRoomData, [name]: value });
     }
-  };
+  } else {
+    if (name === 'img') {
+      setNewRoom({ ...newRoom, img: files[0] });
+      setImagePreview(URL.createObjectURL(files[0]));
+      setErrors({ ...errors, img: false });
+    } else if (name === 'miniImg1') {
+      setNewRoom({ ...newRoom, miniImg1: files[0] });
+      setMiniImagePreview({ ...miniImagePreview, miniImg1: URL.createObjectURL(files[0]) });
+      setErrors({ ...errors, miniImg1: false });
+    } else if (name === 'miniImg2') {
+      setNewRoom({ ...newRoom, miniImg2: files[0] });
+      setMiniImagePreview({ ...miniImagePreview, miniImg2: URL.createObjectURL(files[0]) });
+      setErrors({ ...errors, miniImg2: false });
+    } else if (name === 'miniImg3') {
+      setNewRoom({ ...newRoom, miniImg3: files[0] });
+      setMiniImagePreview({ ...miniImagePreview, miniImg3: URL.createObjectURL(files[0]) });
+      setErrors({ ...errors, miniImg3: false });
+    } else {
+      setNewRoom({ ...newRoom, [name]: value });
+      setErrors({ ...errors, [name]: false });
+    }
+  }
+};
 
   // Add new room
   const handleSubmit = async () => {
+    setLoading(true)
     const newErrors = {
       title: newRoom.title.trim() === '',
       category: newRoom.category.trim() === '',
       price: newRoom.price.trim() === '',
       guests: newRoom.guests.trim() === '',
-      single_beds: newRoom.single_beds === '',
-      double_beds: newRoom.double_beds === '',
+      single_beds: newRoom.single_beds.trim() === '',
+      double_beds: newRoom.double_beds.trim() === '',
       img: newRoom.img === null,
       miniImg1: newRoom.miniImg1 === null,
       miniImg2: newRoom.miniImg2 === null,
@@ -235,7 +246,8 @@ const Rooms = () => {
   
       const data = await response.json();
       if (data.success) {
-        console.log(data.message);
+        notify()
+        setLoading(false)
         getAllRooms();
         setNewRoom({ title: '', category: '', price: '', guests: "", single_beds: 0, double_beds: 0, img: null, miniImg1: null, miniImg2: null, miniImg3: null });
         setImagePreview(null);
@@ -250,14 +262,14 @@ const Rooms = () => {
   };
 
   const handleEdit = (id) => {
-    const roomToEdit = roomData.find(item => item._id === id);
-    const index = roomData.findIndex(item => item._id === id);
+    const roomToEdit = roomData.find((item) => item._id === id);
+    const index = roomData.findIndex((item) => item._id === id);
     setEditRoomData(roomToEdit);
     setEditImagePreview(roomToEdit.room_image1 || null);
     setMiniImagePreview({
       miniImg1: roomToEdit.room_image2 || null,
       miniImg2: roomToEdit.room_image3 || null,
-      miniImg3: roomToEdit.room_image4 || null
+      miniImg3: roomToEdit.room_image4 || null,
     });
 
     setEditingIndex(index + 1);
@@ -270,8 +282,8 @@ const Rooms = () => {
     formData.append('room_category', editRoomData.room_category);
     formData.append('room_price', editRoomData.room_price);
     formData.append('room_guests', editRoomData.room_guests);
-    formData.append('single_beds', editRoomData.single_beds);
-    formData.append('double_beds', editRoomData.double_beds);
+    formData.append('single_beds', editRoomData.room_single_beds);
+    formData.append('double_beds', editRoomData.room_double_beds);
     formData.append('img1', editRoomData.room_image1);
     formData.append('img2', editRoomData.room_image2);
     formData.append('img3', editRoomData.room_image3);
@@ -281,13 +293,19 @@ const Rooms = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/update-room/${editRoomData._id}`, {
         method: 'PATCH',
         credentials: 'include',
-        body: formData
+        body: formData,
       });
 
       const data = await response.json();
-      if (data.success) {
-        console.log(data.message);
+      if (data.success){
+        notify();
+        setLoading(false);
         getAllRooms();
+        setEditModalOpen(false);
+        setEditingIndex(null);
+        setEditRoomData(null);
+        setEditImagePreview(null);
+        setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
         handleClose();
       } else {
         console.error('Error updating room:', data.error);
@@ -300,6 +318,7 @@ const Rooms = () => {
   return (
     <>
       <div className="menu-content">
+        <ToastContainer/>
         <button onClick={handleOpen} className='add-item'>Add Room</button>
         <RoomList roomData={roomData} setRoomData={setRoomData} handleEdit={handleEdit} />
       </div>
@@ -434,15 +453,17 @@ const Rooms = () => {
             </label>
             {miniImagePreview.miniImg3 && <img src={miniImagePreview.miniImg3} alt="Preview" className="image-preview" />}
             {errors.miniImg3 && <p style={{ color: 'red' }}>Mini image 3 is required</p>}
-
-            <Box display="flex" justifyContent="space-between" marginTop="16px">
+            {loading ?(<div className='loading-spinner'>
+                <ImSpinner2 className='loading' />
+              </div>):(<Box display="flex" justifyContent="space-between" marginTop="16px">
               <Button variant="contained" color="primary" onClick={handleSubmit}>
                 Add
               </Button>
               <Button variant="contained" color="secondary" onClick={handleClose} style={{ backgroundColor: 'red' }}>
                 Cancel
               </Button>
-            </Box>
+            </Box>)}
+            
           </form>
         </Box>
       </Modal>
@@ -488,7 +509,7 @@ const Rooms = () => {
               label="Single Beds"
               name="single_beds"
               type="number"
-              value={editRoomData?.single_beds || ''}
+              value={editRoomData?.room_single_beds || ''}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -497,7 +518,7 @@ const Rooms = () => {
               label="Double Beds"
               name="double_beds"
               type="number"
-              value={editRoomData?.double_beds || ''}
+              value={editRoomData?.room_double_beds || ''}
               onChange={handleChange}
               fullWidth
               margin="normal"
