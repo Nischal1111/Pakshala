@@ -22,6 +22,7 @@ const roomRoutes = require('./Admin/Routes/RoomRoutes');
 const SpecialMenuRoutes = require('./Admin/Routes/SpecialMenuRoutes');
 const MenuPdfRoutes = require('./Admin/Routes/MenuPdfRoutes');
 const offerRoutes = require('./Admin/Routes/OfferRoutes');
+const eventImageRoutes = require('./Admin/Routes/EventImageRoutes');
 
 
 
@@ -43,7 +44,8 @@ app.use('/admin',
     roomRoutes,
     SpecialMenuRoutes,
     MenuPdfRoutes,
-    offerRoutes
+    offerRoutes,
+    eventImageRoutes
 );
 
 
