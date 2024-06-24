@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import {userLogged} from "../components/Cookie"
-import {ToastContainer} from "react-toastify"
-import {notify} from "../components/Notify"
-import {delnotify} from "../components/delnotify"
-
+import { userLogged } from "../components/Cookie";
+import { ToastContainer } from "react-toastify";
+import { notify } from "../components/Notify";
+import { delnotify } from "../components/delnotify";
+import { editnotify } from '../components/editnotify';
 import { ImSpinner2 } from "react-icons/im";
 
 const Tables = () => {
   const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!userLogged()) {
@@ -25,14 +25,13 @@ const Tables = () => {
   const [errors, setErrors] = useState({ title: false, category: false, guests: false, img: false });
   const [imagePreview, setImagePreview] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [editTableData, setEditTableData] = useState(null);
-  const [editingIndex, setEditingIndex] = useState(null); // State to store the editing index
+  const [editTableData, setEditTableData] = useState({ title: '', category: '', guests: '', img: null });
+  const [editingIndex, setEditingIndex] = useState(null);
   const [editImagePreview, setEditImagePreview] = useState(null);
 
-  // Function to fetch table data
   const getAllTableItems = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-items`,{
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-items`, {
         credentials: 'include'
       });
       const data = await response.json();
@@ -53,17 +52,16 @@ const Tables = () => {
   const handleClose = () => {
     setOpen(false);
     setEditModalOpen(false);
-    setEditTableData(null);
-    setEditingIndex(null);
+    setNewTable({ title: '', category: '', guests: '', img: null });
+    setEditTableData({ title: '', category: '', guests: '', img: null });
     setImagePreview(null);
-    setEditImagePreview(null); 
+    setEditImagePreview(null);
   };
 
   const handleChange = (event) => {
     const { name, value, files } = event.target;
 
     if (editModalOpen) {
-      // Editing existing table item
       if (name === 'img') {
         setEditTableData({ ...editTableData, img: files[0] });
         setEditImagePreview(URL.createObjectURL(files[0]));
@@ -71,7 +69,6 @@ const Tables = () => {
         setEditTableData({ ...editTableData, [name]: value });
       }
     } else {
-      // Adding new table item
       if (name === 'img') {
         setNewTable({ ...newTable, img: files[0] });
         setImagePreview(URL.createObjectURL(files[0]));
@@ -84,7 +81,7 @@ const Tables = () => {
   };
 
   const handleSubmit = async () => {
-    setLoading(true)
+    setLoading(true);
     const newErrors = {
       title: newTable.title.trim() === '',
       category: newTable.category.trim() === '',
@@ -94,6 +91,7 @@ const Tables = () => {
 
     if (Object.values(newErrors).some(error => error)) {
       setErrors(newErrors);
+      setLoading(false);
       return;
     }
 
@@ -102,10 +100,6 @@ const Tables = () => {
     formData.append('category', newTable.category);
     formData.append('guest', newTable.guests);
     formData.append('img', newTable.img);
-
-    
-
-    console.log('New Table:', newTable);
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/add-table-item`, {
@@ -116,9 +110,8 @@ const Tables = () => {
 
       const data = await response.json();
       if (data.success) {
-        notify()
-        setLoading(false)
-        console.log(data.message);
+        notify();
+        setLoading(false);
         getAllTableItems();
       } else {
         console.error('Error adding table item:', data.error);
@@ -127,32 +120,34 @@ const Tables = () => {
       console.error('Error adding table item:', error);
     }
 
-    setNewTable({ title: '', category: '', guests: '', img: null });
-    setImagePreview(null);
     handleClose();
   };
 
   const handleEdit = (id) => {
     const tableToEdit = tableData.find(item => item._id === id);
-    const index = tableData.findIndex(item => item._id === id); // Find the index of the table item
-    console.log(`Editing table no. ${index + 1}`); // Log the index of the table item being edited
-    setEditTableData(tableToEdit);
-    setEditImagePreview(tableToEdit.table_image || null); // Set existing image for preview
-    setEditingIndex(index + 1); // Set editing index for display in modal
+    const index = tableData.findIndex(item => item._id === id);
+    setEditTableData({
+      title: tableToEdit.table_name,
+      category: tableToEdit.table_category,
+      guests: tableToEdit.table_guests,
+      img: null,
+      _id: tableToEdit._id,
+      table_image: tableToEdit.table_image
+    });
+    setEditImagePreview(tableToEdit.table_image.url || null);
+    setEditingIndex(index + 1);
     setEditModalOpen(true);
   };
 
-
-  // editing the table
-
   const handleEditSubmit = async () => {
-    // console.log('Updated Values:', editTableData); // Log updated values
-    setLoading(true)
+    setLoading(true);
     const formData = new FormData();
     formData.append('name', editTableData.title);
     formData.append('category', editTableData.category);
     formData.append('guest', editTableData.guests);
-    formData.append('img', editTableData.img);
+    if (editTableData.img) {
+      formData.append('img', editTableData.img);
+    }
     formData.append('oldImgId', editTableData.table_image.public_id);
 
     try {
@@ -163,27 +158,22 @@ const Tables = () => {
       });
       const data = await response.json();
       if (data.success) {
-        setLoading(false)
-        console.log(data.message);
+        editnotify();
+        setLoading(false);
         getAllTableItems();
         handleClose();
       } else {
-        setLoading(false)
+        setLoading(false);
         console.error('Error editing table item:', data.message);
       }
-    }catch (error) {
-      setLoading(false)
+    } catch (error) {
+      setLoading(false);
       console.error('Error editing table item:', error);
     }
   };
 
-
-
-  //deleting the table item
-
   const handleDelete = async (id) => {
     const itemToDelete = tableData.find(item => item._id === id);
-    //eslint-disable-next-line no-restricted-globals
     const userConfirmed = window.confirm("Are you sure you want to delete this table?");
     if (userConfirmed) {
       try {
@@ -198,7 +188,7 @@ const Tables = () => {
 
         const data = await response.json();
         if (data.success) {
-          delnotify()
+          delnotify();
           setTableData(tableData.filter(item => item._id !== id));
         } else {
           console.error('Error deleting table item:', data.error);
@@ -212,7 +202,7 @@ const Tables = () => {
   return (
     <>
       <div className="menu-content">
-        <ToastContainer/>
+        <ToastContainer />
         <button onClick={handleOpen} className='add-item'>Add Table</button>
         <div className='menu-table'>
           <TableContainer component={Paper}>
@@ -228,7 +218,6 @@ const Tables = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {/* Render rows from tableData */}
                 {tableData.map((item, index) => (
                   <TableRow key={item._id} className='table-row'>
                     <TableCell>{index + 1}</TableCell>
@@ -253,7 +242,6 @@ const Tables = () => {
           </TableContainer>
         </div>
       </div>
-      {/* Add Table Modal */}
       <Modal open={open} onClose={handleClose}>
         <Box className="modal-box" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
           <h2 style={{ textAlign: "center" }}>Add New Table</h2>
@@ -304,21 +292,23 @@ const Tables = () => {
             </label>
             {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
             {errors.img && <p style={{ color: 'red' }}>Image is required</p>}
-            {loading ? <div className='loading-spinner'>
-                        <ImSpinner2 className='loading' />
-                    </div>:(<Box display="flex" justifyContent="space-between" marginTop="16px">
-              <Button variant="contained" color="primary" onClick={handleSubmit}>
-                Add
-              </Button>
-              <Button variant="contained" color="secondary" onClick={handleClose} style={{ backgroundColor: 'red' }}>
-                Cancel
-              </Button>
-            </Box>)}
-            
+            {loading ? (
+              <div className='loading-spinner'>
+                <ImSpinner2 className='loading' />
+              </div>
+            ) : (
+              <Box display="flex" justifyContent="space-between" marginTop="16px">
+                <Button variant="contained" color="primary" onClick={handleSubmit}>
+                  Add
+                </Button>
+                <Button variant="contained" color="secondary" onClick={handleClose} style={{ backgroundColor: 'red' }}>
+                  Cancel
+                </Button>
+              </Box>
+            )}
           </form>
         </Box>
       </Modal>
-      {/* Edit Table Modal */}
       <Modal open={editModalOpen} onClose={handleClose}>
         <Box className="modal-box" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
           <h2 style={{ textAlign: "center" }}>Editing table number {editingIndex}</h2>
@@ -326,7 +316,7 @@ const Tables = () => {
             <TextField
               label="Name"
               name="title"
-              value={editTableData?.title || ''}
+              value={editTableData.title}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -334,7 +324,7 @@ const Tables = () => {
             <TextField
               label="Category"
               name="category"
-              value={editTableData?.category || ''}
+              value={editTableData.category}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -343,7 +333,7 @@ const Tables = () => {
               label="Guests"
               name="guests"
               type="number"
-              value={editTableData?.guests || ''}
+              value={editTableData.guests}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -361,17 +351,21 @@ const Tables = () => {
                 Upload Image
               </Button>
             </label>
-            {editImagePreview && <img src={editImagePreview.url} alt="Preview" className="image-preview" />}
-            {loading ? (<div className='loading-spinner'>
-                        <ImSpinner2 className='loading' />
-                    </div>):(<Box display="flex" justifyContent="space-between" marginTop="16px">
-              <Button variant="contained" color="primary" onClick={handleEditSubmit}>
-                Update
-              </Button>
-              <Button variant="contained" color="secondary" onClick={handleClose}>
-                Cancel
-              </Button>
-            </Box>)}
+            {editImagePreview && <img src={editImagePreview} alt="Preview" className="image-preview" />}
+            {loading ? (
+              <div className='loading-spinner'>
+                <ImSpinner2 className='loading' />
+              </div>
+            ) : (
+              <Box display="flex" justifyContent="space-between" marginTop="16px">
+                <Button variant="contained" color="primary" onClick={handleEditSubmit}>
+                  Update
+                </Button>
+                <Button variant="contained" color="secondary" onClick={handleClose}>
+                  Cancel
+                </Button>
+              </Box>
+            )}
           </form>
         </Box>
       </Modal>
