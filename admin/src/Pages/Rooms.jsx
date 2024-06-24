@@ -208,12 +208,12 @@ const Rooms = () => {
       miniImg2: newRoom.miniImg2 === null,
       miniImg3: newRoom.miniImg3 === null,
     };
-
+  
     if (Object.values(newErrors).some(error => error)) {
       setErrors(newErrors);
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('room_name', newRoom.title);
     formData.append('room_category', newRoom.category);
@@ -225,25 +225,19 @@ const Rooms = () => {
     formData.append('img2', newRoom.miniImg1);
     formData.append('img3', newRoom.miniImg2);
     formData.append('img4', newRoom.miniImg3);
-    
-
-    console.log('rd',newRoom)
-
+  
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/add-room`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         credentials: 'include',
         body: formData
       });
-
+  
       const data = await response.json();
       if (data.success) {
         console.log(data.message);
         getAllRooms();
-        setNewRoom({ title: '', category: '', price: '',guests:"", single_beds: 0, double_beds: 0, img: null, miniImg1: null, miniImg2: null, miniImg3: null });
+        setNewRoom({ title: '', category: '', price: '', guests: "", single_beds: 0, double_beds: 0, img: null, miniImg1: null, miniImg2: null, miniImg3: null });
         setImagePreview(null);
         setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
         handleClose();
@@ -253,8 +247,6 @@ const Rooms = () => {
     } catch (error) {
       console.error('Error adding room:', error);
     }
-
-    
   };
 
   const handleEdit = (id) => {
