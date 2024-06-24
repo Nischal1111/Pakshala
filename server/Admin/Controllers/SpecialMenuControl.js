@@ -9,7 +9,7 @@ const {uploadFile , deleteFile} = require('../../Middlewares/UploadFile');
 const addSpecialMenuItem = async (req, res) => {
     const { item_name } = req.body;
 
-    console.log(item_name)
+    // console.log(item_name)
 
 
     // Validate required fields
@@ -54,13 +54,14 @@ const addSpecialMenuItem = async (req, res) => {
 
 //deleting a special menu item
 const deleteSpecialMenuItem = async (req, res) => {
-    const { id } = req.params;
+    const id = req.params.id;
+    // console.log(id)
 
     try {
-        const specialMenuItem = await SpecialMenu.findById(id);
-
+        const specialMenuItem = await SpecialMenu.findByIdAndDelete(id);
+        
         if (!specialMenuItem) {
-            return res.status(404).json({success:false, message: 'Special menu item not found.' });
+            return res.status(404).json({success:false, message: 'Error in deleting special menu item.' });
         }
 
         const deleteImage =  await deleteFile(specialMenuItem.item_image.public_id);
@@ -69,11 +70,6 @@ const deleteSpecialMenuItem = async (req, res) => {
             return res.status(400).json({success:false, message: 'Error in deleting special menu item image.' });
         }
 
-        const  removeItem = await specialMenuItem.remove();
-
-        if(!removeItem){
-            return res.status(400).json({success:false, message: 'Error in deleting special menu item.' });
-        }
 
         res.status(200).json({success:true, message: 'Special menu item deleted successfully.' });
     } catch (error) {
