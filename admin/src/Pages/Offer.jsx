@@ -32,7 +32,7 @@ const Offers = () => {
         onChange={handleImageChange}
       />
       <label htmlFor="offer-image-file">
-        <Button variant="contained" component="span">
+        <Button variant="contained" component="span" style={{border:"none",backgroundColor:"transparent",color:"blue",boxShadow:"none"}}>
           Upload Offer Image
         </Button>
       </label>
@@ -46,6 +46,9 @@ const Offers = () => {
           </div>
         }
       </div>
+      <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft:".5rem",marginTop: "1rem", marginBottom: "1rem", backgroundColor: "#55AD9B" }}>
+          Confirm Upload
+      </Button>
     </div>
   );
 };

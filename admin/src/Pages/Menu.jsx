@@ -66,6 +66,7 @@ const Special = () => {
         const data = await response.json();
         if(data.success){
           console.log(data.specialMenuItems);
+          setItems(data.specialMenuItems)
         }
       } catch (error) {
         console.log("Error on getting special menu:", error);
@@ -73,31 +74,26 @@ const Special = () => {
     };
 
 
-  //deleting special menu items
+const handleRemoveItem = async (id) => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-special-menu/${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+    const data = await response.json();
 
-  // instead of index send >> id << of the of the data to delete
-  const handleRemoveItem = async(index) => {
-    const newItems = items.filter((_, i) => i !== index);
-    setItems(newItems);
-
-    // Delete item from database
-
-    //>> uncomment below code <<<<<
-    // try {
-    //     const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-special-menu/${id}`, {
-    //       method: 'DELETE',
-    //       credentials: 'include',
-    //     });
-    //     const data = await response.json();
-    //     if (data.success) {
-    //       alert('Special item deleted successfully.');
-    //     } else {
-    //       alert('Failed to delete special item.');
-    //     }
-    // } catch (error) {
-    //   console.log("Error on deleting menu:", error); 
-    // }
-  };
+    if (data.success) {
+      const newItems = items.filter((item) => item._id !== id);
+      setItems(newItems);
+      alert('Special item deleted successfully.');
+    } else {
+      alert('Failed to delete special item.');
+    }
+  } catch (error) {
+    console.log("Error on deleting menu:", error);
+    alert('Failed to delete special item. Please try again.');
+  }
+};
 
 
   
@@ -113,12 +109,12 @@ const Special = () => {
         <div style={{ display: "flex" }}>
           {items.map((item, index) => (
             <div className='special-card' key={index}>
-              <img src={item.image} alt={item.name} style={{ width: "100%", height: "60%", objectFit: "cover" }} />
+              <img src={item.item_image.url} alt={item.item_name} style={{ width: "100%", height: "60%", objectFit: "cover" }} />
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: ".5rem" }}>
-                <p style={{ fontSize: "1.2rem", letterSpacing: "3px", marginRight: "2rem" }}>{item.name}</p>
+                <p style={{ fontSize: "1.2rem", letterSpacing: "3px", marginRight: "2rem" }}>{item.item_name}</p>
                 <FaTrash
                   style={{ cursor: "pointer", color: "red", marginLeft: "2rem" }}
-                  onClick={() => handleRemoveItem(index)}
+                  onClick={() => handleRemoveItem(item._id)}
                 />
               </div>
             </div>
@@ -129,7 +125,7 @@ const Special = () => {
         </div>
       </div>
       <Modal open={open} onClose={handleClose}>
-        <div className='modal-box'>
+        <div className='modal-box' style={{maxHeight:"90vh",overflow:"auto"}}>
           <h2>Add Special Item</h2>
           <TextField
             label="Item Name"
@@ -286,7 +282,7 @@ useEffect(() => {
               onChange={handleFileChange}
             />
             <label htmlFor="raised-button-file">
-              <Button variant="contained" component="span" className='upload-img2' style={{ marginLeft: "2rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "1px solid black", padding: ".5rem 1rem", color: "black" }}>
+              <Button variant="contained" component="span" className='upload-img2' style={{marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border:"none", color: "black",boxShadow:"none",color:"blue" }}>
                 Upload Menu File
               </Button>
             </label>
@@ -310,7 +306,7 @@ useEffect(() => {
               onChange={handleDrink}
             />
             <label htmlFor="raised-drink-file">
-              <Button variant="contained" component="span" className='upload-img2' style={{ marginLeft: "2rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "1px solid black", padding: ".5rem 1rem", color: "black" }}>
+              <Button variant="contained" component="span" className='upload-img2' style={{marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border:"none", color: "black",boxShadow:"none",color:"blue" }}>
                 Upload Drinks File
               </Button>
             </label>
@@ -325,7 +321,7 @@ useEffect(() => {
                 ></iframe>
               </div>
             )}
-            <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft: "2rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "" }}>
+            <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "" }}>
               Confirm Upload
             </Button>
           </form>
