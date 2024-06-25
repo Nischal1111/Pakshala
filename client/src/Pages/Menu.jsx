@@ -68,6 +68,24 @@ const MenuSpecial = ({ specialMenu }) => {
 
 const Menu = () => {
   const [specialMenu, setSpecialMenu] = useState([]);
+  const [menu, setMenu] = useState({});
+  const [drink, setDrink] = useState({});
+
+  const getMenuPdf = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-menu-pdf`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if(data.success){
+        setMenu(data.menuPdfs[0]?.menu_file?.menu_url || null);
+        setDrink(data.menuPdfs[0]?.drink_file?.menu_url || null);
+      }
+    } catch (error) {
+      console.log("Error on getting menu pdf:", error);
+    }
+  };
 
   const getSpecialMenu = async () => {
     try {
@@ -86,7 +104,10 @@ const Menu = () => {
     }
   };
 
+  
+
   useEffect(() => {
+    getMenuPdf()
     getSpecialMenu();
   }, []);
 
@@ -104,12 +125,16 @@ const Menu = () => {
             You can view our menu <Link to="#">here</Link>. You will be redirected to a new page where you can explore all our offerings. Once you've made your selection, please use the form below to place your order.
           </p>
           <div>
-            <button className='overlay2' onClick={() => window.open("", "_blank")}>
-              <h2> View Food Menu </h2>
-            </button>
-            <button className='overlay2' onClick={() => window.open("", "_blank")}>
-              <h2> View Drink Menu </h2>
-            </button>
+            <Link to={menu} target='_blank'>
+              <button className='overlay2'>
+                <h2> View Food Menu </h2>
+              </button>
+            </Link>
+            <Link to={drink} target='_blank'>
+              <button className='overlay2'>
+                <h2> View Drink Menu </h2>
+              </button>
+            </Link>
           </div>
         </div>
         <MenuForm />

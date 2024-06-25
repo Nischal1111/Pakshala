@@ -67,6 +67,9 @@ const Offers = () => {
             Confirm Upload
         </Button>
       </form>
+      <div>
+
+      </div>
     </div>
   );
 };

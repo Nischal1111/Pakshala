@@ -283,8 +283,8 @@ const Rooms = () => {
     formData.append('room_category', editRoomData.room_category);
     formData.append('room_price', editRoomData.room_price);
     formData.append('room_guests', editRoomData.room_guests);
-    formData.append('single_beds', editRoomData.room_single_beds);
-    formData.append('double_beds', editRoomData.room_double_beds);
+    formData.append('room_single_beds', editRoomData.room_single_beds);
+    formData.append('room_double_beds', editRoomData.room_double_beds);
     formData.append('img1', editRoomData.room_image1);
     formData.append('img2', editRoomData.room_image2);
     formData.append('img3', editRoomData.room_image3);
@@ -508,7 +508,7 @@ const Rooms = () => {
             />
             <TextField
               label="Single Beds"
-              name="single_beds"
+              name="room_single_beds"
               type="number"
               value={editRoomData?.room_single_beds || ''}
               onChange={handleChange}
@@ -517,7 +517,7 @@ const Rooms = () => {
             />
             <TextField
               label="Double Beds"
-              name="double_beds"
+              name="room_double_beds"
               type="number"
               value={editRoomData?.room_double_beds || ''}
               onChange={handleChange}

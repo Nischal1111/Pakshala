@@ -372,12 +372,26 @@ const Menu = () => {
               </Button>
             )}
           </form>
-          {/* {uploadSuccess && (
+          {uploadSuccess && (
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
-                <Button variant="contained" className='view-button' onClick={getMenuPdf} style={{ backgroundColor: "transparent", border: "1px solid black", color: "black", boxShadow: "none", marginRight: "1rem" }}>
-                  View Menus <FaRegEye style={{ marginLeft: ".5rem" }} />
+                <Link to={menu} target='_blank'>
+                <Button variant="contained" className='view-button' style={{ backgroundColor: "transparent", border: "1px solid black", color: "black", boxShadow: "none", marginRight: "1rem" }}>
+                  View Menu PDF <FaRegEye style={{ marginLeft: ".5rem" }} />
                 </Button>
+                </Link>
+                <FaTrash
+                  style={{ cursor: "pointer", color: "red" }}
+                  className='fa-trash-icon'
+                  onClick={() => handleDelete(uploadSuccess._id)}
+                />
+              </div>
+              <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
+                <Link to={drink} target='_blank'>
+                <Button variant="contained" className='view-button' style={{ backgroundColor: "transparent", border: "1px solid black", color: "black", boxShadow: "none", marginRight: "1rem" }}>
+                  View Drink PDF <FaRegEye style={{ marginLeft: ".5rem" }} />
+                </Button>
+                </Link>
                 <FaTrash
                   style={{ cursor: "pointer", color: "red" }}
                   className='fa-trash-icon'
@@ -385,14 +399,7 @@ const Menu = () => {
                 />
               </div>
             </div>
-          )} */}
-          {uploadSuccess && (
-            <>
-            <Link to={menu} target="_blank" > View Menu Pdf </Link><br/>
-            <Link to={drink} target="_blank" > View Drink Pdf </Link>
-            </>
-            )}
-
+          )}
         </div>
       </div>
     </>
