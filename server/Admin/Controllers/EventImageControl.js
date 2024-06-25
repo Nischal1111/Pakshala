@@ -8,13 +8,12 @@ const {uploadFile, deleteFile} = require('../../Middlewares/UploadFile')
 // add image to event
 const addImages = async (req, res) => {
     try {
-        if (!req.files || !req.files.images || !Array.isArray(req.files.images)) {
+        if (!req.files || req.files.length === 0) {
             return res.status(400).json({ msg: 'No images provided' });
         }
 
-        const images = req.files.images;
+        const images = req.files;
         const uploadResults = [];
-
 
         for (const image of images) {
             // Upload image to Cloudinary
@@ -52,6 +51,7 @@ const addImages = async (req, res) => {
 
 
 
+
 // delete image from event
 const deleteImage = async (req, res) => {
     try {
@@ -82,6 +82,22 @@ const deleteImage = async (req, res) => {
     }
 }
 
+
+// get images
+const getImages = async (req, res) => {
+    try {
+        const images = await EventImage.find();
+        if (!images) {
+            return res.status(404).json({success:false, message: 'No images found' });
+        }
+
+        return res.status(200).json({success:true, message: 'Images', images });
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({success:false, message: 'Internal server error' });
+    }
+}
         
 
 
@@ -93,5 +109,6 @@ const deleteImage = async (req, res) => {
 
 module.exports = {
     addImages,
-    deleteImage
+    deleteImage,
+    getImages
 }

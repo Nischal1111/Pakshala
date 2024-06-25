@@ -8,6 +8,7 @@ import {notify} from "../components/Notify"
 import { ToastContainer } from 'react-toastify';
 import { ImSpinner2 } from 'react-icons/im';
 import { delnotify } from '../components/delnotify';
+import { editnotify } from '../components/editnotify';
 
 const RoomList = ({ roomData, setRoomData, handleEdit }) => {
   const [search, setSearch] = useState('');
@@ -298,7 +299,7 @@ const Rooms = () => {
 
       const data = await response.json();
       if (data.success){
-        notify();
+        editnotify();
         setLoading(false);
         getAllRooms();
         setEditModalOpen(false);

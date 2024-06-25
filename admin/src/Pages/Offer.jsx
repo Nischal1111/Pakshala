@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { Button, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import "../css/offers.css";
+import { useEffect } from 'react';
 
 const Offers = () => {
   const [offerImg, setOfferImg] = useState(null);
+  const [offerImagePath, setOfferImagePath] = useState('');
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setOfferImagePath(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setOfferImg(reader.result);
@@ -17,14 +20,68 @@ const Offers = () => {
     }
   };
 
-  const handleSubmit=(e)=>{
-    e.preventDefault()
-    console.log(offerImg)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('img', offerImagePath);
+    
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/add-offer`, {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        console.log(data.message);
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Error adding offer:', error);
+    }
+  };
+
+  //get offer
+  const getOffers = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-offers`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (data.success) {
+        console.log(data.offers);
+      }
+    } catch (error) {
+      console.error('Error getting offers:', error);
+    }
+  }
+
+  //delete offer
+  const deleteOffer = async (id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-offer/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (data.success) {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.error('Error deleting offer:', error);
+    }
   }
 
   const handleDeleteOffer = () => {
     setOfferImg(null);
+    setOfferImagePath('');
   };
+
+  useEffect(() => {
+    getOffers();
+  }, []);
 
   return (
     <div className='offers-div'>

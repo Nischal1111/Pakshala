@@ -73,7 +73,14 @@ const RoomFilter = () => {
 
     const getAllRoomsClient = async () => {
     try {
-      const response = await fetch("http://localhost:4000/admin/get-rooms");
+    //   const response = await fetch("http://localhost:4000/admin/get-rooms");
+        const response = await fetch (`${process.env.REACT_APP_API_URL}/get-rooms`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        })
       const data = await response.json();
       setAllRooms(data.rooms || []);
       setRoomList(data.rooms || [])

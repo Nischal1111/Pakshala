@@ -221,9 +221,9 @@ const Menu = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('file', filePath);
-    formData.append('drink', drinkFilePath);
-
+    formData.append('file', filePath); // Append the file to 'file' field
+    formData.append('drink', drinkFilePath); // Append the file to 'drink' field
+  
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/add-menu-pdf`, {
         method: 'POST',
@@ -232,10 +232,10 @@ const Menu = () => {
       });
       const data = await response.json();
       if (data.success) {
-        notify()
-        setFile(null)
-        setDrinkFile(null)
-        setUploadSuccess(true); // Set upload success state to true
+        notify();
+        setFile(null);
+        setDrinkFile(null);
+        setUploadSuccess(true);
         getMenuPdf();
       } else {
         alert('Failed to add menu');
@@ -244,6 +244,7 @@ const Menu = () => {
       console.log("Error on adding menu:", error);
     }
   };
+  
 
   const getMenuPdf = async () => {
     try {
@@ -253,7 +254,7 @@ const Menu = () => {
       });
       const data = await response.json();
       if (data.success) {
-        console.log(data.menuPdfs[0].menu_file._id)
+        // console.log(data.menuPdfs[0].menu_file._id)
         setMenuPDF(data.menuPdfs[0].menu_file.menu_url)
         setDrinkPDF(data.menuPdfs[0].drink_file.menu_url)
       }

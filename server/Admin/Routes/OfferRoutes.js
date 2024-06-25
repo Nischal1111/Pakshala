@@ -14,7 +14,8 @@ const uploader = multer({
 })
 
 //middleware
-offerRouter.use(jwtAuth)
+
+// offerRouter.use(jwtAuth)
 
 
 // Add a new offer

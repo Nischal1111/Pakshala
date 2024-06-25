@@ -9,7 +9,8 @@ const uploader = multer({
 
 const { 
     addImages,
-    deleteImage
+    deleteImage,
+    getImages
  } = require('../Controllers/EventImageControl');
 
 eventImageRoutes.use(jwtAuth); // all routes are secured
@@ -19,6 +20,9 @@ eventImageRoutes.route('/add-event-images').post(
     uploader.array('images', 10), // handle up to 10 images at once, adjust as needed
     addImages
 );
+
+// get all event images
+eventImageRoutes.get('/get-event-images', getImages);
 
 // delete event image
 eventImageRoutes.delete('/delete-event-image/:id', deleteImage);

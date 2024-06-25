@@ -6,26 +6,25 @@ const {uploadFile, deleteFile} = require('../../Middlewares/UploadFile');
 // Add a new offer
 const addOffer = async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ message: 'Please upload an image' });
-        }
-        const imagePath = req.file.path;
-
-        const uploadResult = await uploadFile(imagePath, "offers");
-
-        const newOffer = new Offer({
-            offer_image_url: uploadResult.secure_url,
-            offer_image_Id: uploadResult.public_id
-        });
-
-        await newOffer.save();
-
-        res.status(201).json({ success: true, message: 'Offer added successfully' });
+      if (!req.file) {
+        return res.status(400).json({ message: 'Please upload an image' });
+      }
+      const imagePath = req.file.path;
+      const uploadResult = await uploadFile(imagePath, "offers");
+  
+      const newOffer = new Offer({
+        offer_image_url: uploadResult.secure_url,
+        offer_image_Id: uploadResult.public_id
+      });
+  
+      await newOffer.save();
+  
+      res.status(201).json({ success: true, message: 'Offer added successfully' });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Internal server error on Add offer' });
-        // console.log(error)
+      res.status(500).json({ success: false, message: 'Internal server error on Add offer' });
+      console.log(error);
     }
-}
+  };
 
 // Get all the offers
 
