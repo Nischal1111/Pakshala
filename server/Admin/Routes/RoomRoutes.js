@@ -8,7 +8,6 @@ const multer = require('multer');
 
 const uploader= multer({
     storage: multer.diskStorage({}),
-    limits : 50 *1024*1024  //50mb
 });
 
 

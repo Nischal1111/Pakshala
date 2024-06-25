@@ -19,7 +19,7 @@ const {
 
 
 // middleware
-menuRoutes.use(jwtAuth);
+// menuRoutes.use(jwtAuth);
 
 
 // adding menu item
