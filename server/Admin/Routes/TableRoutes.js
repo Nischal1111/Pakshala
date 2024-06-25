@@ -21,16 +21,16 @@ const {
 // tableRoutes.use(jwtAuth)  // all routes are secured
 
 // adding roomitem
-tableRoutes.post('/add-table-item', uploader.single('img') ,addTableItem);
+tableRoutes.post('/add-table-item', uploader.single('img') ,jwtAuth,addTableItem);
 
 // get all room items
 tableRoutes.get('/get-table-items', getTableItems);
 
 // delete room item
-tableRoutes.delete('/delete-table-item/:id', deleteTableItem);
+tableRoutes.delete('/delete-table-item/:id',jwtAuth, deleteTableItem);
 
 // edit room item
-tableRoutes.patch('/edit-table-item/:id', uploader.single('img'), editTableItem);
+tableRoutes.patch('/edit-table-item/:id', uploader.single('img'),jwtAuth, editTableItem);
 
 
 
