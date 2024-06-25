@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import "../css/offers.css";
+import {notify} from "../components/Notify"
+import { ToastContainer } from 'react-toastify';
 
 const Offers = () => {
   const [offerImg, setOfferImg] = useState(null);
@@ -19,6 +21,7 @@ const Offers = () => {
 
   const handleSubmit=(e)=>{
     e.preventDefault()
+    notify()
     console.log(offerImg)
   }
 
@@ -28,6 +31,7 @@ const Offers = () => {
 
   return (
     <div className='offers-div'>
+      <ToastContainer/>
       <h1>Offers</h1>
       <form onSubmit={handleSubmit}>
         <input

@@ -235,7 +235,7 @@ const Menu = () => {
         notify()
         setFile(null)
         setDrinkFile(null)
-        setUploadSuccess(true); // Set upload success state to true
+        setUploadSuccess(true);
         getMenuPdf();
       } else {
         alert('Failed to add menu');
