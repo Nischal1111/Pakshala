@@ -6,7 +6,7 @@ const {uploadFile, uploadFilePdf , deleteFile} = require('../../Middlewares/Uplo
 // add file
 const addMenuPdf = async (req, res) => {
     try {
-        const menuFile = req.files['menu'] ? req.files['menu'][0] : null;
+        const menuFile = req.files['file'] ? req.files['file'][0] : null;
         const drinkFile = req.files['drink'] ? req.files['drink'][0] : null;
 
         if (!menuFile || !drinkFile) {
@@ -22,8 +22,8 @@ const addMenuPdf = async (req, res) => {
             await deleteFile(menuPdfAvailable[0].menu_file.menu_public_id);
             await deleteFile(menuPdfAvailable[0].drink_file.menu_public_id);
 
-            const uploadedMenuFile = await uploadFilePdf(menuFilePath, 'menus');
-            const uploadedDrinkFile = await uploadFilePdf(drinkFilePath, 'menus');
+            const uploadedMenuFile = await uploadFile(menuFilePath, 'menus');
+            const uploadedDrinkFile = await uploadFile(drinkFilePath, 'menus');
 
             menuPdfAvailable[0].menu_file = {
                 menu_url: uploadedMenuFile.secure_url,
@@ -39,8 +39,8 @@ const addMenuPdf = async (req, res) => {
             res.status(200).json({ success: true, message: 'Menu and drink PDFs updated successfully.' });
 
         } else {
-            const uploadedMenuFile = await uploadFilePdf(menuFilePath, 'menus');
-            const uploadedDrinkFile = await uploadFilePdf(drinkFilePath, 'menus');
+            const uploadedMenuFile = await uploadFile(menuFilePath, 'menus');
+            const uploadedDrinkFile = await uploadFile(drinkFilePath, 'menus');
 
             const menuPdf = new MenuPdf({
                 menu_file: {

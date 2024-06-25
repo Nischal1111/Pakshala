@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import { ImSpinner2 } from "react-icons/im";
 import { delnotify } from '../components/delnotify';
 import { FaRegEye } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const Special = () => {
   const [open, setOpen] = useState(false);
@@ -193,6 +194,8 @@ const Menu = () => {
   const [drinkFilePath, setDrinkFilePath] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [menu, setMenu] = useState({});
+  const [drink, setDrink] = useState({});
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -246,6 +249,7 @@ const Menu = () => {
     setLoading(false);
   }
 };
+// console.log(menu, drink )
 
   const getMenuPdf = async () => {
     try {
@@ -254,19 +258,28 @@ const Menu = () => {
         credentials: 'include',
       });
       const data = await response.json();
-      console.log('Fetched data:', data);
-      if (data.success && data.menuPdfs && data.menuPdfs.length > 0) {
-        const menuFile = data.menuPdfs[0]?.menu_file?.menu_url || null;
-        const drinkFile = data.menuPdfs[0]?.drink_file?.menu_url || null;
-        if (menuFile && drinkFile) {
-          window.open(menuFile, "_blank");
-          window.open(drinkFile, "_blank");
-        } else {
-          console.log("No menu PDFs found.");
-        }
-      } else {
-        console.log("No menu PDFs found.");
+      console.log(data)
+      if(data.success){
+
+        setUploadSuccess(true);
+
+        console.log("menu:",data.menuPdfs)
+        setMenu(data.menuPdfs[0]?.menu_file?.menu_url || null);
+        setDrink(data.menuPdfs[0]?.drink_file?.menu_url || null);
       }
+      // console.log('Fetched data:', data);
+      // if (data.success && data.menuPdfs && data.menuPdfs.length > 0) {
+      //   const menuFile = data.menuPdfs[0]?.menu_file?.menu_url || null;
+      //   const drinkFile = data.menuPdfs[0]?.drink_file?.menu_url || null;
+      //   if (menuFile && drinkFile) {
+      //     window.open(menuFile, "_blank");
+      //     window.open(drinkFile, "_blank");
+      //   } else {
+      //     console.log("No menu PDFs found.");
+      //   }
+      // } else {
+      //   console.log("No menu PDFs found.");
+      // }
     } catch (error) {
       console.log("Error on getting menu pdf:", error);
     }
@@ -291,10 +304,9 @@ const Menu = () => {
   };
 
   useEffect(() => {
-    if (uploadSuccess) {
       getMenuPdf();
-    }
-  }, [uploadSuccess]);
+    
+  }, []);
 
   return (
     <>
@@ -360,7 +372,7 @@ const Menu = () => {
               </Button>
             )}
           </form>
-          {uploadSuccess && (
+          {/* {uploadSuccess && (
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
                 <Button variant="contained" className='view-button' onClick={getMenuPdf} style={{ backgroundColor: "transparent", border: "1px solid black", color: "black", boxShadow: "none", marginRight: "1rem" }}>
@@ -373,7 +385,14 @@ const Menu = () => {
                 />
               </div>
             </div>
-          )}
+          )} */}
+          {uploadSuccess && (
+            <>
+            <Link to={menu} target="_blank" > View Menu Pdf </Link><br/>
+            <Link to={drink} target="_blank" > View Drink Pdf </Link>
+            </>
+            )}
+
         </div>
       </div>
     </>
