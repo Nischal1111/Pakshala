@@ -178,10 +178,9 @@ const Special = () => {
   );
 };
 
-
 const Menu = () => {
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!userLogged()) {
       navigate('/login');
@@ -193,13 +192,10 @@ const Menu = () => {
   const [drinkfile, setDrinkFile] = useState(null);
   const [drinkFilePath, setDrinkFilePath] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [MenuPDF,setMenuPDF]=useState(null)
-  const [DrinkPDF,setDrinkPDF]=useState(null)
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
-
     if (selectedFile && selectedFile.type === "application/pdf") {
       setFilePath(selectedFile);
       setFile(URL.createObjectURL(selectedFile));
@@ -219,31 +215,37 @@ const Menu = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('file', filePath);
-    formData.append('drink', drinkFilePath);
+  e.preventDefault();
+  setLoading(true);
+  
+  // Create FormData and append files
+  const formData = new FormData();
+  formData.append('file', filePath); // Check if filePath is properly set in handleFileChange
+  formData.append('drink', drinkFilePath); // Check if drinkFilePath is properly set in handleDrink
 
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/add-menu-pdf`, {
-        method: 'POST',
-        credentials: 'include',
-        body: formData,
-      });
-      const data = await response.json();
-      if (data.success) {
-        notify()
-        setFile(null)
-        setDrinkFile(null)
-        setUploadSuccess(true);
-        getMenuPdf();
-      } else {
-        alert('Failed to add menu');
-      }
-    } catch (error) {
-      console.log("Error on adding menu:", error);
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/add-menu-pdf`, {
+      method: 'POST',
+      credentials: 'include',
+      body: formData,
+    });
+    const data = await response.json();
+    
+    if (data.success) {
+      notify();
+      setFile(null);
+      setDrinkFile(null);
+      setUploadSuccess(true);
+    } else {
+      alert('Failed to add menu');
     }
-  };
+  } catch (error) {
+    console.log("Error on adding menu:", error);
+    alert('Failed to add menu. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const getMenuPdf = async () => {
     try {
@@ -252,10 +254,18 @@ const Menu = () => {
         credentials: 'include',
       });
       const data = await response.json();
-      if (data.success) {
-        console.log(data.menuPdfs[0].menu_file._id)
-        setMenuPDF(data.menuPdfs[0].menu_file.menu_url)
-        setDrinkPDF(data.menuPdfs[0].drink_file.menu_url)
+      console.log('Fetched data:', data);
+      if (data.success && data.menuPdfs && data.menuPdfs.length > 0) {
+        const menuFile = data.menuPdfs[0]?.menu_file?.menu_url || null;
+        const drinkFile = data.menuPdfs[0]?.drink_file?.menu_url || null;
+        if (menuFile && drinkFile) {
+          window.open(menuFile, "_blank");
+          window.open(drinkFile, "_blank");
+        } else {
+          console.log("No menu PDFs found.");
+        }
+      } else {
+        console.log("No menu PDFs found.");
       }
     } catch (error) {
       console.log("Error on getting menu pdf:", error);
@@ -270,9 +280,8 @@ const Menu = () => {
       });
       const data = await response.json();
       if (data.success) {
-
-        delnotify()
-        getMenuPdf();
+        delnotify();
+        setUploadSuccess(false);
       } else {
         alert('Failed to delete menu');
       }
@@ -282,8 +291,10 @@ const Menu = () => {
   };
 
   useEffect(() => {
-    getMenuPdf();
-  }, []);
+    if (uploadSuccess) {
+      getMenuPdf();
+    }
+  }, [uploadSuccess]);
 
   return (
     <>
@@ -300,7 +311,7 @@ const Menu = () => {
               onChange={handleFileChange}
             />
             <label htmlFor="raised-button-file">
-              <Button variant="contained" component="span" className='upload-img2' style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "none", color: "black", boxShadow: "none", color: "blue",textDecoration:"underline" }}>
+              <Button variant="contained" component="span" className='upload-img2' style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "none", color: "blue", textDecoration: "underline" }}>
                 Upload Menu File
               </Button>
             </label>
@@ -324,7 +335,7 @@ const Menu = () => {
               onChange={handleDrink}
             />
             <label htmlFor="raised-drink-file">
-              <Button variant="contained" component="span" className='upload-img2' style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "none", color: "black", boxShadow: "none", color: "blue",textDecoration:"underline"}}>
+              <Button variant="contained" component="span" className='upload-img2' style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "none", color: "blue", textDecoration: "underline" }}>
                 Upload Drinks File
               </Button>
             </label>
@@ -339,37 +350,29 @@ const Menu = () => {
                 ></iframe>
               </div>
             )}
-            {loading ? <><div className='loading-spinner'>
-              <ImSpinner2 className='loading' />
-            </div></>:(<>
-            <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "" }}>
-              Confirm Upload
-            </Button>
-            </>)}
+            {loading ? (
+              <div className='loading-spinner'>
+                <ImSpinner2 className='loading' />
+              </div>
+            ) : (
+              <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem" }}>
+                Confirm Upload
+              </Button>
+            )}
           </form>
-          {uploadSuccess && (<>
-          <div style={{display:"flex",flexDirection:"column"}}>
-            <div>
-            <Button variant="contained" className='view-button' onClick={()=>window.open(MenuPDF,"_blank")} style={{marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "1px solid black", color: "black", boxShadow: "none"}}>
-              View Food Menu <FaRegEye style={{marginLeft:".5rem"}}/>
-            </Button>
-             <FaTrash
-                    style={{ cursor: "pointer", color: "red", marginLeft: "2rem" }}
-                    className='fa-trash-icon'
-                  />
+          {uploadSuccess && (
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
+                <Button variant="contained" className='view-button' onClick={getMenuPdf} style={{ backgroundColor: "transparent", border: "1px solid black", color: "black", boxShadow: "none", marginRight: "1rem" }}>
+                  View Menus <FaRegEye style={{ marginLeft: ".5rem" }} />
+                </Button>
+                <FaTrash
+                  style={{ cursor: "pointer", color: "red" }}
+                  className='fa-trash-icon'
+                  onClick={() => handleDelete(uploadSuccess._id)}
+                />
+              </div>
             </div>
-            <div>
-            <Button variant="contained" className='view-button' onClick={()=>window.open(DrinkPDF,"_blank")} style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "1px solid black", color: "black", boxShadow: "none" }}>
-              View Drink Menu <FaRegEye style={{marginLeft:".5rem"}}/>
-            </Button>
-             <FaTrash
-                    style={{ cursor: "pointer", color: "red", marginLeft: "2rem" }}
-                    className='fa-trash-icon'
-                    onClick={()=>handleDelete(MenuPDF._id)}
-                  />
-            </div>
-          </div>
-          </>
           )}
         </div>
       </div>
@@ -378,4 +381,3 @@ const Menu = () => {
 };
 
 export default Menu;
-

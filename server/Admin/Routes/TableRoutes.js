@@ -18,7 +18,7 @@ const {
   editTableItem
 } = require('../Controllers/TableControl');
 
-tableRoutes.use(jwtAuth)  // all routes are secured
+// tableRoutes.use(jwtAuth)  // all routes are secured
 
 // adding roomitem
 tableRoutes.post('/add-table-item', uploader.single('img') ,addTableItem);

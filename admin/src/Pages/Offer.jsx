@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Button, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import "../css/offers.css";
@@ -7,10 +7,12 @@ import { ToastContainer } from 'react-toastify';
 
 const Offers = () => {
   const [offerImg, setOfferImg] = useState(null);
+  const [offerImagePath, setOfferImagePath] = useState('');
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setOfferImagePath(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setOfferImg(reader.result);
@@ -27,7 +29,12 @@ const Offers = () => {
 
   const handleDeleteOffer = () => {
     setOfferImg(null);
+    setOfferImagePath('');
   };
+
+  useEffect(() => {
+    // getOffers();
+  }, []);
 
   return (
     <div className='offers-div'>
