@@ -19,14 +19,14 @@ const uploader = multer({
 
 
 // Add a new offer
-offerRouter.post('/add-offer', uploader.single('img'), addOffer)
+offerRouter.post('/add-offer', uploader.single('img'),jwtAuth, addOffer)
 
 // Getting new offer
 offerRouter.get('/get-offers', getOffers)
 
 
 // Deleting an offer
-offerRouter.delete('/delete-offer/:id', deleteOffer)
+offerRouter.delete('/delete-offer/:id',jwtAuth, deleteOffer)
 
 
 module.exports = offerRouter
