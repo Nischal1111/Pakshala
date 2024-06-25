@@ -8,12 +8,24 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {Outnotify, notify} from "../components/Notify"
+import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 const defaultTheme = createTheme();
 
 export default function Login() {
 
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    setTimeout(()=>{
+        if(localStorage.getItem("logout")==="true"){
+        Outnotify()
+        localStorage.removeItem("logout")
+  }
+    },500)
+    },[])
 
   const handleSubmit = async(event) => {
     event.preventDefault();
@@ -33,8 +45,8 @@ export default function Login() {
       });
       const result = await response.json();
       if (result.success) {
-        alert('Login successful');
-
+        localStorage.setItem("notify","true")
+        notify()
         navigate('/');
       }
 
@@ -45,6 +57,7 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={defaultTheme} style={{fontFamily:"Lato"}}>
+      <ToastContainer/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

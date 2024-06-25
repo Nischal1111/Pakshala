@@ -29,7 +29,7 @@ const Sidebar = () => {
       });
       const result = await response.json();
       if (result.success) {
-        alert('Logout successful');
+        localStorage.setItem("logout","true")
         Cookies.remove("accessToken")
 
       }
@@ -74,7 +74,7 @@ const Sidebar = () => {
               Offers
             </button>
           </Link>
-          <Link to="/login" className="nav-link">
+          <Link to="/login" className="nav-link" onClick={adminLogout}>
             <button onClick={adminLogout} className="distnav--button">
               Logout
             </button>

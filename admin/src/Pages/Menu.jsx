@@ -267,19 +267,6 @@ const Menu = () => {
         setMenu(data.menuPdfs[0]?.menu_file?.menu_url || null);
         setDrink(data.menuPdfs[0]?.drink_file?.menu_url || null);
       }
-      // console.log('Fetched data:', data);
-      // if (data.success && data.menuPdfs && data.menuPdfs.length > 0) {
-      //   const menuFile = data.menuPdfs[0]?.menu_file?.menu_url || null;
-      //   const drinkFile = data.menuPdfs[0]?.drink_file?.menu_url || null;
-      //   if (menuFile && drinkFile) {
-      //     window.open(menuFile, "_blank");
-      //     window.open(drinkFile, "_blank");
-      //   } else {
-      //     console.log("No menu PDFs found.");
-      //   }
-      // } else {
-      //   console.log("No menu PDFs found.");
-      // }
     } catch (error) {
       console.log("Error on getting menu pdf:", error);
     }
