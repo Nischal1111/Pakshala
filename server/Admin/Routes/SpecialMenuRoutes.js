@@ -17,7 +17,7 @@ const uploader = multer({
 });
 
 // middleware
-SpecialMenuRoutes.use(jwtAuth);
+// SpecialMenuRoutes.use(jwtAuth);
 
 
 
@@ -27,11 +27,11 @@ SpecialMenuRoutes.route('/get-special-menu').get(getSpecialMenuItems);
 
 
 // add special menu items
-SpecialMenuRoutes.route('/add-special-menu').post(uploader.single('img') ,addSpecialMenuItem);
+SpecialMenuRoutes.route('/add-special-menu').post(uploader.single('img') ,jwtAuth, addSpecialMenuItem);
 
 
 // delete special menu item
-SpecialMenuRoutes.route('/delete-special-menu/:id').delete(deleteSpecialMenuItem);
+SpecialMenuRoutes.route('/delete-special-menu/:id').delete(jwtAuth,deleteSpecialMenuItem);
 
 
 

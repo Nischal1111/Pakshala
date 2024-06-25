@@ -18,7 +18,7 @@ const {
   editRoom
 } = require('../Controllers/RoomControl');
 
-roomRoutes.use(jwtAuth)  // all routes are secured
+// roomRoutes.use(jwtAuth)  // all routes are secured
 
 
 // adding room item
@@ -37,7 +37,7 @@ roomRoutes.use(jwtAuth)  // all routes are secured
 roomRoutes.get('/get-rooms', getRooms);
 
 // delete room item
-roomRoutes.delete('/delete-room/:id', deleteRoom);
+roomRoutes.delete('/delete-room/:id',jwtAuth, deleteRoom);
 
 // edit room item
 roomRoutes.patch('/update-room/:id', uploader.fields([
@@ -45,7 +45,7 @@ roomRoutes.patch('/update-room/:id', uploader.fields([
   { name: 'img2', maxCount: 1 },
   { name: 'img3', maxCount: 1 },
   { name: 'img4', maxCount: 1 }
-]), editRoom);
+]),jwtAuth, editRoom);
 
 
 
