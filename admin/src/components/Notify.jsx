@@ -49,4 +49,22 @@ transition: Bounce,
     }
     return addnotify()
 }
+export const Marknotify = () => {
+    const addnotify=()=>{
+        toast.success("Order is Completed !!!", {
+position: "top-right",
+autoClose: 2000,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+color:"orange",
+transition: Bounce,
+className: 'toast-custom',
+progressClassName: 'toast-custom-progress',
+});
+    }
+    return addnotify()
+}
 

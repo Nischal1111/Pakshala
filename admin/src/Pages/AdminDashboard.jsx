@@ -38,7 +38,7 @@ const AdminDashboard = () => {
       <div className="admin-dashboard">
         <h1 className='dashboard-title'>Dashboard for user reservations and bookings</h1>
         <section className='dashboard'>
-          <Link to="/admin-dashboard/menu-dash" className='link-dash'>
+          <Link to="/menu-dash" className='link-dash'>
             <div className='dashboard-card'>
               <div style={{display:"flex"}}>
                 <IoFastFoodOutline className='dash-icon'/>
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
               <FaBell className='dash-icon'/>
             </div>
           </Link>
-          <Link to="/admin-dashboard/room-dash" className='link-dash'>
+          <Link to="/room-dash" className='link-dash'>
             <div className='dashboard-card'>
               <div style={{display:"flex"}}>
               <MdBedroomParent className='dash-icon'/>
@@ -56,7 +56,7 @@ const AdminDashboard = () => {
               <FaBell className='dash-icon'/>
             </div>
           </Link>
-          <Link to="/admin-dashboard/table-dash" className='link-dash'>
+          <Link to="/table-dash" className='link-dash'>
             <div className='dashboard-card'>
               <div style={{display:"flex"}}>
                 <MdOutlineTableBar className='dash-icon'/>
@@ -65,7 +65,7 @@ const AdminDashboard = () => {
               <FaBell className='dash-icon'/>
             </div>
           </Link>
-          <Link to="/admin-dashboard/event-dash" className='link-dash'>
+          <Link to="/event-dash" className='link-dash'>
             <div className='dashboard-card'>
               <div style={{display:"flex"}}>
                 <MdEvent className='dash-icon'/>

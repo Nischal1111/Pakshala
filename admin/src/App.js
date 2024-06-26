@@ -22,11 +22,11 @@ function App() {
     <>
       {!hideSidebar && <Sidebar />}
       <Routes>
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/admin-dashboard/menu-dash" element={<MenuDash />} />
-        <Route path="/admin-dashboard/rooms-dash" element={<RoomsDash />} />
-        <Route path="/admin-dashboard/table-dash" element={<TablesDash />} />
-        <Route path="/admin-dashboard/events-dash" element={<EventDash />} /> 
+        <Route path="/" element={<AdminDashboard />} />
+        <Route path="/menu-dash" element={<MenuDash />} />
+        <Route path="/rooms-dash" element={<RoomsDash />} />
+        <Route path="/table-dash" element={<TablesDash />} />
+        <Route path="/events-dash" element={<EventDash />} /> 
         <Route path="/menu" element={<Menu />} />
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/tables" element={<Tables />} />

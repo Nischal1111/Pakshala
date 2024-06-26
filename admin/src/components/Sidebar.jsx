@@ -17,8 +17,6 @@ const Sidebar = () => {
   const activePage = (pathname) => {
     if (location.pathname === pathname) {
       return "activeSideNav";
-    } else if (pathname === "/admin-dashboard" && location.pathname.startsWith("/admin-dashboard")) {
-      return "activeSideNav";
     }
     return "";
   };
@@ -49,8 +47,8 @@ const Sidebar = () => {
         <h1>Admin Panel</h1>
         <hr className="line" />
         <div className="navigation_Lists">
-          <Link to="/admin-dashboard" className="nav-link">
-            <button className={`distnav--button ${activePage("/admin-dashboard")}`}>
+          <Link to="/" className="nav-link">
+            <button className={`distnav--button ${activePage("/")}`}>
               Dashboard
             </button>
           </Link>
