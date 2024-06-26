@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import MenuDescription from '../components/MenuDescription';
 import LookAround from '../components/LookAround';
 import ReservationDesc from '../components/ReservationDesc';
 import HomeDescripton from '../components/HomeDescripton';
@@ -12,16 +11,18 @@ import Nav from '../components/Nav';
 import EventGallary from '../components/EventGallary';
 import { Modal, Box, IconButton } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
+import Map from '../components/Map';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setOpen(false);
-    }, 10000); // Auto-close modal after 10 seconds
+      setOpen(true);
+    }, 700);
     return () => clearTimeout(timer);
   }, []);
 
@@ -78,18 +79,20 @@ const Home = () => {
             <p>
               Set on 37 acres of landscaped grounds, Hyatt Regency Kathmandu is a luxury five-star hotel designed in traditional.
             </p>
+            <Link to="/menu">
             <button>
               Order Now
             </button>
+            </Link>
           </div>
         </div>
       </Parallax>
       <Parallax strength={600}>
         <HomeDescripton />
       </Parallax>
-      <MenuDescription />
-      <LookAround />
       <ReservationDesc />
+      <LookAround />
+      <Map/>
       <EventGallary />
       <Footer />
     </motion.div>

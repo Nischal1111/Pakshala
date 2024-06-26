@@ -1,4 +1,4 @@
-.menu-desc {
+/* .menu-desc {
     background-color: #D4E0ED;
     display: flex;
     height: 100vh;
@@ -133,4 +133,25 @@
     .thirdfood-img {
         display: none;
     }
+} */
+
+
+.maps-div{
+    height: 100%;
+    width: 100%;
+    
 }
+
+.con--location {
+    margin: 2rem;
+    font-size:2.2rem;
+    font-weight: 400;
+    color: black;
+    letter-spacing: 3px;
+    font-family: "Inika";
+
+}
+.map{
+    font-size: 1.8rem;
+}
+

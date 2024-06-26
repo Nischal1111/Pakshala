@@ -8,7 +8,6 @@ const ContactForm = () => {
   const [message, setMessage] = useState("")
 
   const handleNameChange = (event) => setName(event.target.value);
-  const handleEmailChange = (event) => setEmail(event.target.value);
   const handleContactChange = (event) => setContact(event.target.value);
   const handleMessageChange = (event) => setMessage(event.target.value);
 
@@ -25,12 +24,11 @@ const ContactForm = () => {
       <div className="menu-container-form">
         <h3>Order Here</h3>
         <div className='menu--form'>
-            <form onClick={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <input className='menu--input' placeholder='Enter your fullname' type='text' autoComplete='off' required onChange={handleNameChange}/>
-                <input className='menu--input' placeholder='Enter your E-mail' type='email' autoComplete='off' required onChange={handleEmailChange}/>
                 <input className='menu--input' placeholder='Enter your contact number' type='number' autoComplete='off' required onChange={handleContactChange}/>
                 <textarea name='message' placeholder='Place your order here (menu items)' cols='30'rows='6' autoComplete='off' required onChange={handleMessageChange}></textarea>
-            <button type='submit' className='contact--btn'>Place order</button>
+                <button type='submit' className='contact--btn'>Place order</button>
             </form>
         </div>
       </div>
