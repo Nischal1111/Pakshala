@@ -15,7 +15,12 @@ const Sidebar = () => {
   const location = useLocation();
 
   const activePage = (pathname) => {
-    return location.pathname === pathname ? "activeSideNav" : "";
+    if (location.pathname === pathname) {
+      return "activeSideNav";
+    } else if (pathname === "/admin-dashboard" && location.pathname.startsWith("/admin-dashboard")) {
+      return "activeSideNav";
+    }
+    return "";
   };
 
   const adminLogout = async () => {
@@ -44,8 +49,8 @@ const Sidebar = () => {
         <h1>Admin Panel</h1>
         <hr className="line" />
         <div className="navigation_Lists">
-          <Link to="/" className="nav-link">
-            <button className={`distnav--button ${activePage("/")}`}>
+          <Link to="/admin-dashboard" className="nav-link">
+            <button className={`distnav--button ${activePage("/admin-dashboard")}`}>
               Dashboard
             </button>
           </Link>

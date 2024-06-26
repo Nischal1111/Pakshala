@@ -47,7 +47,7 @@ export default function Login() {
       if (result.success) {
         localStorage.setItem("notify","true")
         notify()
-        navigate('/');
+        navigate('/admin-dashboard');
       }
 
     } catch (error) {

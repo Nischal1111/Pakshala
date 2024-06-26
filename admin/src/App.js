@@ -9,6 +9,10 @@ import Offer from "./Pages/Offer";
 import Sidebar from "./components/Sidebar";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SIgnUp";
+import MenuDash from "./components/MenuDash";
+import RoomsDash from "./components/RoomsDash"
+import TablesDash from "./components/TablesDash"
+import EventDash from "./components/EventDash"
 
 function App() {
   const location = useLocation();
@@ -18,7 +22,11 @@ function App() {
     <>
       {!hideSidebar && <Sidebar />}
       <Routes>
-        <Route path="/" element={<AdminDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/admin-dashboard/menu-dash" element={<MenuDash />} />
+        <Route path="/admin-dashboard/rooms-dash" element={<RoomsDash />} />
+        <Route path="/admin-dashboard/table-dash" element={<TablesDash />} />
+        <Route path="/admin-dashboard/events-dash" element={<EventDash />} /> 
         <Route path="/menu" element={<Menu />} />
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/tables" element={<Tables />} />
