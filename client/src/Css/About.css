@@ -58,28 +58,7 @@
     width: 50%;
     position: relative;
 
-    .about-title::before{
-        content: "";
-        width: .3rem;
-        height: 3.5rem;
-        background-color:#eab38c;
-        position: absolute;
-        border-radius: 1rem;
-        top: .3rem;
-        left: -2rem;
-    }
-
-    .about-title{
-        height: 4rem;
-        color: #eab38c;
-        margin-left: 2rem;
-        font-size: 2.4rem;
-        letter-spacing: 3px;
-        font-family: "Inika";
-        margin-bottom: 2rem;
-        text-transform: uppercase;
-        position: relative;
-    }
+    
     p{
         font-size: 1.1rem;
         letter-spacing: 1px;
@@ -87,6 +66,30 @@
         line-height: 2.5rem;
     }
 }
+
+.about-title::before {
+    content: "";
+    width: .3rem;
+    height: 3.5rem;
+    background-color: #eab38c;
+    position: absolute;
+    border-radius: 1rem;
+    top: .3rem;
+    left: -2rem;
+}
+
+.about-title {
+    height: 4rem;
+    color: #eab38c;
+    margin-left: 2rem;
+    font-size: 2.4rem;
+    letter-spacing: 3px;
+    font-family: "Inika";
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    position: relative;
+}
+
 .about-img{
     position: relative;
     bottom: 2rem;

@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import "../Css/nav.css";
 import PakshalaLogo from "../assets/pakshalalogo.png";
 
 const Nav = () => {
-  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
-  const [isNavbarVisible, setNavbarVisible] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showLoc, setLoc] = useState(true);
   const location = useLocation();
 
-  const handleScroll = () => {
-    const currentScrollPos = window.pageYOffset;
-    setNavbarVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
-    setPrevScrollPos(currentScrollPos);
-  };
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -25,16 +18,8 @@ const Nav = () => {
     }
   };
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [prevScrollPos]);
-
   return (
-    <div className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
+    <div className="navbar visible">
       <Link to="/">
         <div className='logo'>
           <img src={PakshalaLogo} alt="PakshalaLogo" className='nav-logo' />
@@ -60,6 +45,9 @@ const Nav = () => {
         </Link>
         <Link to="/about" className={`nav-link-item ${location.pathname === '/about' ? 'clicked' : ''}`} onClick={handleMenuToggle}>
           <p>About</p>
+        </Link>
+        <Link to="/gallary" className={`nav-link-item ${location.pathname === '/gallary' ? 'clicked' : ''}`} onClick={handleMenuToggle}>
+          <p>Gallary</p>
         </Link>
       </div>
       {showLoc && (

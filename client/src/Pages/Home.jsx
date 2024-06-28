@@ -8,7 +8,6 @@ import { motion } from 'framer-motion';
 import { Parallax } from 'react-parallax';
 import Footer from '../components/Footer';
 import Nav from '../components/Nav';
-import EventGallary from '../components/EventGallary';
 import { Modal, Box, IconButton } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 import Map from '../components/Map';
@@ -20,9 +19,10 @@ const Home = () => {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
+    setOpen(true);
     const timer = setTimeout(() => {
-      setOpen(true);
-    }, 700);
+      setOpen(false);
+    }, 10000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -93,7 +93,6 @@ const Home = () => {
       <ReservationDesc />
       <LookAround />
       <Map/>
-      <EventGallary />
       <Footer />
     </motion.div>
   );

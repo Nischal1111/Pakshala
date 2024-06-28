@@ -38,10 +38,11 @@
 
 .res-text .res-button {
     margin-right: 4rem;
-    background-color: aliceblue;
+    background-color: #f0c3a2;
     padding: 12px 25px;
     border-radius: 6px;
     font-size: 1rem;
+    color: white;
     letter-spacing: 1.2px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
 }

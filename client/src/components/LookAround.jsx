@@ -13,7 +13,7 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-import { EffectCoverflow, Navigation } from 'swiper/modules';
+import { EffectCoverflow, Navigation, Autoplay } from 'swiper/modules';
 
 const LookAround = () => {
     const slides = [
@@ -55,7 +55,11 @@ const LookAround = () => {
                     prevEl: '.swiper-button-prev',
                     clickable: true,
                 }}
-                modules={[EffectCoverflow, Navigation]}
+                autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                }}
+                modules={[EffectCoverflow, Navigation, Autoplay]}
                 className="swiper_container"
                 speed={1000}
             >

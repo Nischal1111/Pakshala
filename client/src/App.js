@@ -7,6 +7,7 @@ import Contact from '../src/Pages/Contact';
 import ScrollToTop from '../src/components/ScrollToTop';
 import About from '../src/Pages/About';
 import RoomReserve from './Pages/RoomReserve';
+import EventGallary from './Pages/EventGallary';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/menu" element={<Menu />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} /> 
+        <Route path="/gallary" element={<EventGallary />} /> 
       </Routes>
     </>
   );

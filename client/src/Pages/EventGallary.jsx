@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
 import { Link } from 'react-router-dom'
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { ImgGallery } from '../data';
 import "../Css/nav.css"
+import Nav from '../components/Nav';
+import Footer from '../components/Footer';
 
 const EventGallary = () => {
   const [imageList,setImageList]=useState([])
@@ -28,16 +29,18 @@ const EventGallary = () => {
     getImages()
   },[])
   return (
-    <div style={{ margin: "1rem 3rem" }}>
+    <>
+    <Nav/>
+    <div style={{ margin: "7% 1rem" }}>
       <motion.div className="res-text">
-        <h1 className="res-head">Events</h1>
+        <h1 className="event-title">Events</h1>
         <div className="res-text-div">
           <motion.p className="text-text">
             Enjoy your stay in one of 280 rooms and suites, with views of either the Boudhanath Stupa or the lush gardens and surrounding mountain ranges.
             Every room and suite has its own distinctly Nepalese interior, including local artifacts, wooden flooring and Tibetan handwoven carpeting.
           </motion.p>
           <Link to="/about#bookvenue">
-            <button className="res-button">Book Venue</button>
+            <button className="event-button">Book Venue</button>
           </Link>
         </div>
       </motion.div>
@@ -49,6 +52,8 @@ const EventGallary = () => {
         </Masonry>
       </ResponsiveMasonry>
     </div>
+      <Footer/>
+    </>
   );
 }
 
