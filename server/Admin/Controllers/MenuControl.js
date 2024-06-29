@@ -1,6 +1,6 @@
 
 const Menu = require('../Schemas/Menu');
-const uploadFile = require('../../Middlewares/UploadFile');
+const uploadFile = require('../../Utils/UploadFile');
 
 //  Adding a new menu item 
 

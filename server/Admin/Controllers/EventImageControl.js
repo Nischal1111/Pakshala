@@ -1,6 +1,6 @@
 const EventImage = require('../Schemas/EventImage');
 
-const {uploadFile, deleteFile} = require('../../Middlewares/UploadFile')
+const {uploadFile, deleteFile} = require('../../Utils/UploadFile')
 
 
 
@@ -64,8 +64,8 @@ const deleteImage = async (req, res) => {
 
         // Delete image from Cloudinary
         const deleteImg = await deleteFile(image.image_public_id);
-        if (deleteImg) {
-            return res.status(200).json({success:false, message: 'Image deleted successfully' });
+        if (!deleteImg) {
+            return res.status(200).json({success:false, message: 'Error while deleting image.' });
         }
 
         // Delete image from database
@@ -77,8 +77,7 @@ const deleteImage = async (req, res) => {
         return res.status(200).json({success:true, message: 'Image deleted successfully' });
 
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({success:false, message: 'Internal server error' });
+        return res.status(500).json({success:false, message: 'Internal server error', error:err});
     }
 }
 

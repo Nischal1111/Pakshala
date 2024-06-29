@@ -1,6 +1,6 @@
 const SpecialMenu = require('../Schemas/SpecialMenu');
 
-const {uploadFile , deleteFile} = require('../../Middlewares/UploadFile');
+const {uploadFile , deleteFile} = require('../../Utils/UploadFile');
 
 
 
