@@ -1,17 +1,23 @@
-import React,{useEffect} from 'react';
-import { Link, useLocation,useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import '../css/sidebar.css';
-import Cookies from "js-cookie"
-import {userLogged} from "../components/Cookie"
+import Cookies from "js-cookie";
+import { userLogged } from "../components/Cookie";
 
 const Sidebar = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     if (!userLogged()) {
       navigate('/login');
     }
   }, [navigate]);
+
   const location = useLocation();
 
   const activePage = (pathname) => {
@@ -32,14 +38,18 @@ const Sidebar = () => {
       });
       const result = await response.json();
       if (result.success) {
-        localStorage.setItem("logout","true")
-        Cookies.remove("accessToken")
-
+        localStorage.setItem("logout", "true");
+        Cookies.remove("accessToken");
+        handleClose(); // Close the logout confirmation dialog after successful logout
+        navigate('/login'); // Redirect to login page
+      } else {
+        console.error('Logout failed:', result.message);
+        // Optionally handle logout failure here
       }
     } catch (error) {
       console.error('Error:', error);
     }
-  }
+  };
 
   return (
     <div className="left">
@@ -77,11 +87,32 @@ const Sidebar = () => {
               Offers
             </button>
           </Link>
-          <Link to="/login" className="nav-link" onClick={adminLogout}>
-            <button onClick={adminLogout} className="distnav--button">
+          <div className="nav-link">
+            <button onClick={handleOpen} className="distnav--button">
               Logout
             </button>
-          </Link>
+          </div>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+          >
+            <DialogTitle>Logout Confirmation</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Are you sure you want to logout?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary" sx={{ color: "#06D001" }}>
+                Cancel
+              </Button>
+              <Link to="/login" onClick={adminLogout}>
+              <Button onClick={adminLogout} color="primary" autoFocus sx={{ color: "red" }}>
+                Logout
+              </Button>
+              </Link>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
     </div>

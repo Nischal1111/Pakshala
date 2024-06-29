@@ -1,13 +1,30 @@
-import React, { useState,useEffect } from 'react';
-import { Button, IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React, { useState, useEffect } from 'react';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { FaTrash } from "react-icons/fa";
 import "../css/offers.css";
-import {notify} from "../components/Notify"
+import { notify } from "../components/Notify";
 import { ToastContainer } from 'react-toastify';
 
 const Offers = () => {
   const [offerImg, setOfferImg] = useState(null);
-  const [offerImagePath, setOfferImagePath] = useState('');
+  const [offerImagePath, setOfferImagePath] = useState(null);
+  const [uploaded, setUploaded] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const getOffers = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-offers`, {
+        method: 'GET',
+        credentials: "include"
+      });
+      const result = await response.json();
+      if (result.success) {
+        setUploaded(result.offers[0]?.offer_image_url || '');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -21,24 +38,61 @@ const Offers = () => {
     }
   };
 
-  const handleSubmit=(e)=>{
-    e.preventDefault()
-    notify()
-    console.log(offerImg)
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('offerImage', offerImagePath);
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/add-offer`, {
+        method: 'POST',
+        credentials: "include",
+        body: formData
+      });
+      const result = await response.json();
+      if (result.success) {
+        notify();
+        getOffers();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
-  const handleDeleteOffer = () => {
-    setOfferImg(null);
-    setOfferImagePath('');
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDeleteOffer = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-offer`, {
+        method: 'DELETE',
+        credentials: "include"
+      });
+      const result = await response.json();
+      if (result.success) {
+        setOfferImg(null);
+        setOfferImagePath(null);
+        setUploaded(null);
+        notify();
+        handleClose();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   useEffect(() => {
-    // getOffers();
+    getOffers();
   }, []);
 
   return (
     <div className='offers-div'>
-      <ToastContainer/>
+      <ToastContainer />
       <h1>Offers</h1>
       <form onSubmit={handleSubmit}>
         <input
@@ -49,7 +103,7 @@ const Offers = () => {
           onChange={handleImageChange}
         />
         <label htmlFor="offer-image-file">
-          <Button variant="contained" component="span" style={{border:"none",backgroundColor:"transparent",color:"blue",boxShadow:"none",textDecoration:"underline"}}>
+          <Button variant="contained" component="span" style={{ border: "none", backgroundColor: "transparent", color: "blue", boxShadow: "none", textDecoration: "underline" }}>
             Upload Offer Image
           </Button>
         </label>
@@ -57,19 +111,47 @@ const Offers = () => {
           {offerImg &&
             <div className='offer-item'>
               <img src={offerImg} alt="offer" className="offer-image" />
-              <IconButton onClick={handleDeleteOffer} aria-label="delete" className="delete-button">
-                <DeleteIcon />
-              </IconButton>
             </div>
           }
         </div>
-        <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft:".5rem",marginTop: "1rem", marginBottom: "1rem", backgroundColor: "#55AD9B" }}>
-            Confirm Upload
+        <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "#55AD9B" }}>
+          Confirm Upload
         </Button>
       </form>
-      <div>
+      {uploaded &&
+        <div className='offer-item-2'>
+          <img src={uploaded} alt="offer" className="offer-image" />
+          <div style={{ backgroundColor: "white", padding: ".4rem", borderRadius: "50%", height: "2rem", width: "2rem", right: ".8rem" }}
+            className='fa-trash-icon2'
+            onClick={handleOpen}
+          >
+            <FaTrash
+              style={{ cursor: "pointer", color: "red" }}
+              className='fa-trash-icon2-icon'
+            />
+          </div>
+        </div>
+      }
 
-      </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+      >
+        <DialogTitle>Delete Offer</DialogTitle>
+        <DialogContent >
+          <DialogContentText>
+            Are you sure you want to delete this offer?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary" sx={{color:"#06D001"}}>
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteOffer} color="primary" autoFocus sx={{color:"red"}}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

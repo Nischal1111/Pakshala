@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "../css/menu.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button } from '@mui/material';
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import {userLogged} from "../components/Cookie"
@@ -10,8 +11,18 @@ import { ImSpinner2 } from 'react-icons/im';
 import { delnotify } from '../components/delnotify';
 import { editnotify } from '../components/editnotify';
 
-const RoomList = ({ roomData, setRoomData, handleEdit }) => {
+const RoomList = ({ roomData, handleEdit,getAllRooms }) => {
   const [search, setSearch] = useState('');
+  const [delloading, setdelLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = (id) => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  }
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
@@ -19,11 +30,9 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
 
   // Delete room
   const handleDelete = async (id) => {
+    setdelLoading(true)
     const itemdel = roomData.find(room => room._id === id)
     
-    //eslint-disable-next-line no-restricted-globals
-    const userConfirmed = confirm("Are you sure you want to delete this room?");
-    if (userConfirmed) {
       const deleteR = await fetch(`${process.env.REACT_APP_API_URL}/delete-room/${id}`, {
         method: 'DELETE',
         headers: {
@@ -39,14 +48,14 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
       });
       const data = await deleteR.json();
       if (data.success) {
-        window.location.reload();
-        setTimeout(() => { 
-          delnotify()
-        }, 500);
+        setdelLoading(false)
+        delnotify()
+        getAllRooms()
+        handleClose()
         
       }else{
+        setdelLoading(false)
         console.log(data.message);
-      }
     }
   };
 
@@ -77,6 +86,7 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
             </TableHead>
             <TableBody>
               {filteredRooms.map((item, index) => (
+                <>
                 <TableRow key={item.room_name} className='table-row'>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell className='table-row'>
@@ -92,11 +102,39 @@ const RoomList = ({ roomData, setRoomData, handleEdit }) => {
                     <IconButton onClick={() => handleEdit(item._id)}>
                       <Edit className='menu-edit' />
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(item._id)}>
+                    <IconButton onClick={handleOpen}>
                       <Delete className='menu-delete' />
                     </IconButton>
                   </TableCell>
                 </TableRow>
+                 <Dialog
+        open={open}
+        onClose={handleClose}
+      >
+        <DialogTitle>Delete Image</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this room?
+          </DialogContentText>
+        </DialogContent>
+        
+          {delloading ? (<>
+          <div className='loading-spinner' style={{height:"2rem",width:"2rem",margin:"1rem 0rem 2rem 2rem"}}>
+            <ImSpinner2 className='loading' style={{height:"2rem",width:"2rem"}}/>
+          </div>
+          </>):(<>
+          <DialogActions>
+          <Button onClick={handleClose} color="primary" sx={{ color: "#06D001" }}>
+            Cancel
+          </Button>
+          <Button onClick={()=>handleDelete(item._id)} color="primary" autoFocus sx={{ color: "red" }}>
+            Delete
+          </Button>
+          </DialogActions>
+          </>)}
+      </Dialog>
+                </>
+                
               ))}
             </TableBody>
           </Table>
@@ -321,7 +359,7 @@ const Rooms = () => {
       <div className="menu-content">
         <ToastContainer/>
         <button onClick={handleOpen} className='add-item'>Add Room</button>
-        <RoomList roomData={roomData} setRoomData={setRoomData} handleEdit={handleEdit} />
+        <RoomList roomData={roomData} setRoomData={setRoomData} handleEdit={handleEdit} getAllRooms={getAllRooms}/>
       </div>
       <Modal open={open} onClose={handleClose}>
         <Box className="modal-box" style={{ maxHeight: '90vh', overflowY: 'auto' }}>

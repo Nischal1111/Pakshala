@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button } from '@mui/material';
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { userLogged } from "../components/Cookie";
@@ -28,7 +29,16 @@ const Tables = () => {
   const [editTableData, setEditTableData] = useState({ title: '', category: '', guests: '', img: null });
   const [editingIndex, setEditingIndex] = useState(null);
   const [editImagePreview, setEditImagePreview] = useState(null);
+  const [delloading, setdelLoading] = useState(false);
+  const [delopen, setDelOpen] = useState(false);
 
+  const handleDelOpen = (id) => {
+    setDelOpen(true);
+  };
+
+  const handleDelClose = () => {
+    setDelOpen(false);
+  }
   const getAllTableItems = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-items`, {
@@ -173,9 +183,8 @@ const Tables = () => {
   };
 
   const handleDelete = async (id) => {
+    setdelLoading(true)
     const itemToDelete = tableData.find(item => item._id === id);
-    const userConfirmed = window.confirm("Are you sure you want to delete this table?");
-    if (userConfirmed) {
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-table-item/${id}`, {
           method: 'DELETE',
@@ -188,14 +197,16 @@ const Tables = () => {
 
         const data = await response.json();
         if (data.success) {
+          setdelLoading(false)
+          handleDelClose()
           delnotify();
           setTableData(tableData.filter(item => item._id !== id));
         } else {
+          setdelLoading(false)
           console.error('Error deleting table item:', data.error);
         }
       } catch (error) {
         console.error('Error deleting table item:', error);
-      }
     }
   };
 
@@ -219,6 +230,7 @@ const Tables = () => {
               </TableHead>
               <TableBody>
                 {tableData.map((item, index) => (
+                  <>
                   <TableRow key={item._id} className='table-row'>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell className='table-row'>
@@ -231,11 +243,45 @@ const Tables = () => {
                       <IconButton onClick={() => handleEdit(item._id)}>
                         <Edit className='menu-edit' />
                       </IconButton>
-                      <IconButton onClick={() => handleDelete(item._id)}>
+                      <IconButton onClick={handleDelOpen}>
                         <Delete className='menu-delete' />
                       </IconButton>
                     </TableCell>
                   </TableRow>
+                   <Dialog
+        open={delopen}
+        onClose={handleDelClose}
+        PaperProps={{
+    style: {
+      backgroundColor: 'white', // Set your desired background color here
+      boxShadow: 'none', // Optional: Remove default box shadow if desired
+    },
+  }}
+      >
+        <DialogTitle>Delete Image</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this room?
+          </DialogContentText>
+        </DialogContent>
+        
+          {delloading ? (<>
+          <div className='loading-spinner' style={{height:"2rem",width:"2rem",margin:"1rem 0rem 2rem 2rem"}}>
+            <ImSpinner2 className='loading' style={{height:"2rem",width:"2rem"}}/>
+          </div>
+          </>):(<>
+          <DialogActions>
+          <Button onClick={handleDelClose} color="primary" sx={{ color: "#06D001" }}>
+            Cancel
+          </Button>
+          <Button onClick={()=>handleDelete(item._id)} color="primary" autoFocus sx={{ color: "red" }}>
+            Delete
+          </Button>
+          </DialogActions>
+          </>)}
+      </Dialog>
+                  </>
+                  
                 ))}
               </TableBody>
             </Table>
@@ -371,6 +417,6 @@ const Tables = () => {
       </Modal>
     </>
   );
-};
+}
 
-export default Tables;
+export default Tables

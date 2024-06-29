@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "../css/menu.css";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { Button, Modal, TextField } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { userLogged } from "../components/Cookie";
 import { notify } from '../components/Notify';
@@ -18,6 +19,11 @@ const Special = () => {
   const [itemImage, setItemImage] = useState(null);
   const [imagePath, setImagePath] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [delLoading,setDelLoading] =useState(false)
+  const [delopen,setDelOpen]=useState(false)
+
+  const handleDelopen=()=>setDelOpen(true)
+  const handleDelClose=()=>setDelOpen(false)
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -52,8 +58,8 @@ const Special = () => {
 
         if (data.success) {
           notify();
-          setItems([...items, { _id: data.newItem._id, item_name: itemName, item_image: { url: itemImage } }]);
           handleClose();
+          getSpecialMenu()
         } else {
           alert('Failed to add special item.');
         }
@@ -84,7 +90,7 @@ const Special = () => {
   };
 
   const handleRemoveItem = async (id) => {
-    setLoading(true);
+    setDelLoading(true);
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-special-menu/${id}`, {
         method: 'DELETE',
@@ -93,13 +99,16 @@ const Special = () => {
       const data = await response.json();
 
       if (data.success) {
-        setItems(items.filter((item) => item._id !== id));
         delnotify();
+        setDelLoading(false)
+        handleDelClose()
+        getSpecialMenu()
       } else {
+        setDelLoading(false)
         alert('Failed to delete special item.');
       }
     } catch (error) {
-      console.log("Error on deleting menu:", error);
+      setDelLoading(false)
       alert('Failed to delete special item. Please try again.');
     } finally {
       setLoading(false);
@@ -117,19 +126,48 @@ const Special = () => {
         <h1>Today's Special</h1>
         <div style={{ display: "flex" }}>
           {items.map((item) => (
+            <>
             <div className='special-card' key={item._id}>
-              <img src={item.item_image?.url} alt={item.item_name} style={{ width: "100%", height: "60%", objectFit: "cover" }} />
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: ".5rem" }}>
-                <p style={{ fontSize: "1.2rem", letterSpacing: "3px", marginRight: "2rem" }}>{item.item_name}</p>
+              <img src={item.item_image?.url} alt={item.item_name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: ".5rem",padding:".3rem" }}>
+                <p style={{ fontSize: "1rem", marginLeft:".8rem" }}>{item.item_name}</p>
                 <div className='fa-trash'>
                   <FaTrash
                     style={{ cursor: "pointer", color: "red", marginLeft: "2rem" }}
                     className='fa-trash-icon'
-                    onClick={() => handleRemoveItem(item._id)}
+                    onClick={handleDelopen}
                   />
                 </div>
               </div>
             </div>
+            <Dialog
+        open={delopen}
+        onClose={handleDelClose}
+      >
+        <DialogTitle>Delete Image</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this image?
+          </DialogContentText>
+        </DialogContent>
+        
+          {delLoading ? (<>
+          <div className='loading-spinner' style={{height:"2rem",width:"2rem",margin:"1rem 0rem 2rem 2rem"}}>
+            <ImSpinner2 className='loading' style={{height:"2rem",width:"2rem"}}/>
+          </div>
+          </>):(<>
+          <DialogActions>
+          <Button onClick={handleDelClose} color="primary" sx={{ color: "#06D001" }}>
+            Cancel
+          </Button>
+          <Button onClick={()=>handleRemoveItem(item._id)} color="primary" autoFocus sx={{ color: "red" }}>
+            Delete
+          </Button>
+          </DialogActions>
+          </>)}
+      </Dialog>
+            </>
+            
           ))}
           <div className='special-card' onClick={handleOpen}>
             <FaPlus style={{ fontSize: "2.5rem", color: "#B4B4B8" }} />
@@ -310,12 +348,12 @@ const Menu = () => {
               onChange={handleFileChange}
             />
             <label htmlFor="raised-button-file">
-              <Button variant="contained" component="span" className='upload-img2' style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "none", color: "blue", textDecoration: "underline" }}>
+              <Button variant="contained" component="span" className='upload-img2' style={{marginBottom: ".5rem", backgroundColor: "transparent", border: "none", color: "blue", textDecoration: "underline",boxShadow:"none" }}>
                 Upload Menu File
               </Button>
             </label>
             {file && (
-              <div className='pdf-viewer'>
+              <div className='pdf-viewer' style={{marginBottom:"1rem"}}>
                 <iframe
                   src={file}
                   width="100%"
@@ -334,7 +372,7 @@ const Menu = () => {
               onChange={handleDrink}
             />
             <label htmlFor="raised-drink-file">
-              <Button variant="contained" component="span" className='upload-img2' style={{ marginTop: "1rem", marginBottom: "1rem", backgroundColor: "transparent", border: "none", color: "blue", textDecoration: "underline" }}>
+              <Button variant="contained" component="span" className='upload-img2' style={{marginBottom: "1rem", backgroundColor: "transparent", border: "none", color: "blue", textDecoration: "underline",boxShadow:"none" }}>
                 Upload Drinks File
               </Button>
             </label>

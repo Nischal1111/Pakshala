@@ -20,13 +20,24 @@
     gap: 1rem;
     margin-top: 2rem;
 }
-
 .offer-item {
     border: 1px solid #ccc;
     padding: 1rem;
     border-radius: 5px;
+    margin-bottom: 1rem;
     width: 200px;
     text-align: center;
+    position: relative;
+}
+
+.offer-item-2 {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 5px;
+    width: 300px;
+    height: 300px;
+    text-align: center;
+    position: relative;
 }
 
 .offer-image {
