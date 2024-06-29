@@ -1,16 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { Card, CardContent, Typography, Checkbox, FormControlLabel } from '@mui/material';
-import { CheckContext } from './CheckBoxContext';
+import {CheckContext} from "./CheckBoxContext"
 import { Marknotify } from './Notify';
 
 const OrderCard = ({ order }) => {
-  const { handleCheckboxChange } = useContext(CheckContext);
-  const [completed, setCompleted] = useState(order.completed);
+  const { handleStatusChange } = useContext(CheckContext);
+  const [completed, setCompleted] = useState(order.status === "Completed");
 
   const handleChange = () => {
-    setCompleted(!completed);
-    handleCheckboxChange(order.id, !completed);
-    Marknotify()
+    const newCompleted = !completed;
+    setCompleted(newCompleted);
+    handleStatusChange(order._id, newCompleted);
+    Marknotify();
   };
 
   return (
@@ -31,27 +32,23 @@ const OrderCard = ({ order }) => {
           color: "white"
         }}
       >
-        <CardContent sx={{ color: "black" }}>
-          <Typography sx={{ fontSize: "1rem", letterSpacing: "1.5px", marginBottom: ".5rem" }}>Order Id: {order.id}</Typography>
+        <CardContent sx={{ color: "black",height:"350px",minHeight:"350px" }}>
+          <Typography sx={{ fontSize: "1rem", letterSpacing: "1.5px", marginBottom: ".5rem" }}>Order Id: {order._id}</Typography>
           <hr className='order-line' />
           <div style={{ display: "flex", gap: "1rem", flexDirection: "column", width: "100%" }}>
             <Typography variant="subtitle1"
               sx={{
                 backgroundColor: "rgb(255, 176, 79,.3)"
                 , padding: ".5rem 1rem", borderRadius: "5px", marginTop: ".5rem"
-              }}>{order.name}</Typography>
+              }}>{order.fullName}</Typography>
             <Typography variant="subtitle1" sx={{
               backgroundColor: "rgba(255, 176, 79,.3)"
-              , padding: ".5rem 1rem", borderRadius: "5px", marginTop: ".2rem"
-            }}>{order.email}</Typography>
-            <Typography variant="subtitle1" sx={{
-              backgroundColor: "rgb(255, 176, 79,.3)"
               , padding: ".5rem 1rem", borderRadius: "5px", marginTop: ".2rem"
             }}>{order.contact}</Typography>
             <Typography variant="body1" sx={{
               backgroundColor: "rgb(255, 176, 79,.3)"
               , padding: ".5rem 1rem", borderRadius: "5px", marginBottom: ".2rem", marginTop: ".5rem"
-            }}>{order.message}</Typography>
+            }}>{order.order}</Typography>
             <FormControlLabel
               control={<Checkbox checked={completed} onChange={handleChange} />}
               label="Completed"

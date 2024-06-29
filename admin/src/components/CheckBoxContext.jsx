@@ -1,41 +1,57 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const CheckContext = createContext();
 
 const CheckProvider = ({ children }) => {
-  const [orders, setOrders] = useState([
-    {
-      id: '1',
-      name: 'Nischal Dai',
-      email: 'neupane@example.com',
-      contact: '123-456-7890',
-      message: 'Momo hai piro momo please dhwerai chaiyo, chowmein pani chaiyo',
-      completed: false,
-    },
-    {
-      id: '2',
-      name: 'Dai Nischal',
-      email: 'nischal@example.com',
-      contact: '098-765-4321',
-      message: 'Burger, Chowmin and Katti Roll please Nischal Dai le vannu vako',
-      completed: true,
-    },
-  ]);
+  const [orderDetails, setOrderDetails] = useState([]);
 
-  const handleStatusChange = (orderId, completed) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === orderId ? { ...order, completed } : order
-      )
-    );
-  };
+  useEffect(() => {
+    const getOrderDetails = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/get-all-menu-orders`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+        const data = await response.json();
+        if (data.success) {
+          setOrderDetails(data.orders);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  const handleCheckboxChange = (orderId, completed) => {
-    handleStatusChange(orderId, completed);
+    getOrderDetails();
+  }, []);
+
+  const handleStatusChange = async (orderId, completed) => {
+    // try {
+    //   const response = await fetch(`${process.env.REACT_APP_API_URL}/update-order-status/${orderId}`, {
+    //     method: 'PUT',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     credentials: 'include',
+    //     body: JSON.stringify({ status: completed ? "Completed" : "Pending" }),
+    //   });
+    //   const data = await response.json();
+    //   if (data.success) {
+    //     setOrderDetails((prevOrders) =>
+    //       prevOrders.map((order) =>
+    //         order._id === orderId ? { ...order, status: completed ? "Completed" : "Pending" } : order
+    //       )
+    //     );
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
-    <CheckContext.Provider value={{ orders, handleCheckboxChange }}>
+    <CheckContext.Provider value={{ orderDetails, handleStatusChange }}>
       {children}
     </CheckContext.Provider>
   );

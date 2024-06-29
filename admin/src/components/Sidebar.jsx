@@ -40,11 +40,10 @@ const Sidebar = () => {
       if (result.success) {
         localStorage.setItem("logout", "true");
         Cookies.remove("accessToken");
-        handleClose(); // Close the logout confirmation dialog after successful logout
-        navigate('/login'); // Redirect to login page
+        handleClose();
+        navigate('/login');
       } else {
         console.error('Logout failed:', result.message);
-        // Optionally handle logout failure here
       }
     } catch (error) {
       console.error('Error:', error);
