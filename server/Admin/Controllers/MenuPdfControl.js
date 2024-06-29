@@ -1,6 +1,6 @@
 const MenuPdf = require('../Schemas/MenuPdf');
 
-const {uploadFile, uploadFilePdf , deleteFile} = require('../../Middlewares/UploadFile');
+const {uploadFile, uploadFilePdf , deleteFile} = require('../../Utils/UploadFile');
 
 
 // add file

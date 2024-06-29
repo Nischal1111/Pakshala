@@ -1,5 +1,5 @@
 const Room = require('../Schemas/Room');
-const {uploadFile , deleteFile} = require('../../Middlewares/UploadFile');
+const {uploadFile , deleteFile} = require('../../Utils/UploadFile');
 
 
 

@@ -1,6 +1,6 @@
 
 const Table = require('../Schemas/Table');
-const {uploadFile, deleteFile} = require('../../Middlewares/UploadFile');
+const {uploadFile, deleteFile} = require('../../Utils/UploadFile');
 
 //  Adding a new table item 
 

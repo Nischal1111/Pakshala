@@ -1,6 +1,6 @@
 const Offer = require('../Schemas/Offer');
 
-const {uploadFile, deleteFile} = require('../../Middlewares/UploadFile');
+const {uploadFile, deleteFile} = require('../../Utils/UploadFile');
 
 
 // Add a new offer

@@ -1,6 +1,8 @@
 // import {v2 as cloudinary} from 'cloudinary';
 const cloudinary = require('cloudinary').v2;
 
+//Middlewares <<
+
 // Configuration
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
