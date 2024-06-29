@@ -3,14 +3,40 @@ import OrderCard from './OrderCard';
 import { Tabs, Tab, Box } from '@mui/material';
 import { CheckContext } from './CheckBoxContext';
 import { ToastContainer } from 'react-toastify';
+import { useEffect } from 'react';
 
 const MenuDash = () => {
   const { orders} = useContext(CheckContext);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [orderDetails, setOrderDetails] = useState({});
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+
+  //get order details
+  const getOrderDetails = async() => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-all-menu-orders`,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if(data.success){
+        setOrderDetails(data.orders);
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
+  useEffect(() => {
+    getOrderDetails();
+  },[]);
 
   const completedOrder = orders.filter((item) => item.completed);
   const toBeCompletedOrder = orders.filter((item) => !item.completed);

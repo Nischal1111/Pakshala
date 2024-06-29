@@ -11,14 +11,34 @@ const ContactForm = () => {
   const handleContactChange = (event) => setContact(event.target.value);
   const handleMessageChange = (event) => setMessage(event.target.value);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
       e.preventDefault()
-      console.log(name, email, contact, message);
-      setName("");
-      setEmail("");
-      setContact("");
-      setMessage("");
+      // console.log(name, email, contact, message);
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/request-order-menu`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ fullName: name, contact: contact, order: message }),
+        });
+        const data = await response.json();
+        if(data.success){
+          alert("Order placed successfully")
+          setName("");
+          setEmail("");
+          setContact("");
+          setMessage("");
+        }
+        else{
+          alert("Order failed")
+        }
+      } catch (error) {
+        
+      }   
   };
+
+  
   return (
     <div className='menu-choose2'>
       <div className="menu-container-form">

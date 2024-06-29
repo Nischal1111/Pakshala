@@ -63,15 +63,33 @@ const Events = () => {
 
       const data = await response.json();
       if (data.success) {
-        console.log(data.images)
+        // console.log(data.images)
         setImageList(data.images)
-
-        
       }
     } catch (error) {
       console.error('Error getting images:', error);
     }
   };
+
+
+  //delete image
+  const handleImageDelete = async (id) => {
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-event-image/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (data.success) {
+        notify()
+        getImages()
+      }
+
+    } catch (error) {
+      console.error('Error deleting image:', error);
+    }
+  }
 
   useEffect(() => {
     getImages();
@@ -119,8 +137,11 @@ const Events = () => {
             <>
               <div key={index} className="image-container" style={{position:"relative"}}>
               <img src={item.image_url} alt={`Uploaded ${index}`} className="uploaded-image" />
-              <div style={{backgroundColor:"white",padding:".4rem",borderRadius:"50%",height:"2rem",width:"2rem"}} className='fa-trash-icon2'>
-               <FaTrash
+              <div style={{backgroundColor:"white",padding:".4rem",borderRadius:"50%",height:"2rem",width:"2rem"}} 
+                className='fa-trash-icon2'
+                onClick={()=>handleImageDelete(item._id)}
+              >
+               <FaTrash 
                   style={{ cursor: "pointer", color: "red" }}
                   className='fa-trash-icon2-icon'
                 />
