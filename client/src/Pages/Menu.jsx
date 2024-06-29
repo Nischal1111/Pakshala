@@ -58,9 +58,13 @@ const MenuSpecial = ({ specialMenu }) => {
         Today's Special
       </h1>
       <div className="special-menu-container">
-        {specialMenu.map((item, index) => (
+        {specialMenu.length>0 ?specialMenu.map((item, index) => (
           <SpecialMenuCard key={item._id} item={item} index={index} />
-        ))}
+        )):(<>
+        <div className='no-special-div'>
+          <h1> No Item in Special Menu today </h1>
+        </div>
+        </>)}
       </div>
     </>
   );

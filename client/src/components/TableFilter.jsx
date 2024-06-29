@@ -11,6 +11,12 @@ const TableFilter = () => {
     const [filteredTables, setFilteredTables] = useState([]);
     const [btnClicked, setClicked] = useState("all tables");
     const [open, setOpen] = useState(false);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [contact, setContact] = useState('');
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
+    const [guests, setGuests] = useState('');
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -50,6 +56,25 @@ const TableFilter = () => {
             }
             setLoading(false);
         }, 1000);
+    };
+
+    const handleReserve = () => {
+        console.log('Name:', name);
+        console.log('Email:', email);
+        console.log('Contact:', contact);
+        console.log('Date:', date);
+        console.log('Time:', time);
+        console.log('Guests:', guests);
+
+        // Clear form values
+        setName('');
+        setEmail('');
+        setContact('');
+        setDate('');
+        setTime('');
+        setGuests('');
+
+        handleClose(); // Close dialog after logging
     };
 
     return (
@@ -129,6 +154,8 @@ const TableFilter = () => {
                                             fullWidth
                                             variant="standard"
                                             autoComplete='off'
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
                                         />
                                         <TextField
                                             margin="dense"
@@ -138,6 +165,8 @@ const TableFilter = () => {
                                             fullWidth
                                             variant="standard"
                                             autoComplete='off'
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                         <TextField
                                             margin="dense"
@@ -147,6 +176,8 @@ const TableFilter = () => {
                                             fullWidth
                                             variant="standard"
                                             autoComplete='off'
+                                            value={contact}
+                                            onChange={(e) => setContact(e.target.value)}
                                         />
                                         <TextField
                                             margin="dense"
@@ -159,6 +190,8 @@ const TableFilter = () => {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            value={date}
+                                            onChange={(e) => setDate(e.target.value)}
                                         />
                                         <TextField
                                             margin="dense"
@@ -171,6 +204,8 @@ const TableFilter = () => {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            value={time}
+                                            onChange={(e) => setTime(e.target.value)}
                                         />
                                         <TextField
                                             margin="dense"
@@ -180,12 +215,14 @@ const TableFilter = () => {
                                             fullWidth
                                             autoComplete='off'
                                             variant="standard"
+                                            value={guests}
+                                            onChange={(e) => setGuests(e.target.value)}
                                         />
                                     </form>
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
-                                    <Button onClick={handleClose}>Reserve</Button>
+                                    <Button onClick={handleReserve}>Reserve</Button>
                                 </DialogActions>
                             </Dialog>
                         </motion.div>

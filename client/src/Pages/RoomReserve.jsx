@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import "../Css/Rooms.css"
 import { FaWifi } from "react-icons/fa";
@@ -13,6 +13,10 @@ import Footer from '../components/Footer';
 const RoomReserve = () => {
   const [allRooms, setAllRooms] = useState([]);
   const [booked, setBooked] = useState(true);
+  const [name, setName] = useState('');
+  const [contact, setContact] = useState('');
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
 
   const getAllRoomsClient = async () => {
     try {
@@ -31,94 +35,110 @@ const RoomReserve = () => {
   const { id } = useParams();
   const room = allRooms.find(room => room._id === id);
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Name:', name);
+    console.log('Contact:', contact);
+    console.log('Check-in Date:', checkInDate);
+    console.log('Check-out Date:', checkOutDate);
+    setName("")
+    setContact("")
+    setCheckInDate("")
+    setCheckOutDate("")
+  };
+
   if (!room) {
     return <div>Loading...</div>;
   }
 
   return (
     <>
-    <Nav/>
-    <div>
-      <div className="room-reserve">
-        <div className="left-part">
-          <div className="room-reserve-img-div">
-            <img src={room.room_image1.url} alt={room.room_name} className="main-img" />
-            <div className='small-imgs-div'>
-              <img src={room.room_image2.url} alt="Small 1" />
-              <img src={room.room_image3.url} alt="Small 2" />
-              <img src={room.room_image3.url} alt="Small 3" />
+      <Nav />
+      <div>
+        <div className="room-reserve">
+          <div className="left-part">
+            <div className="room-reserve-img-div">
+              <img src={room.room_image1.url} alt={room.room_name} className="main-img" />
+              <div className='small-imgs-div'>
+                <img src={room.room_image2.url} alt="Small 1" />
+                <img src={room.room_image3.url} alt="Small 2" />
+                <img src={room.room_image3.url} alt="Small 3" />
+              </div>
             </div>
-          </div>
-          <div className="room-reserve-desc">
-            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-              <div className="nameandrating" style={{display:"flex",alignItems:"center"}}>
-                <p style={{ fontFamily: "Lato", fontSize: "1.8rem", letterSpacing: "2px"}}>
+            <div className="room-reserve-desc">
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div className="nameandrating" style={{ display: "flex", alignItems: "center" }}>
+                  <p style={{ fontFamily: "Lato", fontSize: "1.8rem", letterSpacing: "2px" }}>
                     {room.room_name}
-                </p>
-                 <p className="room-rating">
-                        <IoStarSharp className='star-icons'/>4.5
-                    </p>
+                  </p>
+                  <p className="room-rating">
+                    <IoStarSharp className='star-icons' />4.5
+                  </p>
                 </div>
                 <div className="price-div-2">
-                    <p className="room-price-2">Rs {room.room_price}</p>
+                  <p className="room-price-2">Rs {room.room_price}</p>
                 </div>
-            </div>
-            <p style={{fontSize:"1rem",fontFamily:"Lato",lineHeight:"2rem"}}>Later</p>
-            <div style={{display:"flex",gap:"1rem",alignItems:"center",margin:"1.2rem 0rem"}}>
-              <FaUser/>
-              <span>Up to {room.room_guests} guest/s</span>
-            </div>
-            <div style={{display:"flex",alignItems:"center",gap:".8rem",marginTop:"1rem"}}>
-              <div style={{background:"#ff8800",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".2rem .7rem",borderRadius:"2rem"}}>
-                <FaWifi style={{fontSize:"1rem"}}/>
-                <span style={{fontSize:".8rem"}}>Wifi</span>
               </div>
-              <div style={{background:"#8686f0",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".2rem .7rem",borderRadius:"2rem"}}>
-                <TbAirConditioning style={{fontSize:"1rem"}}/>
-                <span style={{fontSize:".8rem"}}>Air-conditioned</span>
+              <p style={{ fontSize: "1rem", fontFamily: "Lato", lineHeight: "2rem" }}>Later</p>
+              <div style={{ display: "flex", gap: "1rem", alignItems: "center", margin: "1.2rem 0rem" }}>
+                <FaUser />
+                <span>Up to {room.room_guests} guest/s</span>
               </div>
-              <div style={{background:"#03AED2",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".2rem .7rem",borderRadius:"2rem"}}>
-                <IoCallSharp style={{fontSize:"1rem"}}/>
-                <span style={{fontSize:".8rem"}}>On-call service</span>
-              </div>
-              <div style={{background:"#74E291",display:"flex",alignItems:"center",gap:".8rem",color:"aliceblue",padding:".3rem .7rem",borderRadius:"2rem"}}>
-                <GiWashingMachine style={{fontSize:"1rem"}}/>
-                <span style={{fontSize:".8rem"}}>Laundry service</span>
+              <div style={{ display: "flex", alignItems: "center", gap: ".8rem", marginTop: "1rem" }}>
+                <div style={{ background: "#ff8800", display: "flex", alignItems: "center", gap: ".8rem", color: "aliceblue", padding: ".2rem .7rem", borderRadius: "2rem" }}>
+                  <FaWifi style={{ fontSize: "1rem" }} />
+                  <span style={{ fontSize: ".8rem" }}>Wifi</span>
+                </div>
+                <div style={{ background: "#8686f0", display: "flex", alignItems: "center", gap: ".8rem", color: "aliceblue", padding: ".2rem .7rem", borderRadius: "2rem" }}>
+                  <TbAirConditioning style={{ fontSize: "1rem" }} />
+                  <span style={{ fontSize: ".8rem" }}>Air-conditioned</span>
+                </div>
+                <div style={{ background: "#03AED2", display: "flex", alignItems: "center", gap: ".8rem", color: "aliceblue", padding: ".2rem .7rem", borderRadius: "2rem" }}>
+                  <IoCallSharp style={{ fontSize: "1rem" }} />
+                  <span style={{ fontSize: ".8rem" }}>On-call service</span>
+                </div>
+                <div style={{ background: "#74E291", display: "flex", alignItems: "center", gap: ".8rem", color: "aliceblue", padding: ".3rem .7rem", borderRadius: "2rem" }}>
+                  <GiWashingMachine style={{ fontSize: "1rem" }} />
+                  <span style={{ fontSize: ".8rem" }}>Laundry service</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="right">
-          {booked ? <div className="user-form">
-            <div className="user-form-title">
-              <h3>Reserve This room</h3>
-            </div>
-            <form>
-              <div>
-                <label>Name</label>
-                <input type="text" required />
+          <div className="right">
+            {booked ? (
+              <div className="user-form">
+                <div className="user-form-title">
+                  <h3>Reserve This room</h3>
+                </div>
+                <form onSubmit={handleSubmit}>
+                  <div>
+                    <label>Name</label>
+                    <input type="text" required value={name} onChange={(e) => setName(e.target.value)} />
+                  </div>
+                  <div>
+                    <label>Contact</label>
+                    <input type="number" required value={contact} onChange={(e) => setContact(e.target.value)} />
+                  </div>
+                  <div>
+                    <label>Check-in Date</label>
+                    <input type="date" required value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} />
+                  </div>
+                  <div>
+                    <label>Check-out Date</label>
+                    <input type="date" required value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)} />
+                  </div>
+                  <button type="submit">Reserve</button>
+                </form>
               </div>
+            ) : (
               <div>
-                <label>Email</label>
-                <input type="email" required />
+                The room is booked.
               </div>
-              <div>
-                <label>Check-in Date</label>
-                <input type="date" required />
-              </div>
-              <div>
-                <label>Check-out Date</label>
-                <input type="date" required />
-              </div>
-              <button type="submit">Reserve</button>
-            </form>
-          </div> : (<div>
-              The room is booked.
-            </div>)}
+            )}
+          </div>
         </div>
       </div>
-    </div>
-    <Footer/>
+      <Footer />
     </>
   );
 }

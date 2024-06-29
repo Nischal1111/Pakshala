@@ -3,7 +3,6 @@ import "../Css/About.css"
 
 const ContactForm = () => {
   const[name,setName]=useState("")
-  const [email, setEmail] = useState("")
   const [contact, setContact] = useState("")
   const [message, setMessage] = useState("")
 
@@ -26,7 +25,6 @@ const ContactForm = () => {
         if(data.success){
           alert("Order placed successfully")
           setName("");
-          setEmail("");
           setContact("");
           setMessage("");
         }
