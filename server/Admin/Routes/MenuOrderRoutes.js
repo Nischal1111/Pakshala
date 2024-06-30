@@ -17,7 +17,7 @@ const {
 router.post('/request-order-menu', createMenuRequest);
 
 //get all menu orders
-router.get('/get-all-menu-orders', getAllMenuOrders);
+router.get('/get-all-menu-orders',jwtAuth, getAllMenuOrders);
 
 
 

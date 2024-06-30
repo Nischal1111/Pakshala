@@ -15,7 +15,8 @@ const MenuOrderSchema = new mongoose.Schema({
     },
     status : {
         type: String,
-        default: "Pending"
+        default: "Pending",
+        enum: ["Pending", "Approved", "Rejected"]
     }
 },{
     timestamps: true

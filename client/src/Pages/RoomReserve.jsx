@@ -20,7 +20,7 @@ const RoomReserve = () => {
 
   const getAllRoomsClient = async () => {
     try {
-      const response = await fetch("http://localhost:4000/admin/get-rooms");
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-rooms`);
       const data = await response.json();
       setAllRooms(data.rooms || []);
     } catch (error) {
@@ -37,14 +37,33 @@ const RoomReserve = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Name:', name);
-    console.log('Contact:', contact);
-    console.log('Check-in Date:', checkInDate);
-    console.log('Check-out Date:', checkOutDate);
-    setName("")
-    setContact("")
-    setCheckInDate("")
-    setCheckOutDate("")
+
+    try {
+      const response = fetch(`${process.env.REACT_APP_API_URL}/request-room-reserve/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, contact, checkInDate, checkOutDate }),
+      });
+
+      const data = response.json();
+      if (data.success) {
+        // setBooked(true);
+        alert('Room reserved successfully');
+        setName("")
+        setContact("")
+        setCheckInDate("")
+        setCheckOutDate("")
+      } else {
+        // setBooked(false);
+        alert('Room reservation failed');
+      }
+      
+    } catch (error) {
+      console.error('Error reserving room:', error);
+    }
+    
   };
 
   if (!room) {

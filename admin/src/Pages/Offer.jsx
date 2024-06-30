@@ -10,6 +10,7 @@ const Offers = () => {
   const [offerImagePath, setOfferImagePath] = useState(null);
   const [uploaded, setUploaded] = useState(null);
   const [open, setOpen] = useState(false);
+  const [offerDetails, setOfferDetails] = useState({});
 
   const getOffers = async () => {
     try {
@@ -19,6 +20,7 @@ const Offers = () => {
       });
       const result = await response.json();
       if (result.success) {
+        setOfferDetails(result.offers[0]);
         setUploaded(result.offers[0]?.offer_image_url || '');
       }
     } catch (error) {
@@ -41,7 +43,7 @@ const Offers = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('offerImage', offerImagePath);
+    formData.append('img', offerImagePath);
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/add-offer`, {
@@ -67,11 +69,17 @@ const Offers = () => {
     setOpen(false);
   };
 
-  const handleDeleteOffer = async () => {
+  const handleDeleteOffer = async (id, imageId) => {
+    console.log(id, imageId);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-offer`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-offer/${id}`, {
         method: 'DELETE',
-        credentials: "include"
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: "include",
+
+        body: JSON.stringify({ imageId }),
       });
       const result = await response.json();
       if (result.success) {
@@ -147,7 +155,9 @@ const Offers = () => {
           <Button onClick={handleClose} color="primary" sx={{color:"#06D001"}}>
             Cancel
           </Button>
-          <Button onClick={handleDeleteOffer} color="primary" autoFocus sx={{color:"red"}}>
+          <Button onClick={
+            ()=>handleDeleteOffer(offerDetails?._id, offerDetails?.offer_image_Id )} 
+            color="primary" autoFocus sx={{color:"red"}}>
             Delete
           </Button>
         </DialogActions>
