@@ -14,13 +14,34 @@ const ContactForm = () => {
   const handleContactChange = (event) => setContact(event.target.value);
   const handleMessageChange = (event) => setMessage(event.target.value);
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
     console.log(name, email, contact, message);
-    setName("");
-    setEmail("");
-    setContact("");
-    setMessage("");
+
+    try {
+      const  response = await fetch(`${process.env.REACT_APP_API_URL}/request-event-venue`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, contact, message }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert('BOoking Message sent successfully');
+        setName("");
+        setEmail("");
+        setContact("");
+        setMessage("");
+      } else {
+        alert('Message failed to send');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+   
   };
 
   useEffect(() => {

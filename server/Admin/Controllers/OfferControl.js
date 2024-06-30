@@ -9,6 +9,13 @@ const addOffer = async (req, res) => {
       if (!req.file) {
         return res.status(400).json({ message: 'Please upload an image' });
       }
+
+      const offer = await Offer.find({});
+
+    if (offer.length > 0) {
+        return res.status(400).json({ message: 'Offer already exists' });
+    }
+
       const imagePath = req.file.path;
       const uploadResult = await uploadFile(imagePath, "offers");
   
@@ -46,9 +53,10 @@ const deleteOffer = async (req, res) => {
     try {
         const { id } = req.params;
         const { imageId } = req.body;
+   
 
         if (!imageId) {
-            return res.status(400).json({ message: 'Please provide the offer image' });
+            return res.status(400).json({ message: 'Please provide the offer image Id' });
         }
 
         const offer = await Offer.findByIdAndDelete(id);

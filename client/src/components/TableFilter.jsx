@@ -28,7 +28,7 @@ const TableFilter = () => {
 
     const getAllTable = async () => {
         try {
-            const response = await fetch("http://localhost:4000/admin/get-table-items");
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-items`);
             const data = await response.json();
             if (data.success) {
                 setTableList(data.tableItems);
@@ -58,23 +58,45 @@ const TableFilter = () => {
         }, 1000);
     };
 
-    const handleReserve = () => {
-        console.log('Name:', name);
-        console.log('Email:', email);
-        console.log('Contact:', contact);
-        console.log('Date:', date);
-        console.log('Time:', time);
-        console.log('Guests:', guests);
+    const handleReserve =async (id) => {
 
-        // Clear form values
-        setName('');
-        setEmail('');
-        setContact('');
-        setDate('');
-        setTime('');
-        setGuests('');
+        try {
+            const reserveData = {
+                name,
+                email,
+                contact,
+                date,
+                time,
+                guests
+            };
 
-        handleClose(); // Close dialog after logging
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/request-table-reserve/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(reserveData),
+            });
+            const data =await response.json();
+
+            if (data.success) {
+                alert('Table reserved successfully');
+                 // Clear form values
+                setName('');
+                setEmail('');
+                setContact('');
+                setDate('');
+                setTime('');
+                setGuests('');
+
+                handleClose(); // Close dialog after logging
+            } else {
+                alert('Table reservation failed');
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -222,7 +244,7 @@ const TableFilter = () => {
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
-                                    <Button onClick={handleReserve}>Reserve</Button>
+                                    <Button onClick={()=>handleReserve(table._id)}>Reserve</Button>
                                 </DialogActions>
                             </Dialog>
                         </motion.div>
