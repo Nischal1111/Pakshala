@@ -3,7 +3,6 @@ import LookAround from '../components/LookAround';
 import ReservationDesc from '../components/ReservationDesc';
 import HomeDescripton from '../components/HomeDescripton';
 import HomeBack from "../assets/homeback.jpg"
-import OfferImage from "../assets/big.jpeg";
 import { motion } from 'framer-motion';
 import { Parallax } from 'react-parallax';
 import Footer from '../components/Footer';
@@ -15,6 +14,26 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
   const [open, setOpen] = useState(false);
+  const [offer,setOffer]=useState(null)
+
+  const getOfferImage=async ()=>{
+    try{
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/get-offers`)
+      const data = await res.json()
+      if(data.success){
+        setOffer(data.offers[0].offer_image_url)
+        
+      }else{
+        console.log("error")
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(()=>{
+    getOfferImage()
+  },[])
 
   const handleClose = () => setOpen(false);
 
@@ -46,6 +65,7 @@ const Home = () => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 1000,
+            height:"90vh",
             bgcolor: 'background.paper',
             boxShadow: 24,
             p: 0,
@@ -55,7 +75,7 @@ const Home = () => {
             alignItems: 'center'
           }}
         >
-          <img src={OfferImage} alt="Special Offer" style={{ width: '100%', height: "100%" }} />
+          <img src={offer} alt="Special Offer" style={{ width: '100%', height: "100%" }} />
           <IconButton 
             aria-label="close"
             onClick={handleClose}
