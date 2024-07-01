@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Card, CardContent, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { RoomReserveContext } from './RoomReserveContext';
-import { Marknotify } from './Notify';
+import { booknotify } from './Notify';
 import { FaTrash } from 'react-icons/fa';
 
 const RoomCard = ({ reserve }) => {
@@ -27,12 +27,11 @@ const RoomCard = ({ reserve }) => {
 
   const handleConfirmComplete = () => {
     handleStatusChange(reserve._id, true);
-    Marknotify();
+    booknotify();
     handleCloseCompleteDialog();
   };
 
   const handleDeleteReserve = () => {
-    // Add your delete logic here
     handleCloseDeleteDialog();
   };
 
