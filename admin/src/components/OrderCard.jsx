@@ -1,17 +1,39 @@
 import React, { useContext, useState } from 'react';
-import { Card, CardContent, Typography, Checkbox, FormControlLabel } from '@mui/material';
-import {CheckContext} from "./CheckBoxContext"
+import { Card, CardContent, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { CheckContext } from './CheckBoxContext';
 import { Marknotify } from './Notify';
+import { FaTrash } from 'react-icons/fa';
 
 const OrderCard = ({ order }) => {
   const { handleStatusChange } = useContext(CheckContext);
-  const [completed, setCompleted] = useState(order.status === "Completed");
+  const [openCompleteDialog, setOpenCompleteDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-  const handleChange = () => {
-    const newCompleted = !completed;
-    setCompleted(newCompleted);
-    handleStatusChange(order._id, newCompleted);
+  const handleOpenCompleteDialog = () => {
+    setOpenCompleteDialog(true);
+  };
+
+  const handleCloseCompleteDialog = () => {
+    setOpenCompleteDialog(false);
+  };
+
+  const handleOpenDeleteDialog = () => {
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
+  };
+
+  const handleConfirmComplete = () => {
+    handleStatusChange(order._id, true);
     Marknotify();
+    handleCloseCompleteDialog();
+  };
+
+  const handleDeleteOrder = () => {
+    // Add your delete logic here
+    handleCloseDeleteDialog();
   };
 
   return (
@@ -32,7 +54,7 @@ const OrderCard = ({ order }) => {
           color: "white"
         }}
       >
-        <CardContent sx={{ color: "black",height:"350px",minHeight:"350px" }}>
+        <CardContent sx={{ color: "black", height: "350px", minHeight: "350px" }}>
           <Typography sx={{ fontSize: "1rem", letterSpacing: "1.5px", marginBottom: ".5rem" }}>Order Id: {order._id}</Typography>
           <hr className='order-line' />
           <div style={{ display: "flex", gap: "1rem", flexDirection: "column", width: "100%" }}>
@@ -49,13 +71,68 @@ const OrderCard = ({ order }) => {
               backgroundColor: "rgb(255, 176, 79,.3)"
               , padding: ".5rem 1rem", borderRadius: "5px", marginBottom: ".2rem", marginTop: ".5rem"
             }}>{order.order}</Typography>
-            <FormControlLabel
-              control={<Checkbox checked={completed} onChange={handleChange} />}
-              label="Completed"
-            />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0rem .4rem" }}>
+              <Button 
+                variant="contained"
+                onClick={handleOpenCompleteDialog}
+                disabled={order.status === "Completed"}
+                sx={{ 
+                  boxShadow: "none", 
+                  backgroundColor: "rgb(255, 176, 79)", 
+                  "&:hover": { 
+                    backgroundColor: "rgb(255, 140,0)", 
+                    boxShadow: "none",
+                  }
+                }}
+              >
+                {order.status === "Completed" ? "Completed" : "Complete Order"}
+              </Button>
+              <FaTrash 
+                style={{ flex: ".2", color: "red", cursor: "pointer" }} 
+                onClick={handleOpenDeleteDialog}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>
+      <Dialog
+        open={openCompleteDialog}
+        onClose={handleCloseCompleteDialog}
+      >
+        <DialogTitle>{"Confirm Order Completion"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to mark this order as completed?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseCompleteDialog} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmComplete} color="primary">
+            Complete
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+      >
+        <DialogTitle>{"Confirm Order Deletion"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this order?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteOrder} color="primary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

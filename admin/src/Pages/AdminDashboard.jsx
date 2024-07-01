@@ -47,7 +47,7 @@ const AdminDashboard = () => {
               <FaBell className='dash-icon'/>
             </div>
           </Link>
-          <Link to="/room-dash" className='link-dash'>
+          <Link to="/rooms-dash" className='link-dash'>
             <div className='dashboard-card'>
               <div style={{display:"flex"}}>
               <MdBedroomParent className='dash-icon'/>

@@ -21,7 +21,6 @@
     margin-top: 2rem;
 }
 .offer-item {
-    border: 1px solid #ccc;
     padding: 1rem;
     border-radius: 5px;
     margin-bottom: 1rem;
@@ -31,8 +30,6 @@
 }
 
 .offer-item-2 {
-    border: 1px solid #ccc;
-    padding: 1rem;
     border-radius: 5px;
     width: 300px;
     height: 300px;
@@ -43,7 +40,6 @@
 .offer-image {
     width: 100%;
     height: auto;
-    margin-top: 1rem;
 }
 
 .modal-box {

@@ -5,7 +5,7 @@ import "../css/offers.css";
 import { notify } from "../components/Notify";
 import { ToastContainer } from 'react-toastify';
 import { Infonotify } from '../components/Notify';
-import { failedaddnotify } from '../components/delnotify';
+import { delnotify, failedaddnotify } from '../components/delnotify';
 
 const Offers = () => {
   const [offerImg, setOfferImg] = useState(null);
@@ -57,9 +57,14 @@ const Offers = () => {
       });
       const result = await response.json();
       if (result.success) {
+        setOfferImagePath(null)
+        setOfferImg(null)  
         setUploading(false)
         notify();
         getOffers();
+      }else{
+        setUploading(false)
+        failedaddnotify()
       }
     } catch (error) {
       setUploading(false)
@@ -93,7 +98,7 @@ const Offers = () => {
         setOfferImg(null);
         setOfferImagePath(null);
         setUploaded(null);
-        notify();
+        delnotify();
         handleClose();
       }
     } catch (error) {

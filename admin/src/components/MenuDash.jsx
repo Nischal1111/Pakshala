@@ -35,7 +35,7 @@ const MenuDash = () => {
             sx={{
               fontSize: '1.2rem',
               textTransform: 'capitalize',
-              marginRight: '2rem',
+              marginRight: '1rem',
               color: selectedTab === 0 ? 'rgb(255, 140, 0)' : 'black',
               '&.Mui-selected': {
                 color: 'rgb(255, 140, 0)',
