@@ -26,7 +26,7 @@ function App() {
         <Route path="/menu-dash" element={<MenuDash />} />
         <Route path="/rooms-dash" element={<RoomsDash />} />
         <Route path="/table-dash" element={<TablesDash />} />
-        <Route path="/events-dash" element={<EventDash />} /> 
+        <Route path="/event-dash" element={<EventDash />} /> 
         <Route path="/menu" element={<Menu />} />
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/tables" element={<Tables />} />

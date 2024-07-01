@@ -6,11 +6,13 @@ import { BrowserRouter } from 'react-router-dom';
 import CheckProvider from './components/CheckBoxContext';
 import RoomReserveProvider from './components/RoomReserveContext';
 import TableReserveProvider from './components/TableContext';
+import EventBookingProvider from './components/EventContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
   <React.StrictMode>
+    <EventBookingProvider>
     <TableReserveProvider>
   <RoomReserveProvider>
   <CheckProvider>
@@ -18,6 +20,7 @@ root.render(
   </CheckProvider>
   </RoomReserveProvider>
     </TableReserveProvider>
+    </EventBookingProvider>
   </React.StrictMode>
   </BrowserRouter>
 );
