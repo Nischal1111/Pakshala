@@ -12,13 +12,27 @@ const addOffer = async (req, res) => {
 
       const offer = await Offer.find({});
 
-    if (offer.length > 0) {
-        return res.status(400).json({ message: 'Offer already exists' });
-    }
-
       const imagePath = req.file.path;
       const uploadResult = await uploadFile(imagePath, "offers");
-  
+
+
+    if (offer.length > 0) {
+        const deleteOldOfferImage = await deleteFile(offer[0].offer_image_Id);
+        if (!deleteOldOfferImage) {
+            return res.status(500).json({ message: 'Internal server error on delete old offer image' });
+        }
+        const updatedOffer = await Offer.findByIdAndUpdate(offer[0]._id, {
+            offer_image_url: uploadResult.secure_url,
+            offer_image_Id: uploadResult.public_id
+        });
+        if (!updatedOffer) {
+            return res.status(500).json({success:false, message: 'Internal server error on update offer image' });
+        }
+        return res.status(201).json({ success: true, message: 'Offer updated successfully' });
+        
+    }
+
+
       const newOffer = new Offer({
         offer_image_url: uploadResult.secure_url,
         offer_image_Id: uploadResult.public_id
