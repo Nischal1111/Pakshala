@@ -4,6 +4,8 @@ import { FaTrash } from "react-icons/fa";
 import "../css/offers.css";
 import { notify } from "../components/Notify";
 import { ToastContainer } from 'react-toastify';
+import { Infonotify } from '../components/Notify';
+import { failedaddnotify } from '../components/delnotify';
 
 const Offers = () => {
   const [offerImg, setOfferImg] = useState(null);
@@ -11,6 +13,7 @@ const Offers = () => {
   const [uploaded, setUploaded] = useState(null);
   const [open, setOpen] = useState(false);
   const [offerDetails, setOfferDetails] = useState({});
+  const [uploading,setUploading]=useState()
 
   const getOffers = async () => {
     try {
@@ -41,6 +44,7 @@ const Offers = () => {
   };
 
   const handleSubmit = async (event) => {
+    setUploading(true)
     event.preventDefault();
     const formData = new FormData();
     formData.append('img', offerImagePath);
@@ -53,10 +57,13 @@ const Offers = () => {
       });
       const result = await response.json();
       if (result.success) {
+        setUploading(false)
         notify();
         getOffers();
       }
     } catch (error) {
+      setUploading(false)
+      failedaddnotify()
       console.error('Error:', error);
     }
   }
@@ -122,9 +129,22 @@ const Offers = () => {
             </div>
           }
         </div>
-        <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "#55AD9B" }}>
+        {offerImg ? (
+          <>
+          <Button type="submit" variant="contained" disabled={uploading}
+           className='submit-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor:"orange" }}>
+          {uploading ? "Uploading...":"Confirm Upload"}
+        </Button>
+          </>
+        ):(
+          <>
+          <Button variant="contained"
+           className='submit-button disabled-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "lightgray",boxShadow:"none"}}onClick={()=>Infonotify()}>
           Confirm Upload
         </Button>
+          </>
+        )}
+        
       </form>
       {uploaded &&
         <div className='offer-item-2'>

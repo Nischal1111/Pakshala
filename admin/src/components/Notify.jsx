@@ -67,4 +67,20 @@ progressClassName: 'toast-custom-progress',
     }
     return addnotify()
 }
+export const Infonotify = () => {
+    const infonotify=()=>{
+       toast.info("Please add a image to upload !!!", {
+position: "top-center",
+autoClose: 3000,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+theme: "colored",
+transition: Bounce,
+});
+    }
+    return infonotify()
+}
 

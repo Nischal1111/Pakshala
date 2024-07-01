@@ -60,3 +60,7 @@
     flex-direction: column;
     gap: 1rem;
 }
+.disabled-button {
+    cursor: not-allowed !important;
+    background-color: lightorange !important;
+}
