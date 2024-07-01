@@ -58,8 +58,7 @@ const TableFilter = () => {
         }, 1000);
     };
 
-    const handleReserve =async (id) => {
-
+    const handleReserve = async (id) => {
         try {
             const reserveData = {
                 name,
@@ -77,11 +76,10 @@ const TableFilter = () => {
                 },
                 body: JSON.stringify(reserveData),
             });
-            const data =await response.json();
+            const data = await response.json();
 
             if (data.success) {
                 alert('Table reserved successfully');
-                 // Clear form values
                 setName('');
                 setEmail('');
                 setContact('');
@@ -89,7 +87,7 @@ const TableFilter = () => {
                 setTime('');
                 setGuests('');
 
-                handleClose(); // Close dialog after logging
+                handleClose();
             } else {
                 alert('Table reservation failed');
             }
@@ -130,6 +128,10 @@ const TableFilter = () => {
                     <div className='loading-spinner'>
                         <ImSpinner2 className='loading' />
                     </div>
+                ) : filteredTables.length === 0 ? (
+                    <div className='no-special-div'>
+                        <h1>No tables available</h1>
+                    </div>
                 ) : (
                     filteredTables.map((table, index) => (
                         <motion.div key={table._id} className='singleroom-card'
@@ -160,6 +162,10 @@ const TableFilter = () => {
                             <div className="overlay2" onClick={handleClickOpen}>
                                 <h2>Reserve</h2>
                             </div>
+                            <div style={{position:"absolute", top:".7rem",left:"1.2rem",display:"flex",gap:".5rem",alignItems:"center",backgroundColor:"white",padding:".3rem .8rem",borderRadius:".3rem"}}>
+                <div style={{height:".7rem",width:".7rem",borderRadius:"50%",backgroundColor:"lightgreen"}}></div>
+                <p style={{fontSize:".8rem"}}>Available</p>
+            </div>
                             <Dialog open={open} onClose={handleClose}>
                                 <DialogTitle>Reserve {table.table_name}</DialogTitle>
                                 <DialogContent>
@@ -244,7 +250,7 @@ const TableFilter = () => {
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
-                                    <Button onClick={()=>handleReserve(table._id)}>Reserve</Button>
+                                    <Button onClick={() => handleReserve(table._id)}>Reserve</Button>
                                 </DialogActions>
                             </Dialog>
                         </motion.div>

@@ -61,6 +61,10 @@ const RoomCard = ({ room, index }) => {
                     <h2>View room</h2>
                 </div>
             </Link>
+            <div style={{position:"absolute", top:".7rem",left:"1.2rem",display:"flex",gap:".5rem",alignItems:"center",backgroundColor:"white",padding:".3rem .8rem",borderRadius:".3rem"}}>
+                <div style={{height:".7rem",width:".7rem",borderRadius:"50%",backgroundColor:"lightgreen"}}></div>
+                <p>Available</p>
+            </div>
         </motion.div>
     );
 };
@@ -72,27 +76,25 @@ const RoomFilter = () => {
     const [btnClicked, setClicked] = useState("all rooms");
 
     const getAllRoomsClient = async () => {
-    try {
-    //   const response = await fetch("http://localhost:4000/admin/get-rooms");
-        const response = await fetch (`${process.env.REACT_APP_API_URL}/get-rooms`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        })
-      const data = await response.json();
-      setAllRooms(data.rooms || []);
-      setRoomList(data.rooms || [])
-      console.log(data.rooms);
-    } catch (error) {
-      console.error('Error fetching rooms:', error);
-    }
-  };
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/get-rooms`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            const data = await response.json();
+            setAllRooms(data.rooms || []);
+            setRoomList(data.rooms || []);
+        } catch (error) {
+            console.error('Error fetching rooms:', error);
+        }
+    };
 
-  useEffect(() => {
-    getAllRoomsClient();
-  }, []);
+    useEffect(() => {
+        getAllRoomsClient();
+    }, []);
 
     const handleFilter = (e) => {
         setLoading(true);
@@ -130,6 +132,10 @@ const RoomFilter = () => {
                 {loading ? (
                     <div className='loading-spinner'>
                         <ImSpinner2 className='loading' />
+                    </div>
+                ) : roomList.length === 0 ? (
+                    <div className='no-special-div'>
+                        <h1>No rooms available</h1>
                     </div>
                 ) : (
                     roomList.map((room, index) => (
