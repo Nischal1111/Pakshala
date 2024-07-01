@@ -27,7 +27,7 @@ const TableReserveSchema = new mongoose.Schema({
     },
     tableId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Table',
+        ref: 'Tables',
         required: true
     },
     status: {

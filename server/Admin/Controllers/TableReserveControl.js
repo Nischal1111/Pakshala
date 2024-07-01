@@ -43,15 +43,16 @@ const addTableReserve = async (req, res) => {
 
 const getTableReserves = async (req, res) => {
     try {
-        const reserves = await TableReserve.find().populate('tableId');
-        if (!reserves) {
+        const reserves = await TableReserve.find({}).populate('tableId');
+        if (reserves.length === 0) {
             return res.status(404).json({ message: 'No table reservations found' });
         }
         res.status(200).json({ success: true, reserves });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Internal server error on Get table reservations', error: error });
+        res.status(500).json({ success: false, message: 'Internal server error on Get table reservations', error });
     }
 }
+
 
 
 
