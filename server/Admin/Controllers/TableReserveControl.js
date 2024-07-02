@@ -1,6 +1,7 @@
 
 const TableReserve = require('../Schemas/TableReserve');
 const Table = require('../Schemas/Table');
+const { sendTableBookingMail } = require('../../Utils/MailSend');
 
 
 // Add a new table reservation
@@ -30,6 +31,7 @@ const addTableReserve = async (req, res) => {
         if (!reserve) {
             return res.status(400).json({ success: false, message: 'Table reservation failed' });
         }
+        await sendTableBookingMail({ bookingDetails: reserve });
 
         res.status(201).json({ success: true, message: 'Table reserved successfully', reserve });
         

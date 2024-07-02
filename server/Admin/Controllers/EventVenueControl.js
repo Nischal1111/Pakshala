@@ -1,5 +1,6 @@
 
 const BookVenue = require('../Schemas/BookVenue');
+const { sendEventBookingMail } = require('../../Utils/MailSend');
 
 
 // Add a new venue booking request
@@ -7,6 +8,7 @@ const BookVenue = require('../Schemas/BookVenue');
 const addBookVenue = async (req, res) => {
     try {
         const { name, contact, email, message } = req.body;
+    
 
         const bookVenue = new BookVenue({
             name,
@@ -21,9 +23,12 @@ const addBookVenue = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Venue booking failed' });
         }
 
+        await sendEventBookingMail({ bookingDetails: book });
+
         res.status(201).json({ success: true, message: 'Venue booking request sent successfully' });
 
     } catch (error) {
+        console.log(error);
         res.status(500).json({ success: false, message: 'Internal server error on Add venue booking request', error: error });
     }
 }
