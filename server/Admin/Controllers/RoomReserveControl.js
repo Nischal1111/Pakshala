@@ -1,5 +1,6 @@
 const RoomReserve = require('../Schemas/RoomReserve');
 const Room = require('../Schemas/Room');
+const { sendRoomBookingMail } = require('../../Utils/MailSend');
 
 
 
@@ -28,6 +29,8 @@ const addRoomReserve = async (req, res) => {
         if (!reserve) {
             return res.status(400).json({ success: false, message: 'Room reservation failed' });
         }
+
+        await sendRoomBookingMail({ bookingDetails: reserve });
 
         res.status(201).json({ success: true, message: 'Room reserved successfully', reserve });
 

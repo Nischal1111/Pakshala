@@ -102,24 +102,19 @@ const editTableItem = async (req, res) => {
         if (!id) {
             return res.status(400).json({ message: 'Please provide table id' });
         }
-        if (!name || !category || !guest || !oldImgId) {
-            return res.status(400).json({ message: 'Please provide all table details' });
-        }
-        if (!req.file) {
-            return res.status(400).json({ message: 'Please upload an image' });
-        }
+       
 
-        const imagePath = req.file.path;
+        const imagePath = req?.file?.path;
 
-        console.log(id, name, category, guest, oldImgId, imagePath);
 
         const tableItem = await Table.findById(id);
         if (!tableItem) {
             return res.status(404).json({ message: 'Table item not found' });
         }
 
-        // Upload new image and delete old image in parallel
-        const [uploadNewImage, deleteOldImage] = await Promise.all([
+      if(imagePath) {
+          // Upload new image and delete old image in parallel
+          const [uploadNewImage, deleteOldImage] = await Promise.all([
             uploadFile(imagePath, "tables"),
             deleteFile(oldImgId)
         ]);
@@ -141,6 +136,14 @@ const editTableItem = async (req, res) => {
         };
 
         await tableItem.save();
+    }else{
+        tableItem.table_name = name;
+        tableItem.table_category = category;
+        tableItem.table_guests = guest;
+    
+        await tableItem.save();
+    }
+
         res.status(200).json({ success: true, message: 'Table item updated successfully' });
     } catch (error) {
         console.error('Error editing table item:', error); // Log the error for debugging
