@@ -84,3 +84,56 @@
     font-weight: 400;
     text-transform: uppercase;
 }
+
+@media (max-width:770px){
+    .swiper-slide img{
+        width: 80%;
+        height: 80%;
+        left: 5%;
+    }
+    .swiper_container{
+        height: 40vh;
+        width: 100vw;
+    }
+        .slider-title{
+            font-size: 1.5rem;
+            left: 8%;
+        }
+
+        .slider-controler .slider-arrow {
+            width: 2.5rem;
+            height: 2.5rem;
+            left: 35%;
+            transform: translateX(-35%);
+            margin-top: 2rem;
+        }
+}
+@media (max-width:480px){
+    .swiper-slide img{
+        width: 90%;
+        height: 70%;
+    }
+    .swiper_container{
+        height: 40vh;
+        width: 100vw;
+        right: 15%;
+    }
+        .slider-title{
+            font-size: 1rem;
+            left: 8%;
+        }
+
+        .slider-controler .slider-arrow {
+            display: none;
+        }
+
+
+.heading {
+    margin: 0rem 0rem 1rem 0rem ;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    font-weight: 400;
+    text-align: center;
+    font-family: "Inika";
+}
+}

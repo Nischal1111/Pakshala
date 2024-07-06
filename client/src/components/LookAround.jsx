@@ -43,7 +43,7 @@ const LookAround = () => {
                 grabCursor={true}
                 centeredSlides={true}
                 loop={true}
-                slidesPerView={"auto"}
+                slidesPerView={1}
                 coverflowEffect={{
                     rotate: 10,
                     stretch: 50,
@@ -62,6 +62,27 @@ const LookAround = () => {
                 modules={[EffectCoverflow, Navigation, Autoplay]}
                 className="swiper_container"
                 speed={1000}
+                breakpoints={{
+                    // Tablet (768px) and mobile (480px) breakpoints
+                    768: {
+                        slidesPerView: 1,
+                        coverflowEffect: {
+                            rotate: 0,
+                            stretch: 0,
+                            depth: 100,
+                            modifier: 2.5,
+                        }
+                    },
+                    480: {
+                        slidesPerView: 1,
+                        coverflowEffect: {
+                            rotate: 0,
+                            stretch: 0,
+                            depth: 100,
+                            modifier: 2,
+                        }
+                    }
+                }}
             >
                 {slides.map((item, index) => (
                     <SwiperSlide key={index}>

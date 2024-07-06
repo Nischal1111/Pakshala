@@ -153,4 +153,21 @@
 .map{
     font-size: 2rem;
 }
+.map-frame{
+    height: 90vh;
+    width: 100%;
+}
 
+@media (max-width:480px){
+    .con--location{
+        font-size: 1.5rem;
+        margin: 1rem;
+        letter-spacing: 1px;
+    }
+    .map{
+        font-size: 1.2rem;
+    }
+    .map-frame{
+        height: 60vh;
+    }
+}

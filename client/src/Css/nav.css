@@ -179,8 +179,20 @@
     margin: 4px 0;
     transition: 0.4s;
 }
+.offer-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    outline:"none";
+    height: 90vh;
+}
 
-@media (max-width: 768px) {
+@media (max-width: 770px) {
     .nav-link {
         display: none;
         flex-direction: column;
@@ -211,6 +223,49 @@
     .location-button {
        visibility: hidden;
     }
+    .pakshala-home{
+        height: 60vh;
+
+    }
+        .pakshala-home-div{
+            .text-home-bg{
+                h1{
+                    width: 90%;
+                    font-size: 1.5rem;
+                }
+                p{
+                    font-size: 1.2rem;
+                }
+            }
+        }
+    .offer-box{
+        height: 30vh;
+    }
+
+    
+}
+@media (max-width:480px) {
+    .pakshala-home-div {
+        .text-home-bg{
+            top:30%;
+            h1{
+                font-size: 1.5rem;
+                width: 90%;
+            }
+            p{
+                margin-top: .8rem;
+                font-size: 1rem;
+                line-height: 1.2rem;
+            }
+            button {
+                            padding: 12px 24px;
+                            border-radius: .2rem;
+                            margin-top: 1rem;
+                            font-size: .8rem;
+            }
+        }
+    }
+    
 }
 /* FooterCSS */
 

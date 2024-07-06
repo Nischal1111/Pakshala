@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, Button, Dialog, DialogActions, DialogCon
 import { CheckContext } from './CheckBoxContext';
 import { Marknotify } from './Notify';
 import { FaTrash } from 'react-icons/fa';
-
+import {RxCross2, rxCross2} from "react-icons/rx"
 const OrderCard = ({ order }) => {
   const { handleStatusChange } = useContext(CheckContext);
   const [openCompleteDialog, setOpenCompleteDialog] = useState(false);
@@ -112,10 +112,11 @@ const OrderCard = ({ order }) => {
               >
                 {order.status === 'Completed' ? 'Completed' : 'Complete Order'}
               </Button>
-              <FaTrash
+              {order.status === "Pending" ? (<Button sx={{color:"red"}}>Deny</Button> ): <FaTrash
                 style={{ flex: '.2', color: 'red', cursor: 'pointer' }}
                 onClick={handleOpenDeleteDialog}
-              />
+              />}
+             
             </div>
           </div>
         </CardContent>

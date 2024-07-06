@@ -60,20 +60,12 @@ const Home = () => {
       >
         <Box 
           sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 1000,
-            height:"90vh",
             bgcolor: 'background.paper',
             boxShadow: 24,
             p: 0,
-            display: 'flex',
             outline:"none",
-            flexDirection: 'column',
-            alignItems: 'center'
           }}
+          className="offer-box"
         >
           <img src={offer} alt="Special Offer" style={{ width: '100%', height: "100%" }} />
           <IconButton 
