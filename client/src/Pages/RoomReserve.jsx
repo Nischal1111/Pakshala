@@ -103,7 +103,7 @@ const RoomReserve = () => {
                 <FaUser />
                 <span>Up to {room.room_guests} guest/s</span>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: ".8rem", marginTop: "1rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: ".8rem", marginTop: "1rem" ,flexWrap:"wrap"}}>
                 <div style={{ background: "#ff8800", display: "flex", alignItems: "center", gap: ".8rem", color: "aliceblue", padding: ".2rem .7rem", borderRadius: "2rem" }}>
                   <FaWifi style={{ fontSize: "1rem" }} />
                   <span style={{ fontSize: ".8rem" }}>Wifi</span>

@@ -54,7 +54,7 @@ const SpecialMenuCard = ({ item, index }) => {
 const MenuSpecial = ({ specialMenu }) => {
   return (
     <>
-      <h1 style={{ textAlign: "center", fontSize: "3rem", fontWeight: "400", letterSpacing: "6px", margin: "1rem 0rem" }}>
+      <h1 className='special-h1'>
         Today's Special
       </h1>
       <div className="special-menu-container">

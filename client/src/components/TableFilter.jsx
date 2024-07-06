@@ -44,18 +44,14 @@ const TableFilter = () => {
     }, []);
 
     const handleFilter = (e) => {
-        setLoading(true);
         const choice = e.target.value.toLowerCase();
         setClicked(choice);
 
-        setTimeout(() => {
             if (choice === "all tables") {
                 setFilteredTables(tableList);
             } else {
                 setFilteredTables(tableList.filter(table => table.table_category.toLowerCase() === choice));
             }
-            setLoading(false);
-        }, 1000);
     };
 
     const handleReserve = async (id) => {

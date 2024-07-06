@@ -31,7 +31,7 @@ const EventGallary = () => {
   return (
     <>
     <Nav/>
-    <div style={{ margin: "7% 1rem" }}>
+    <div className='main-event-div'>
       <motion.div className="res-text">
         <h1 className="event-title">Events</h1>
         <div className="res-text-div">
@@ -45,14 +45,13 @@ const EventGallary = () => {
         </div>
       </motion.div>
       <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 768: 3, 992: 3 }} style={{ margin: "2rem 1rem" }}>
-        <Masonry gutter='1.5rem'>
+        <Masonry gutter='1.5rem' style={{display:"flex",flexWrap:"wr"}}>
           {imageList.map((item, index) => (
             <img className="galleryImg" src={item.image_url} key={index} alt="" />
           ))}
         </Masonry>
       </ResponsiveMasonry>
     </div>
-      <Footer/>
     </>
   );
 }

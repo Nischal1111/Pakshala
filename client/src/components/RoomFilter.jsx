@@ -97,18 +97,16 @@ const RoomFilter = () => {
     }, []);
 
     const handleFilter = (e) => {
-        setLoading(true);
         const choice = e.target.value.toLowerCase();
         setClicked(choice);
 
-        setTimeout(() => {
+
             if (choice === "all rooms") {
                 setRoomList(allRooms);
             } else {
                 setRoomList(allRooms.filter(room => room.room_category === choice));
             }
-            setLoading(false);
-        }, 1000);
+
     };
 
     return (

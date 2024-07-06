@@ -19,6 +19,7 @@
 .special-menu-container{
     margin: 1rem 2rem;
     display:flex;
+    flex-wrap: wrap;
     gap: 2rem;
     flex-wrap: wrap;
 }
@@ -38,6 +39,13 @@
             transition: .5s all;
             padding: .5rem;
 
+}
+.special-h1{
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 400;
+    letter-spacing: 5px;
+    margin: 1rem 0rem;
 }
 
 
@@ -154,3 +162,39 @@ form .menu--btn:hover {
         color: rgb(233, 133, 133);
     }
 }
+
+@media (max-width:780px){
+    .menu-home{
+        height: 60vh;
+    }
+    .menu-h1{
+        font-size: 80px;
+    }
+    .special-card{
+        width: 45%;
+    }
+        .no-special-div{
+            margin: 1rem 0rem;
+            width: 90%;
+        }
+}
+@media (max-width:480px){
+    .special-card{
+        width: 90%;
+    }
+    .special-h1{
+        text-align: center;
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin: 1rem 0rem;
+    }
+        .menu-container-form{
+            width: 100%;
+        }
+         .no-special-div {
+             margin: 1rem 0rem;
+             width: 100%;
+         }
+}
+
