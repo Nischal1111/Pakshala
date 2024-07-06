@@ -20,9 +20,9 @@ router.post('/request-event-venue', addBookVenue);
 
 router.get('/get-event-venues',jwtAuth ,getBookVenues);
 
-router.patch("/accept-event-booking/:eventId",acceptEventBooking);
+router.patch("/accept-event-booking/:id",acceptEventBooking);
 
-router.patch("/reject-event-booking/:eventId",rejectEventBooking);
+router.patch("/reject-event-booking/:id",rejectEventBooking);
 
 module.exports = router;
 

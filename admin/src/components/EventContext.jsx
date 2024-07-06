@@ -31,14 +31,30 @@ const EventBookingProvider = ({ children }) => {
   }, []);
 
 
-  const handleStatusChange = (bookingId, completed) => {
-
-    setEventBookings((bookings) =>
+  const handleStatusChange = async(bookingId) => {
+     try{
+      const response = fetch(`${process.env.REACT_APP_API_URL}/accept-event-booking/${bookingId}`, {
+        method:"PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body:JSON.stringify({bookingId})
+      })
+      const data=await response.json()
+      console.log(data)
+      if(data.success){
+         setEventBookings((bookings) =>
       bookings.map((booking) =>
-        booking._id === bookingId ? { ...booking, status: completed ? "Completed" : "Pending" } : booking
+        booking._id === bookingId ? { ...booking, status: "Completed" } : booking
       )
     );
-
+      }else{
+        console.log("Error")
+      }
+    }catch(err){
+      console.log(err);
+    }
   };
 
 

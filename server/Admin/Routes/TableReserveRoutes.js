@@ -18,7 +18,7 @@ router.post('/request-table-reserve/:id', addTableReserve);
 
 router.get('/get-table-reserves', jwtAuth, getTableReserves);
 
-router.patch("/accept-table-reservation/:tableReservationId",acceptTableReservation)
-router.patch("/reject-table-reservation/:tableReservationId",rejectTableReservation)
+router.patch("/accept-table-reservation/:id",acceptTableReservation)
+router.patch("/reject-table-reservation/:id",rejectTableReservation)
 
 module.exports = router;

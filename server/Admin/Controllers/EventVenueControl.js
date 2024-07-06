@@ -52,8 +52,8 @@ const acceptEventBooking = async(req,res) =>{
     try {
         const eventId = req.params.id;
 
-        const acceptEvent = BookVenue.findByIdAndUpdate(eventId,{
-            status: "Approved"
+        const acceptEvent = await BookVenue.findByIdAndUpdate(eventId,{
+            status: "Completed"
         },
     {
         new: true

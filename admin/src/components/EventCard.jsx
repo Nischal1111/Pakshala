@@ -25,8 +25,8 @@ const EventCard = ({ booking }) => {
     setOpenDeleteDialog(false);
   };
 
-  const handleConfirmComplete = () => {
-    handleStatusChange(booking._id, true);
+  const handleConfirmComplete = async() => {
+    await handleStatusChange(booking._id);
     booknotify();
     handleCloseCompleteDialog();
   };

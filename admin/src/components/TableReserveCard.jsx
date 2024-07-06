@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Card, CardContent, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import {TableReserveContext} from "./TableContext"
+import { TableReserveContext } from './TableContext';
 import { booknotify } from './Notify';
 import { FaTrash } from 'react-icons/fa';
 
 const TableReserveCard = ({ reservation }) => {
-  const { handleStatusChange } = useContext(TableReserveContext);
+  const { handleStatusChange, handleDeleteReservation } = useContext(TableReserveContext);
   const [openCompleteDialog, setOpenCompleteDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
@@ -25,13 +25,14 @@ const TableReserveCard = ({ reservation }) => {
     setOpenDeleteDialog(false);
   };
 
-  const handleConfirmComplete = () => {
-    handleStatusChange(reservation._id, true)
+  const handleConfirmComplete = async () => {
+    await handleStatusChange(reservation._id);
     booknotify();
     handleCloseCompleteDialog();
   };
 
-  const handleDeleteReservation = () => {
+  const handleConfirmDelete = () => {
+    handleDeleteReservation(reservation._id);
     handleCloseDeleteDialog();
   };
 
@@ -130,7 +131,7 @@ const TableReserveCard = ({ reservation }) => {
           <Button onClick={handleCloseDeleteDialog} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleDeleteReservation} color="primary">
+          <Button onClick={handleConfirmDelete} color="primary">
             Delete
           </Button>
         </DialogActions>

@@ -25,8 +25,8 @@ const RoomCard = ({ reserve }) => {
     setOpenDeleteDialog(false);
   };
 
-  const handleConfirmComplete = () => {
-    handleStatusChange(reserve._id, true);
+  const handleConfirmComplete = async() => {
+    await handleStatusChange(reserve._id);
     booknotify();
     handleCloseCompleteDialog();
   };

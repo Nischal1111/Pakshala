@@ -39,7 +39,6 @@ const CheckProvider = ({ children }) => {
     });
 
     const data = await response.json();
-    console.log('API response:', data); // Log the API response
 
     if (data.success) {
       setOrderDetails((prevOrders) =>
@@ -48,10 +47,10 @@ const CheckProvider = ({ children }) => {
         )
       );
     } else {
-      console.error('API error:', data.message); // Log API errors
+      console.error('API error:', data.message);
     }
   } catch (error) {
-    console.error('Fetch error:', error); // Log fetch errors
+    console.error('Fetch error:', error);
   }
 };
 

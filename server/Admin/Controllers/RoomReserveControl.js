@@ -56,26 +56,26 @@ const getRoomReserves = async (req, res) => {
     }
 }
 
-const acceptRoomReservation = async(req,res) =>{
-    try {
-        const roomReservationId = req.params.id;
+const acceptRoomReservation = async (req, res) => {
+  try {
+    const roomReservationId = req.params.roomReservationId;
 
-        const acceptRoom = RoomReserve.findByIdAndUpdate(roomReservationId,{
-            status: "Approved"
-        },
-    {
-        new: true
-    })
+    const acceptRoom = await RoomReserve.findByIdAndUpdate(
+      roomReservationId,
+      { status: "Completed" },
+      { new: true }
+    );
 
     if (!acceptRoom) {
-        return res.status(404).json({success:false, message: "Room reservation not found"})
-        }
-
-        res.status(200).json({success:true, message: "Room reservation accepted" })
-    } catch (error) {
-        res.status(400).json({success:false,message:"error",error})
+      return res.status(404).json({ success: false, message: "Room reservation not found" });
     }
-}
+
+    res.status(200).json({ success: true, message: "Room reservation accepted", data: acceptRoom });
+  } catch (error) {
+    res.status(400).json({ success: false, message: "Error accepting room reservation", error });
+  }
+};
+
 
 const rejectRoomReservation = async(req,res)=>{
     try {

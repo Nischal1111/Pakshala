@@ -27,14 +27,32 @@ const TableReserveProvider = ({ children }) => {
     fetchTableReservations();
   }, []);
 
-  const handleStatusChange = (reservationId, completed) => {
-
-    setTableReservations((reservations) =>
+  const handleStatusChange = async(reservationId) => {
+    try{
+      const response = fetch(`${process.env.REACT_APP_API_URL}/accept-table-reservation/${reservationId}`, {
+        method:"PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body:JSON.stringify({reservationId})
+      })
+      const data=await response.json()
+      if(data.success){
+        setTableReservations((reservations) =>
       reservations.map((reservation) =>
-        reservation._id === reservationId ? { ...reservation, status: completed ? "Completed" : "Pending" } : reservation
+        reservation._id === reservationId ? { ...reservation, status: "Completed" } : reservation
       )
     );
+      }else{
+        console.log("Error")
+      }
 
+
+
+    }catch(err){
+      console.log(err);
+    }
   };
 
   const handleDeleteReservation = async (reservationId) => {

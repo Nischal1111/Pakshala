@@ -27,16 +27,55 @@ const RoomReserveProvider = ({ children }) => {
     getReserveDetails();
   }, []);
 
-  const handleStatusChange = (reserveId, completed) => {
-    setReserveDetails((item) =>
-      item.map((reserve) =>
-        reserve._id === reserveId ? { ...reserve, status: completed ? "Completed" : "Pending" } : reserve
-      )
-    );
+  const handleStatusChange = async (reserveId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/accept-room-reservation/${reserveId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ reserveId }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setReserveDetails((prevDetails) =>
+          prevDetails.map((reserve) =>
+            reserve._id === reserveId ? { ...reserve, status: "Completed" } : reserve
+          )
+        );
+      } else {
+        console.error('API error:', data.message);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
+  const handleDeleteReservation = async (reserveId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-room-reservation/${reserveId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setReserveDetails((prevDetails) => prevDetails.filter((reserve) => reserve._id !== reserveId));
+      } else {
+        console.error('API error:', data.message);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
   };
 
   return (
-    <RoomReserveContext.Provider value={{ reserveDetails, handleStatusChange }}>
+    <RoomReserveContext.Provider value={{ reserveDetails, handleStatusChange, handleDeleteReservation }}>
       {children}
     </RoomReserveContext.Provider>
   );
