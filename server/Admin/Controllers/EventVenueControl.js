@@ -48,7 +48,50 @@ const getBookVenues = async (req, res) => {
     }
 }
 
+const acceptEventBooking = async(req,res) =>{
+    try {
+        const eventId = req.params.id;
+
+        const acceptEvent = BookVenue.findByIdAndUpdate(eventId,{
+            status: "Approved"
+        },
+    {
+        new: true
+    })
+
+    if (!acceptEvent) {
+        return res.status(404).json({success:false, message: "Event not found"})
+        }
+
+        res.status(200).json({success:true, message: "Event accepted" })
+    } catch (error) {
+        res.status(400).json({success:false,message:"error",error})
+    }
+}
+
+const rejectEventBooking = async(req,res)=>{
+    try {
+        const eventId = req.params.id;
+
+        const rejectEvent = BookVenue.findByIdAndUpdate(eventId,{
+            status: "Declined"
+        },{
+            new: true
+        })
+
+        if(!rejectEvent){
+            return res.status(404).json({success:false, message: "Event not found"})
+        }
+
+        res.status(200).json({success:true, message: "Event rejected" })
+    } catch (error) {
+        res.status(400).json({success:false,message:"error",error})
+    }
+}
+
 module.exports = {
     addBookVenue,
-    getBookVenues
+    getBookVenues,
+    acceptEventBooking,
+    rejectEventBooking
 }
