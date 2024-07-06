@@ -27,13 +27,35 @@ const CheckProvider = ({ children }) => {
     getOrderDetails();
   }, []);
 
-  const handleStatusChange = (orderId, completed) => {
-    setOrderDetails((item) =>
-      item.map((order) =>
-        order._id === orderId ? { ...order, status: completed ? "Completed" : "Pending" } : order
-      )
-    );
-  };
+ const handleStatusChange = async (orderId) => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/accept-order-menu`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ orderId }),
+    });
+
+    const data = await response.json();
+    console.log('API response:', data); // Log the API response
+
+    if (data.success) {
+      setOrderDetails((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === orderId ? { ...order, status: "Completed" } : order
+        )
+      );
+    } else {
+      console.error('API error:', data.message); // Log API errors
+    }
+  } catch (error) {
+    console.error('Fetch error:', error); // Log fetch errors
+  }
+};
+
+
 
   return (
     <CheckContext.Provider value={{ orderDetails, handleStatusChange }}>

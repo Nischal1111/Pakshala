@@ -99,4 +99,20 @@ transition: Bounce,
     }
     return booknotify()
 }
+export const Wrongnotify = () => {
+    const Wrongnotify=()=>{
+       toast.error("Wrong email or password!!!", {
+position: "top-center",
+autoClose: 3000,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+theme: "colored",
+transition: Bounce,
+});
+    }
+    return Wrongnotify()
+}
 

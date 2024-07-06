@@ -22,7 +22,7 @@ router.post('/request-order-menu', createMenuRequest);
 router.get('/get-all-menu-orders',jwtAuth, getAllMenuOrders);
 
 // accept the order menu
-router.route("/accpet-order-menu").patch(acceptMenuOrders)
+router.route("/accept-order-menu").patch(acceptMenuOrders)
 
 // reject menu orders
 router.route("/reject-order-menu").patch(rejectMenuOrders)

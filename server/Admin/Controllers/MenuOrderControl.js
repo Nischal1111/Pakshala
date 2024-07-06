@@ -45,26 +45,31 @@ const getAllMenuOrders = async (req, res) => {
     }
 }
 
-const acceptMenuOrders = async(req,res) =>{
-    try {
-        const orderId = req.params.id;
+const acceptMenuOrders = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    console.log('Order ID:', orderId); // Log the order ID
 
-        const acceptMenu = MenuOrder.findByIdAndUpdate(orderId,{
-            status: "Approved"
-        },
-    {
-        new: true
-    })
+    const acceptMenu = await MenuOrder.findByIdAndUpdate(orderId, {
+      status: "Completed"
+    }, {
+      new: true
+    });
 
     if (!acceptMenu) {
-        return res.status(404).json({success:false, message: "Menu order not found"})
-        }
-
-        res.status(200).json({success:true, message: "Menu order accepted" })
-    } catch (error) {
-        res.status(400).json({success:false,message:"error",error})
+      console.log('Order not found');
+      return res.status(404).json({ success: false, message: "Menu order not found" });
     }
-}
+
+    console.log('Order updated:', acceptMenu); // Log the updated order
+    res.status(200).json({ success: true, message: "Menu order accepted", order: acceptMenu });
+  } catch (error) {
+    console.error('Error updating order:', error); // Log any errors
+    res.status(400).json({ success: false, message: "error", error });
+  }
+};
+
+
 
 const rejectMenuOrders = async(req,res)=>{
     try {

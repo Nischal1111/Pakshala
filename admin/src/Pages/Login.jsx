@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -11,20 +11,35 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Outnotify, notify} from "../components/Notify"
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
+import { Wrongnotify } from '../components/Notify';
+import Cookies from "js-cookie"
+import {FaRegEyeSlash,FaRegEye} from "react-icons/fa"
 
 const defaultTheme = createTheme();
 
 export default function Login() {
 
   const navigate = useNavigate();
+  
+  const [see,setSee]=useState(false)
 
+  const handleSee=()=>{
+    setSee(!see)
+  }
+  
   useEffect(()=>{
+    
     setTimeout(()=>{
-        if(localStorage.getItem("logout")==="true"){
+      if(localStorage.getItem("logout")==="true"){
         Outnotify()
         localStorage.removeItem("logout")
-  }
+      }
     },500)
+
+    const cookie = Cookies.get("accessToken")
+    if(cookie){
+      navigate("/")
+    }
     },[])
 
   const handleSubmit = async(event) => {
@@ -48,6 +63,8 @@ export default function Login() {
         localStorage.setItem("notify","true")
         notify()
         navigate('/');
+      }else{
+        Wrongnotify()
       }
 
     } catch (error) {
@@ -82,16 +99,23 @@ export default function Login() {
               autoComplete="email"
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
+            <div style={{display:"flex", position:"relative",alignItems:"center"}}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type={see ? "text":"password"}
+                id="password"
+                autoComplete="current-password"
+                style={{position:"relative"}}
+              />
+              <div onClick={()=>handleSee()}>
+              {see ?<FaRegEye style={{position:"absolute",right:".5rem",cursor:"pointer"}} size={20}/>:<FaRegEyeSlash style={{position:"absolute",right:".5rem",cursor:"pointer"}} size={20}/> }
+              </div>
+              
+            </div>
             <Button
               type="submit"
               variant="contained"

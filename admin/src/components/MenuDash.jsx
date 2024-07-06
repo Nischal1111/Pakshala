@@ -58,7 +58,7 @@ const MenuDash = () => {
       <Box hidden={selectedTab !== 0}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
           {pendingOrders.map((order) => (
-            <OrderCard key={order._id} order={order} />
+            <OrderCard key={order._id} order={order} setSelectedTab={setSelectedTab}/>
           ))}
         </div>
       </Box>
