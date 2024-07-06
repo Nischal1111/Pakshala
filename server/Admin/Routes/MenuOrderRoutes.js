@@ -4,7 +4,9 @@ const jwtAuth = require('../Middleware/authMiddleware');
 
 const {
     createMenuRequest,
-    getAllMenuOrders
+    getAllMenuOrders,
+    acceptMenuOrders,
+    rejectMenuOrders
 } = require('../Controllers/MenuOrderControl');
 
 
@@ -19,7 +21,11 @@ router.post('/request-order-menu', createMenuRequest);
 //get all menu orders
 router.get('/get-all-menu-orders',jwtAuth, getAllMenuOrders);
 
+// accept the order menu
+router.route("/accpet-order-menu").patch(acceptMenuOrders)
 
+// reject menu orders
+router.route("/reject-order-menu").patch(rejectMenuOrders)
 
 module.exports = router;
 

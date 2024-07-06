@@ -55,6 +55,46 @@ const getTableReserves = async (req, res) => {
     }
 }
 
+const acceptTableReservation = async(req,res) =>{
+    try {
+        const tableReservationId = req.params.id;
+
+        const acceptTable = TableReserve.findByIdAndUpdate(tableReservationId,{
+            status: "Approved"
+        },
+    {
+        new: true
+    })
+
+    if (!acceptTable) {
+        return res.status(404).json({success:false, message: "Table reservation not found"})
+        }
+
+        res.status(200).json({success:true, message: "Table reservation accepted" })
+    } catch (error) {
+        res.status(400).json({success:false,message:"error",error})
+    }
+}
+
+const rejectTableReservation = async(req,res)=>{
+    try {
+        const tableReservationId = req.params.id;
+
+        const rejectTable = TableReserve.findByIdAndUpdate(tableReservationId,{
+            status: "Declined"
+        },{
+            new: true
+        })
+
+        if(!rejectTable){
+            return res.status(404).json({success:false, message: "Table reservation not found"})
+        }
+
+        res.status(200).json({success:true, message: "Table reservation rejected" })
+    } catch (error) {
+        res.status(400).json({success:false,message:"error",error})
+    }
+}
 
 
 
@@ -63,5 +103,7 @@ const getTableReserves = async (req, res) => {
 
 module.exports = {
     addTableReserve,
-    getTableReserves
+    getTableReserves,
+    acceptTableReservation,
+    rejectTableReservation
 }

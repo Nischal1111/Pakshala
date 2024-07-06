@@ -56,13 +56,52 @@ const getRoomReserves = async (req, res) => {
     }
 }
 
+const acceptRoomReservation = async(req,res) =>{
+    try {
+        const roomReservationId = req.params.id;
 
+        const acceptRoom = RoomReserve.findByIdAndUpdate(roomReservationId,{
+            status: "Approved"
+        },
+    {
+        new: true
+    })
 
+    if (!acceptRoom) {
+        return res.status(404).json({success:false, message: "Room reservation not found"})
+        }
 
+        res.status(200).json({success:true, message: "Room reservation accepted" })
+    } catch (error) {
+        res.status(400).json({success:false,message:"error",error})
+    }
+}
+
+const rejectRoomReservation = async(req,res)=>{
+    try {
+        const roomReservationId = req.params.id;
+
+        const rejectRoom = RoomReserve.findByIdAndUpdate(roomReservationId,{
+            status: "Rejected"
+        },{
+            new: true
+        })
+
+        if(!rejectRoom){
+            return res.status(404).json({success:false, message: "Room reservation not found"})
+        }
+
+        res.status(200).json({success:true, message: "Room reservation rejected" })
+    } catch (error) {
+        res.status(400).json({success:false,message:"error",error})
+    }
+}
 
 
 
 module.exports = {
     addRoomReserve,
     getRoomReserves,
+    acceptRoomReservation,
+    rejectRoomReservation
 }
