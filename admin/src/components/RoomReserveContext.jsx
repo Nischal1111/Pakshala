@@ -5,25 +5,25 @@ export const RoomReserveContext = createContext();
 const RoomReserveProvider = ({ children }) => {
   const [reserveDetails, setReserveDetails] = useState([]);
 
-  useEffect(() => {
-    const getReserveDetails = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/get-room-reserves`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-        const data = await response.json();
-        if (data.success) {
-          setReserveDetails(data.reserves);
-        }
-      } catch (error) {
-        console.log(error);
+  const getReserveDetails = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-room-reserves`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (data.success) {
+        setReserveDetails(data.reserves);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
     getReserveDetails();
   }, []);
 
@@ -75,7 +75,7 @@ const RoomReserveProvider = ({ children }) => {
   };
 
   return (
-    <RoomReserveContext.Provider value={{ reserveDetails, handleStatusChange, handleDeleteReservation }}>
+    <RoomReserveContext.Provider value={{ reserveDetails, handleStatusChange, handleDeleteReservation,getReserveDetails }}>
       {children}
     </RoomReserveContext.Provider>
   );

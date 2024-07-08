@@ -47,11 +47,11 @@ const TableFilter = () => {
         const choice = e.target.value.toLowerCase();
         setClicked(choice);
 
-            if (choice === "all tables") {
-                setFilteredTables(tableList);
-            } else {
-                setFilteredTables(tableList.filter(table => table.table_category.toLowerCase() === choice));
-            }
+        if (choice === "all tables") {
+            setFilteredTables(tableList);
+        } else {
+            setFilteredTables(tableList.filter(table => table.table_category.toLowerCase() === choice));
+        }
     };
 
     const handleReserve = async (id) => {
@@ -91,6 +91,21 @@ const TableFilter = () => {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const getCurrentDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const getCurrentTime = () => {
+        const today = new Date();
+        const hours = String(today.getHours()).padStart(2, '0');
+        const minutes = String(today.getMinutes()).padStart(2, '0');
+        return `${hours}:${minutes}`;
     };
 
     return (
@@ -158,10 +173,10 @@ const TableFilter = () => {
                             <div className="overlay2" onClick={handleClickOpen}>
                                 <h2>Reserve</h2>
                             </div>
-                            <div style={{position:"absolute", top:".7rem",left:"1.2rem",display:"flex",gap:".5rem",alignItems:"center",backgroundColor:"white",padding:".3rem .8rem",borderRadius:".3rem"}}>
-                <div style={{height:".7rem",width:".7rem",borderRadius:"50%",backgroundColor:"lightgreen"}}></div>
-                <p style={{fontSize:".8rem"}}>Available</p>
-            </div>
+                            <div style={{ position: "absolute", top: ".7rem", left: "1.2rem", display: "flex", gap: ".5rem", alignItems: "center", backgroundColor: "white", padding: ".3rem .8rem", borderRadius: ".3rem" }}>
+                                <div style={{ height: ".7rem", width: ".7rem", borderRadius: "50%", backgroundColor: "lightgreen" }}></div>
+                                <p style={{ fontSize: ".8rem" }}>Available</p>
+                            </div>
                             <Dialog open={open} onClose={handleClose}>
                                 <DialogTitle>Reserve {table.table_name}</DialogTitle>
                                 <DialogContent>
@@ -171,12 +186,11 @@ const TableFilter = () => {
                                     <form>
                                         <TextField
                                             autoFocus
-                                            margin="dense"
+                                            margin="normal"
                                             id="name"
                                             label="Name"
                                             type="text"
                                             fullWidth
-                                            variant="standard"
                                             autoComplete='off'
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
@@ -187,7 +201,6 @@ const TableFilter = () => {
                                             label="Email"
                                             type="email"
                                             fullWidth
-                                            variant="standard"
                                             autoComplete='off'
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
@@ -198,7 +211,6 @@ const TableFilter = () => {
                                             label="Contact Number"
                                             type="tel"
                                             fullWidth
-                                            variant="standard"
                                             autoComplete='off'
                                             value={contact}
                                             onChange={(e) => setContact(e.target.value)}
@@ -210,10 +222,10 @@ const TableFilter = () => {
                                             type="date"
                                             fullWidth
                                             autoComplete='off'
-                                            variant="standard"
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            inputProps={{ min: getCurrentDate() }}
                                             value={date}
                                             onChange={(e) => setDate(e.target.value)}
                                         />
@@ -223,11 +235,11 @@ const TableFilter = () => {
                                             label="Time"
                                             type="time"
                                             fullWidth
-                                            variant="standard"
                                             autoComplete='off'
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            inputProps={{ min: date === getCurrentDate() ? getCurrentTime() : undefined }}
                                             value={time}
                                             onChange={(e) => setTime(e.target.value)}
                                         />
@@ -238,7 +250,6 @@ const TableFilter = () => {
                                             type="number"
                                             fullWidth
                                             autoComplete='off'
-                                            variant="standard"
                                             value={guests}
                                             onChange={(e) => setGuests(e.target.value)}
                                         />

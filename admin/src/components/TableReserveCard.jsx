@@ -53,7 +53,7 @@ const TableReserveCard = ({ reservation }) => {
           color: "white"
         }}
       >
-        <CardContent sx={{ color: "black", height: "380px", minHeight: "380px" }}>
+        <CardContent sx={{ color: "black", height: "auto" }}>
           <Typography sx={{ fontSize: "1rem", letterSpacing: "1.5px", marginBottom: ".5rem" }}>Reservation Id: {reservation._id}</Typography>
           <hr className='order-line' />
           <div style={{ display: "flex", gap: "1rem", flexDirection: "column", width: "100%" }}>
@@ -74,6 +74,14 @@ const TableReserveCard = ({ reservation }) => {
               backgroundColor: "rgb(255, 176, 79,.3)"
               , padding: ".5rem 1rem", borderRadius: "5px", marginBottom: ".2rem"
             }}>Guests: {reservation.guestsNumber}</Typography>
+            <Typography variant="body1" sx={{
+              backgroundColor: "rgb(255, 176, 79,.3)"
+              , padding: ".5rem 1rem", borderRadius: "5px", marginBottom: ".2rem"
+            }}>Date: {reservation.reserveDate}</Typography>
+            <Typography variant="body1" sx={{
+              backgroundColor: "rgb(255, 176, 79,.3)"
+              , padding: ".5rem 1rem", borderRadius: "5px", marginBottom: ".2rem"
+            }}>Time: {reservation.reserveTime}</Typography>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0rem .4rem" }}>
               <Button
                 variant="contained"

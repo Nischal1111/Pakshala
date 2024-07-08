@@ -5,25 +5,25 @@ export const CheckContext = createContext();
 const CheckProvider = ({ children }) => {
   const [orderDetails, setOrderDetails] = useState([]);
 
-  useEffect(() => {
-    const getOrderDetails = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/get-all-menu-orders`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-        const data = await response.json();
-        if (data.success) {
-          setOrderDetails(data.orders);
-        }
-      } catch (error) {
-        console.log(error);
+  const getOrderDetails = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-all-menu-orders`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (data.success) {
+        setOrderDetails(data.orders);
       }
-    };
-
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  useEffect(() => {
     getOrderDetails();
   }, []);
 
@@ -57,7 +57,7 @@ const CheckProvider = ({ children }) => {
 
 
   return (
-    <CheckContext.Provider value={{ orderDetails, handleStatusChange }}>
+    <CheckContext.Provider value={{ orderDetails, handleStatusChange, getOrderDetails }}>
       {children}
     </CheckContext.Provider>
   );

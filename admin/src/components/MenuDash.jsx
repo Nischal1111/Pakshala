@@ -1,16 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import { CheckContext } from './CheckBoxContext';
 import OrderCard from './OrderCard';
 import { ToastContainer } from 'react-toastify';
 
 const MenuDash = () => {
-  const { orderDetails } = useContext(CheckContext);
+  const { orderDetails,getOrderDetails } = useContext(CheckContext);
   const [selectedTab, setSelectedTab] = useState(0);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+
+  useEffect(()=>{
+    getOrderDetails()
+  },[])
 
   const completedOrders = orderDetails.filter((order) => order.status === "Completed");
   const pendingOrders = orderDetails.filter((order) => order.status === "Pending");

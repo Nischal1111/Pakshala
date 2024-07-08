@@ -1,13 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import { RoomReserveContext } from './RoomReserveContext';
 import RoomCard from './RoomCard';
 import { ToastContainer } from 'react-toastify';
 
 const RoomsDash = () => {
-  const { reserveDetails } = useContext(RoomReserveContext);
+  const { reserveDetails,getReserveDetails } = useContext(RoomReserveContext);
   const [selectedTab, setSelectedTab] = useState(0);
 
+  
+  useEffect(()=>{
+    getReserveDetails()
+  },[])
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
