@@ -301,58 +301,71 @@ const Rooms = () => {
   };
 
   const handleEdit = (id) => {
-    const roomToEdit = roomData.find((item) => item._id === id);
-    const index = roomData.findIndex((item) => item._id === id);
-    setEditRoomData(roomToEdit);
-    setEditImagePreview(roomToEdit.room_image1 || null);
-    setMiniImagePreview({
-      miniImg1: roomToEdit.room_image2 || null,
-      miniImg2: roomToEdit.room_image3 || null,
-      miniImg3: roomToEdit.room_image4 || null,
+  const roomToEdit = roomData.find((item) => item._id === id);
+  const index = roomData.findIndex((item) => item._id === id);
+  setEditRoomData(roomToEdit);
+  setEditImagePreview(roomToEdit.room_image1 || null);
+  setMiniImagePreview({
+    miniImg1: roomToEdit.room_image2 || null,
+    miniImg2: roomToEdit.room_image3 || null,
+    miniImg3: roomToEdit.room_image4 || null,
+  });
+
+  setEditingIndex(index + 1);
+  setEditModalOpen(true);
+};
+
+const handleEditSubmit = async () => {
+  setLoading(true);
+  const formData = new FormData();
+  formData.append('room_name', editRoomData.room_name);
+  formData.append('room_category', editRoomData.room_category);
+  formData.append('room_price', editRoomData.room_price);
+  formData.append('room_guests', editRoomData.room_guests);
+  formData.append('room_single_beds', editRoomData.room_single_beds);
+  formData.append('room_double_beds', editRoomData.room_double_beds);
+
+  if (editRoomData.room_image1) {
+    formData.append('img1', editRoomData.room_image1);
+  }
+  if (editRoomData.room_image2) {
+    formData.append('img2', editRoomData.room_image2);
+  }
+  if (editRoomData.room_image3) {
+    formData.append('img3', editRoomData.room_image3);
+  }
+  if (editRoomData.room_image4) {
+    formData.append('img4', editRoomData.room_image4);
+  }
+
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/update-room/${editRoomData._id}`, {
+      method: 'PATCH',
+      credentials: 'include',
+      body: formData,
     });
 
-    setEditingIndex(index + 1);
-    setEditModalOpen(true);
-  };
-
-  const handleEditSubmit = async () => {
-    const formData = new FormData();
-    formData.append('room_name', editRoomData.room_name);
-    formData.append('room_category', editRoomData.room_category);
-    formData.append('room_price', editRoomData.room_price);
-    formData.append('room_guests', editRoomData.room_guests);
-    formData.append('room_single_beds', editRoomData.room_single_beds);
-    formData.append('room_double_beds', editRoomData.room_double_beds);
-    formData.append('img1', editRoomData.room_image1);
-    formData.append('img2', editRoomData.room_image2);
-    formData.append('img3', editRoomData.room_image3);
-    formData.append('img4', editRoomData.room_image4);
-
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/update-room/${editRoomData._id}`, {
-        method: 'PATCH',
-        credentials: 'include',
-        body: formData,
-      });
-
-      const data = await response.json();
-      if (data.success){
-        editnotify();
-        setLoading(false);
-        getAllRooms();
-        setEditModalOpen(false);
-        setEditingIndex(null);
-        setEditRoomData(null);
-        setEditImagePreview(null);
-        setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
-        handleClose();
-      } else {
-        console.error('Error updating room:', data.error);
-      }
-    } catch (error) {
-      console.error('Error updating room:', error);
+    const data = await response.json();
+    if (data.success) {
+      editnotify();
+      setLoading(false);
+      getAllRooms();
+      setEditModalOpen(false);
+      setEditingIndex(null);
+      setEditRoomData(null);
+      setEditImagePreview(null);
+      setMiniImagePreview({ miniImg1: null, miniImg2: null, miniImg3: null });
+      handleClose();
+    } else {
+      setLoading(false);
+      console.error('Error updating room:', data.error);
     }
-  };
+  } catch (error) {
+    setLoading(false);
+    console.error('Error updating room:', error);
+  }
+};
+
 
   return (
     <>
