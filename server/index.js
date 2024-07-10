@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static('public'));
 app.use(cors({
-    origin: [process.env.ADMIN_URL,process.env.USER_URL],
+    origin: ['http://localhost:3000', 'http://localhost:3001' ],
     credentials: true,
 }));
 app.use(cookieParser());

@@ -61,9 +61,10 @@ const RoomSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    isRoomBooked: {
-        type: Boolean,
-        default: false
+    roomStatus: {
+        type: String,
+        default: 'Available',
+        enum: ['Available','Pending' ,'Booked']
     }
 }, {
     timestamps: true
