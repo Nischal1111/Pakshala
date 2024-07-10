@@ -35,7 +35,7 @@ const ServiceCard = ({ item,index }) => {
             </CardContent>
             <CardActions >
                 <Link to={item.link} style={{width:"100%"}}>
-                    <Button style={{fontSize: ".8rem",border: "1px solid white",background: "#C7C8CC",padding: ".5rem 1rem",color:"white",bottom:"0px",width:"30%",textTransform:"capitalize"}} className='service-card-button'>{item.button}</Button>
+                    <Button style={{fontSize: ".8rem",border: "1px solid white",background: "var(--hover-color)",padding: ".5rem 1rem",color:"white",bottom:"0px",width:"30%",textTransform:"capitalize"}} className='service-card-button'>{item.button}</Button>
                 </Link>
             </CardActions>
             </div>

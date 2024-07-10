@@ -131,12 +131,12 @@ const Menu = () => {
           <div>
             <Link to={menu} target='_blank'>
               <button className='overlay2'>
-                <h2> View Food Menu </h2>
+                <h2 style={{backgroundColor:"var(--primary-color)",fontSize:"1rem"}}> View Food Menu </h2>
               </button>
             </Link>
             <Link to={drink} target='_blank'>
               <button className='overlay2'>
-                <h2> View Drink Menu </h2>
+                <h2 style={{backgroundColor:"var(--primary-color)",fontSize:"1rem"}}> View Drink Menu </h2>
               </button>
             </Link>
           </div>

@@ -148,10 +148,12 @@
     font-weight: 400;
     letter-spacing: 3px;
     font-family: "Inika";
+    color: var(--hover-color);
 
 }
 .map{
     font-size: 2rem;
+    color: var(--hover-color);
 }
 .map-frame{
     height: 90vh;

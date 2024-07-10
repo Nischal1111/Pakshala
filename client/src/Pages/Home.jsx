@@ -57,6 +57,7 @@ const Home = () => {
         onClose={handleClose}
         aria-labelledby="offer-modal-title"
         aria-describedby="offer-modal-description"
+
       >
         <Box 
           sx={{
@@ -64,6 +65,7 @@ const Home = () => {
             boxShadow: 24,
             p: 0,
             outline:"none",
+            position:"relative"
           }}
           className="offer-box"
         >
@@ -78,7 +80,12 @@ const Home = () => {
             }}
             style={{color:"white"}}
           >
-            <CloseIcon />
+            <div style={{position:"absolute",right:"1rem",top:"1rem"}} >
+              <div style={{height:"2rem",width:"2rem",borderRadius:"100%",backgroundColor:"white",boxShadow:"0px 2px 4px rgba(0,0,0,.3)"}}>
+
+              </div>
+              <CloseIcon sx={{position:"absolute",top:".35rem",color:"black",right:".25rem"}}/>
+            </div>
           </IconButton>
         </Box>
       </Modal>

@@ -63,7 +63,7 @@ const RoomCard = ({ room, index }) => {
             </Link>
             <div style={{position:"absolute", top:".7rem",left:"1.2rem",display:"flex",gap:".5rem",alignItems:"center",backgroundColor:"white",padding:".3rem .8rem",borderRadius:".3rem"}}>
                 <div style={{height:".7rem",width:".7rem",borderRadius:"50%",backgroundColor:"lightgreen"}}></div>
-                <p>Available</p>
+                <p>{room.isBooked ? "Booked" : "Available"}</p>
             </div>
         </motion.div>
     );

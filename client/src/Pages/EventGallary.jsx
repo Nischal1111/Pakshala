@@ -52,6 +52,7 @@ const EventGallary = () => {
         </Masonry>
       </ResponsiveMasonry>
     </div>
+    <Footer/>
     </>
   );
 }

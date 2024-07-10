@@ -8,6 +8,7 @@
 .heading {
     margin: 2rem 0rem;
     font-size: 3rem;
+    color: var(--primary-color);
     letter-spacing: 3px;
     font-weight: 400;
     text-align: center;

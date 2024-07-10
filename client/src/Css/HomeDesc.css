@@ -24,7 +24,7 @@
     height: auto;
     background-color: rgb(249, 246, 242);
     border-radius:.3rem;
-    box-shadow: 8px 16px 32px rgba(213, 98, 35, 0.4);
+    box-shadow: 2px 2px 20px 1px var(--hover-color);
 }
 
 .img-desc {
@@ -38,6 +38,7 @@
     letter-spacing: 1px;
     font-size: 1.5rem;
     margin: -1rem 2rem 1rem 2rem;
+    color: var(--primary-color);
     font-weight: 600;
     font-family: "Inika";
     text-align: center;

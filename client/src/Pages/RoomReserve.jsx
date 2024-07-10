@@ -78,7 +78,7 @@ const RoomReserve = () => {
           <div className="left-part">
             <div className="room-reserve-img-div">
               <img src={room.room_image1.url} alt={room.room_name} className="main-img" />
-              <div className='small-imgs-div'>
+              <div className='small-imgs-div' style={{marginTop:"1rem"}}>
                 <img src={room.room_image2.url} alt="Small 1" />
                 <img src={room.room_image3.url} alt="Small 2" />
                 <img src={room.room_image3.url} alt="Small 3" />
@@ -98,7 +98,9 @@ const RoomReserve = () => {
                   <p className="room-price-2">Rs {room.room_price}</p>
                 </div>
               </div>
-              <p style={{ fontSize: "1rem", fontFamily: "Lato", lineHeight: "2rem" }}>Later</p>
+              <p style={{ fontSize: "1rem", fontFamily: "Lato", lineHeight: "2rem" }}>The rooms have on-call service, housekeeping service, 24/7 stable and fast Wi-Fi, assistance, 
+                airport transfers and lodging if previously informed, and air-conditioned rooms with comfortable beds, comfortable and best hospitality. Breakfast, lunch, and 
+                dinner are served to the room, but premium rooms do not have breakfast. Laundry service is available for additional costs.</p>
               <div style={{ display: "flex", gap: "1rem", alignItems: "center", margin: "1.2rem 0rem" }}>
                 <FaUser />
                 <span>Up to {room.room_guests} guest/s</span>
@@ -146,7 +148,7 @@ const RoomReserve = () => {
                     <label>Check-out Date</label>
                     <input type="date" required value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)} />
                   </div>
-                  <button type="submit">Reserve</button>
+                  <button type="submit" style={{backgroundColor:"var(--primary-color)"}}>Reserve</button>
                 </form>
               </div>
             ) : (
