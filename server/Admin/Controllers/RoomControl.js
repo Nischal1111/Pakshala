@@ -142,24 +142,7 @@ const editRoom = async (req, res) => {
     try {
         const { id } = req.params;
         const { room_name, room_price, room_category } = req.body;
-        const { img1, img2, img3, img4 } = req.files;
-
-        // console.log(img1, img2, img3, img4)
-
-        // Check if all required fields and images are provided
-        // if (!room_name || !room_price || !room_category || !oldImgId1 || !oldImgId2 || !oldImgId3 || !oldImgId4) {
-        //     return res.status(400).json({ message: 'All fields are required.' });
-        // }
-        if (!img1 || !img2 || !img3 || !img4) {
-            return res.status(400).json({ message: 'Please upload all four room images.' });
-        }
-
-        const img1Path = img1[0].path;
-        const img2Path = img2[0].path;
-        const img3Path = img3[0].path;
-        const img4Path = img4[0].path;
-
-       
+        const files = req.files;
 
         // Find the room by id
         const room = await Room.findById(id);
@@ -167,57 +150,74 @@ const editRoom = async (req, res) => {
             return res.status(404).json({ message: 'Room item not found' });
         }
 
-        
-        const oldImgId1 = room.room_image1.public_id;
-        const oldImgId2= room.room_image2.public_id;
-        const oldImgId3 = room.room_image3.public_id;
-        const oldImgId4 = room.room_image4.public_id;
+        // Prepare new image paths if provided
+        const imagePaths = {
+            img1: files.img1 ? files.img1[0].path : null,
+            img2: files.img2 ? files.img2[0].path : null,
+            img3: files.img3 ? files.img3[0].path : null,
+            img4: files.img4 ? files.img4[0].path : null,
+        };
 
+        // Prepare old image public IDs
+        const oldImageIds = {
+            img1: room.room_image1.public_id,
+            img2: room.room_image2.public_id,
+            img3: room.room_image3.public_id,
+            img4: room.room_image4.public_id,
+        };
 
-         // Upload new images and gather URLs
-         const imageUploads = [img1Path, img2Path, img3Path, img4Path].map(path => uploadFile(path, 'rooms'));
-         const [uploadedImg1, uploadedImg2, uploadedImg3, uploadedImg4] = await Promise.all(imageUploads);
- 
-         // Delete old images
-         const deleteUploads = [oldImgId1, oldImgId2, oldImgId3, oldImgId4].map(id => deleteFile(id));
-         await Promise.all(deleteUploads);
+        // Upload new images and gather URLs
+        const imageUploads = Object.keys(imagePaths).map(key => 
+            imagePaths[key] ? uploadFile(imagePaths[key], 'rooms') : null
+        );
+        const uploadedImages = await Promise.all(imageUploads);
 
+        // Delete old images only if new images are provided
+        const deleteUploads = Object.keys(uploadedImages).map((key, index) =>
+            uploadedImages[index] ? deleteFile(oldImageIds[key]) : null
+        );
+        await Promise.all(deleteUploads);
 
         // Update the room data
         room.room_name = room_name;
         room.room_price = room_price;
         room.room_category = room_category;
-        room.room_image1 = {
-            url: uploadedImg1.secure_url,
-            public_id: uploadedImg1.public_id
-        };
-        room.room_image2 = {
-            url: uploadedImg2.secure_url,
-            public_id: uploadedImg2.public_id
-        };
-        room.room_image3 = {
-            url: uploadedImg3.secure_url,
-            public_id: uploadedImg3.public_id
-        };
-        room.room_image4 = {
-            url: uploadedImg4.secure_url,
-            public_id: uploadedImg4.public_id
-        };
+
+        // Update room images
+        if (uploadedImages[0]) {
+            room.room_image1 = {
+                url: uploadedImages[0].secure_url,
+                public_id: uploadedImages[0].public_id
+            };
+        }
+        if (uploadedImages[1]) {
+            room.room_image2 = {
+                url: uploadedImages[1].secure_url,
+                public_id: uploadedImages[1].public_id
+            };
+        }
+        if (uploadedImages[2]) {
+            room.room_image3 = {
+                url: uploadedImages[2].secure_url,
+                public_id: uploadedImages[2].public_id
+            };
+        }
+        if (uploadedImages[3]) {
+            room.room_image4 = {
+                url: uploadedImages[3].secure_url,
+                public_id: uploadedImages[3].public_id
+            };
+        }
 
         // Save the updated room data
         await room.save();
 
         res.status(200).json({ success: true, message: 'Room item edited successfully' });
-
     } catch (error) {
         console.error('Error editing room item:', error); // Log the error for debugging
         res.status(500).json({ success: false, message: 'Internal server error on Edit room Item' });
     }
 };
-
-
-        
-
 
 
 module.exports = {

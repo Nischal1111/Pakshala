@@ -1,148 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import "../css/menu.css";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button } from '@mui/material';
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { Edit, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { Modal,Box,TextField,Button } from '@mui/material';
 import {userLogged} from "../components/Cookie"
 import {notify} from "../components/Notify"
 import { ToastContainer } from 'react-toastify';
 import { ImSpinner2 } from 'react-icons/im';
-import { delnotify } from '../components/delnotify';
 import { editnotify } from '../components/editnotify';
+import RoomList from '../components/RoomList';
 
-const RoomList = ({ roomData, handleEdit,getAllRooms }) => {
-  const [search, setSearch] = useState('');
-  const [delloading, setdelLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = (id) => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  }
-
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
-  };
-
-  // Delete room
-  const handleDelete = async (id) => {
-    setdelLoading(true)
-    const itemdel = roomData.find(room => room._id === id)
-    
-      const deleteR = await fetch(`${process.env.REACT_APP_API_URL}/delete-room/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ 
-          image1: itemdel.room_image1.public_id,
-          image2: itemdel.room_image2.public_id,
-          image3: itemdel.room_image3.public_id,
-          image4: itemdel.room_image4.public_id
-         }),
-      });
-      const data = await deleteR.json();
-      if (data.success) {
-        setdelLoading(false)
-        delnotify()
-        getAllRooms()
-        handleClose()
-        
-      }else{
-        setdelLoading(false)
-        console.log(data.message);
-    }
-  };
-
-  const filteredRooms = roomData.filter(item =>
-    item.room_name.toLowerCase().includes(search.toLowerCase())
-  );
-
-  return (
-    <>
-      <div className='menu-table'>
-        <div className="menu-search">
-          <input type="text" value={search} onChange={handleSearchChange} className='menu-search' placeholder='Search' />
-        </div>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead className='table-head'>
-              <TableRow>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>SN</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Image</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Name</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Category</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Guests</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Single Beds</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Double Beds</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Price</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredRooms.map((item, index) => (
-                <>
-                <TableRow key={item.room_name} className='table-row'>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell className='table-row'>
-                    {item.room_image1 ? <img src={item.room_image1.url} alt={item.room_name} className="menu-img" /> : 'No Image'}
-                  </TableCell>
-                  <TableCell className='table-row'>{item.room_name}</TableCell>
-                  <TableCell className='table-row'>{item.room_category}</TableCell>
-                  <TableCell className='table-row'>{item.room_guests}</TableCell>
-                  <TableCell className='table-row'>{item.room_single_beds}</TableCell>
-                  <TableCell className='table-row'>{item.room_double_beds}</TableCell>
-                  <TableCell className='table-row'>Rs. {item.room_price}</TableCell>
-                  <TableCell>
-                    <IconButton onClick={() => handleEdit(item._id)}>
-                      <Edit className='menu-edit' />
-                    </IconButton>
-                    <IconButton onClick={handleOpen}>
-                      <Delete className='menu-delete' />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-                 <Dialog
-        open={open}
-        onClose={handleClose}
-      >
-        <DialogTitle>Delete Image</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete this room?
-          </DialogContentText>
-        </DialogContent>
-        
-          {delloading ? (<>
-          <div className='loading-spinner' style={{height:"2rem",width:"2rem",margin:"1rem 0rem 2rem 2rem"}}>
-            <ImSpinner2 className='loading' style={{height:"2rem",width:"2rem"}}/>
-          </div>
-          </>):(<>
-          <DialogActions>
-          <Button onClick={handleClose} color="primary" sx={{ color: "#06D001" }}>
-            Cancel
-          </Button>
-          <Button onClick={()=>handleDelete(item._id)} color="primary" autoFocus sx={{ color: "red" }}>
-            Delete
-          </Button>
-          </DialogActions>
-          </>)}
-      </Dialog>
-                </>
-                
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </>
-  );
-};
 
 const Rooms = () => {
 
@@ -161,7 +27,7 @@ const Rooms = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [miniImagePreview, setMiniImagePreview] = useState({ miniImg1: null, miniImg2: null, miniImg3: null });
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [editRoomData, setEditRoomData] = useState(null);
+  const [editRoomData, setEditRoomData] = useState({ title: '', category: '', price: '',guests:" ", single_beds: 0, double_beds: 0, img: null, miniImg1: null, miniImg2: null, miniImg3: null });
   const [editImagePreview, setEditImagePreview] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
   const [loading,setLoading]=useState(false)
@@ -243,7 +109,6 @@ const Rooms = () => {
   }
 };
 
-  // Add new room
   const handleSubmit = async () => {
     setLoading(true)
     const newErrors = {
@@ -251,8 +116,8 @@ const Rooms = () => {
       category: newRoom.category.trim() === '',
       price: newRoom.price.trim() === '',
       guests: newRoom.guests.trim() === '',
-      single_beds: newRoom.single_beds.trim() === '',
-      double_beds: newRoom.double_beds.trim() === '',
+      single_beds: newRoom.single_beds === '',
+      double_beds: newRoom.double_beds === '',
       img: newRoom.img === null,
       miniImg1: newRoom.miniImg1 === null,
       miniImg2: newRoom.miniImg2 === null,
@@ -294,16 +159,19 @@ const Rooms = () => {
         handleClose();
       } else {
         console.error('Error adding room:', data.error);
+        setLoading(false)
       }
     } catch (error) {
       console.error('Error adding room:', error);
+      
     }
   };
 
   const handleEdit = (id) => {
   const roomToEdit = roomData.find((item) => item._id === id);
   const index = roomData.findIndex((item) => item._id === id);
-  setEditRoomData(roomToEdit);
+  setEditRoomData(roomToEdit
+  );
   setEditImagePreview(roomToEdit.room_image1 || null);
   setMiniImagePreview({
     miniImg1: roomToEdit.room_image2 || null,
@@ -325,16 +193,17 @@ const handleEditSubmit = async () => {
   formData.append('room_single_beds', editRoomData.room_single_beds);
   formData.append('room_double_beds', editRoomData.room_double_beds);
 
-  if (editRoomData.room_image1) {
+  // Append new images if they are provided
+  if (editRoomData.room_image1 && editRoomData.room_image1.name) {
     formData.append('img1', editRoomData.room_image1);
   }
-  if (editRoomData.room_image2) {
+  if (editRoomData.room_image2 && editRoomData.room_image2.name) {
     formData.append('img2', editRoomData.room_image2);
   }
-  if (editRoomData.room_image3) {
+  if (editRoomData.room_image3 && editRoomData.room_image3.name) {
     formData.append('img3', editRoomData.room_image3);
   }
-  if (editRoomData.room_image4) {
+  if (editRoomData.room_image4 && editRoomData.room_image4.name) {
     formData.append('img4', editRoomData.room_image4);
   }
 
@@ -365,6 +234,7 @@ const handleEditSubmit = async () => {
     console.error('Error updating room:', error);
   }
 };
+
 
 
   return (
