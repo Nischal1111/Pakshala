@@ -1,5 +1,7 @@
 import React,{useState} from 'react'
 import "../Css/About.css"
+import { donenotify } from './Notify'
+import { ToastContainer } from 'react-toastify'
 
 const ContactForm = () => {
   const[name,setName]=useState("")
@@ -12,7 +14,6 @@ const ContactForm = () => {
 
     const handleSubmit = async(e) => {
       e.preventDefault()
-      // console.log(name, email, contact, message);
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/request-order-menu`, {
           method: "POST",
@@ -23,7 +24,7 @@ const ContactForm = () => {
         });
         const data = await response.json();
         if(data.success){
-          alert("Order placed successfully")
+          donenotify()
           setName("");
           setContact("");
           setMessage("");
@@ -39,6 +40,7 @@ const ContactForm = () => {
   
   return (
     <div className='menu-choose2'>
+      <ToastContainer/>
       <div className="menu-container-form">
         <h3>Order Here</h3>
         <div className='menu--form'>

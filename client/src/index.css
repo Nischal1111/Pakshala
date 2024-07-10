@@ -18,3 +18,20 @@ body {
   --hover-color: #d42906;
   --secondary-color:#bbbbf7;
 }
+
+.toast-custom {
+  background-color: orange !important;
+  color: white !important;
+
+
+}
+
+.toast-custom .Toastify__toast-icon>svg {
+  fill: white !important;
+  /* Change the icon color */
+}
+
+.toast-custom .Toastify__progress-bar {
+  background: white !important;
+  /* Change the progress bar color */
+}
