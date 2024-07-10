@@ -5,13 +5,13 @@ import RoomCard from './RoomCard';
 import { ToastContainer } from 'react-toastify';
 
 const RoomsDash = () => {
-  const { reserveDetails,getReserveDetails } = useContext(RoomReserveContext);
+  const { reserveDetails, getReserveDetails } = useContext(RoomReserveContext);
   const [selectedTab, setSelectedTab] = useState(0);
 
-  
-  useEffect(()=>{
-    getReserveDetails()
-  },[])
+  useEffect(() => {
+    getReserveDetails();
+  }, []);
+
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
@@ -60,18 +60,26 @@ const RoomsDash = () => {
         </Tabs>
       </div>
       <Box hidden={selectedTab !== 0}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
-          {pendingReserves.map((reserve) => (
-            <RoomCard key={reserve._id} reserve={reserve} />
-          ))}
-        </div>
+        {pendingReserves.length === 0 ? (
+          <p style={{padding:"18px 32px",margin:"1rem",backgroundColor:"whitesmoke",boxShadow:"0px 2px 4px 1px rgba(0,0,0,.1)",fontSize:"1.2rem"}}>No current reserves</p>
+        ) : (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
+            {pendingReserves.map((reserve) => (
+              <RoomCard key={reserve._id} reserve={reserve} />
+            ))}
+          </div>
+        )}
       </Box>
       <Box hidden={selectedTab !== 1}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
-          {completedReserves.map((reserve) => (
-            <RoomCard key={reserve._id} reserve={reserve} />
-          ))}
-        </div>
+        {completedReserves.length === 0 ? (
+          <p style={{padding:"18px 32px",margin:"1rem",backgroundColor:"whitesmoke",boxShadow:"0px 2px 4px 1px rgba(0,0,0,.1)",fontSize:"1.2rem"}}>No completed reserves</p>
+        ) : (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
+            {completedReserves.map((reserve) => (
+              <RoomCard key={reserve._id} reserve={reserve} />
+            ))}
+          </div>
+        )}
       </Box>
     </div>
   );

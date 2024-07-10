@@ -1,4 +1,4 @@
-import React, { useContext,useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import { EventContext } from './EventContext';
 import EventCard from './EventCard';
@@ -56,18 +56,26 @@ const EventDash = () => {
         </Tabs>
       </div>
       <Box hidden={selectedTab !== 0}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
-          {pendingBookings.map((booking) => (
-            <EventCard key={booking._id} booking={booking} />
-          ))}
-        </div>
+        {pendingBookings.length === 0 ? (
+          <p style={{padding:"18px 32px",margin:"1rem",backgroundColor:"whitesmoke",boxShadow:"0px 2px 4px 1px rgba(0,0,0,.1)",fontSize:"1.2rem"}}>No current bookings</p>
+        ) : (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
+            {pendingBookings.map((booking) => (
+              <EventCard key={booking._id} booking={booking} />
+            ))}
+          </div>
+        )}
       </Box>
       <Box hidden={selectedTab !== 1}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
-          {completedBookings.map((booking) => (
-            <EventCard key={booking._id} booking={booking} />
-          ))}
-        </div>
+        {completedBookings.length === 0 ? (
+          <p style={{padding:"18px 32px",margin:"1rem",backgroundColor:"whitesmoke",boxShadow:"0px 2px 4px 1px rgba(0,0,0,.1)",fontSize:"1.2rem"}}>No completed bookings</p>
+        ) : (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
+            {completedBookings.map((booking) => (
+              <EventCard key={booking._id} booking={booking} />
+            ))}
+          </div>
+        )}
       </Box>
     </div>
   );

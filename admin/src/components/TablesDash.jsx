@@ -1,4 +1,4 @@
-import React, { useContext,useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import { TableReserveContext } from './TableContext'; 
 import TableReserveCard from './TableReserveCard';
@@ -55,18 +55,26 @@ const TableReserveDash = () => {
         </Tabs>
       </div>
       <Box hidden={selectedTab !== 0}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
-          {pendingReservations.map((reservation) => (
-            <TableReserveCard key={reservation._id} reservation={reservation} />
-          ))}
-        </div>
+        {pendingReservations.length === 0 ? (
+          <p style={{padding:"18px 32px",margin:"1rem",backgroundColor:"whitesmoke",boxShadow:"0px 2px 4px 1px rgba(0,0,0,.1)",fontSize:"1.2rem"}}>No current reservations</p>
+        ) : (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
+            {pendingReservations.map((reservation) => (
+              <TableReserveCard key={reservation._id} reservation={reservation} />
+            ))}
+          </div>
+        )}
       </Box>
       <Box hidden={selectedTab !== 1}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
-          {completedReservations.map((reservation) => (
-            <TableReserveCard key={reservation._id} reservation={reservation} />
-          ))}
-        </div>
+        {completedReservations.length === 0 ? (
+          <p style={{padding:"18px 32px",margin:"1rem",backgroundColor:"whitesmoke",boxShadow:"0px 2px 4px 1px rgba(0,0,0,.1)",fontSize:"1.2rem"}}>No completed reservations</p>
+        ) : (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
+            {completedReservations.map((reservation) => (
+              <TableReserveCard key={reservation._id} reservation={reservation} />
+            ))}
+          </div>
+        )}
       </Box>
     </div>
   );

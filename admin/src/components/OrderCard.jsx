@@ -32,11 +32,10 @@ const OrderCard = ({ order }) => {
   };
 
   const handleDeleteOrder = () => {
-    // Add your delete order logic here
     handleCloseDeleteDialog();
   };
 
-  console.log('OrderCard re-render:', order._id, order.status); // Add this line to check re-renders
+  console.log('OrderCard re-render:', order._id, order.status);
 
   return (
     <div style={{ width: '30%' }}>
@@ -112,11 +111,10 @@ const OrderCard = ({ order }) => {
               >
                 {order.status === 'Completed' ? 'Completed' : 'Complete Order'}
               </Button>
-              {order.status === "Pending" ? (<Button sx={{color:"red"}}>Deny</Button> ): <FaTrash
+                <FaTrash
                 style={{ flex: '.2', color: 'red', cursor: 'pointer' }}
                 onClick={handleOpenDeleteDialog}
-              />}
-             
+              />  
             </div>
           </div>
         </CardContent>

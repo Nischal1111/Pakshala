@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button } from '@mui/material';
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { Edit, Delete } from '@mui/icons-material';
+import { Edit, Delete,Close } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { userLogged } from "../components/Cookie";
 import { ToastContainer } from "react-toastify";
@@ -210,6 +210,11 @@ const Tables = () => {
     }
   };
 
+  const handleCancelBooking=async(id)=>{
+    const roomToCancel=tableData.find(item => item._id === id)
+      console.log(roomToCancel._id)
+  }
+
   return (
     <>
       <div className="menu-content">
@@ -246,9 +251,12 @@ const Tables = () => {
                       <IconButton onClick={handleDelOpen}>
                         <Delete className='menu-delete' />
                       </IconButton>
+                      <IconButton onClick={()=>{handleCancelBooking(item._id)}}>
+                        <Close className='menu-delete' />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
-                   <Dialog
+                  <Dialog
         open={delopen}
         onClose={handleDelClose}
         PaperProps={{
