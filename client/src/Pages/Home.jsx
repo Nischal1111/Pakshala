@@ -96,7 +96,7 @@ const Home = () => {
           <div className="text-home-bg">
             <h1>Exquisite Dining, Unforgettable Moments.</h1>
             <p>
-              Set on 37 acres of landscaped grounds, Hyatt Regency Kathmandu is a luxury five-star hotel designed in traditional.
+              Pakshala is a fine dining restaurant that offers a unique blend of Indian and international cuisine.
             </p>
             <Link to="/menu">
             <button>
