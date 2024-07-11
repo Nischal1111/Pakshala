@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Modal, Box, TextField, Button } from '@mui/material';
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { Edit, Delete,Close } from '@mui/icons-material';
+import { Edit, Delete,Close,Check} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { userLogged } from "../components/Cookie";
 import { ToastContainer } from "react-toastify";
@@ -211,8 +211,12 @@ const Tables = () => {
   };
 
   const handleCancelBooking=async(id)=>{
-    const roomToCancel=tableData.find(item => item._id === id)
-      console.log(roomToCancel._id)
+    const tableToCancel=tableData.find(item => item._id === id)
+      console.log(tableToCancel._id)
+  }
+  const handleBooking=async(id)=>{
+    const tableToBook=tableData.find(item => item._id === id)
+      console.log(tableToBook._id)
   }
 
   return (
@@ -251,8 +255,8 @@ const Tables = () => {
                       <IconButton onClick={handleDelOpen}>
                         <Delete className='menu-delete' />
                       </IconButton>
-                      <IconButton onClick={()=>{handleCancelBooking(item._id)}}>
-                        <Close className='menu-delete' />
+                      <IconButton >
+                        {item.isBooked ?<Close className='menu-delete' onClick={()=>{handleBooking(item._id)}}/>: <Check className='menu-edit' onClick={()=>{handleCancelBooking(item._id)}} />}
                       </IconButton>
                     </TableCell>
                   </TableRow>

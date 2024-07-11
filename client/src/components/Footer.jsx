@@ -27,13 +27,6 @@ const Footer = () => {
               <p>+977 9487473774</p>
               <p>pakshala@restro.np</p>
         </div>
-        <div className="footer-community">
-            <h2>Community</h2>
-            <p>Blog</p>
-            <p>Community</p>
-            <p>Ideas</p>
-            <p>Developers</p>
-        </div>
         <div className="our-services">
             <h2>Our Services</h2>
             <p>Restaurant</p>
@@ -59,6 +52,16 @@ const Footer = () => {
             <Link to="/about">
                 <p>About</p>
             </Link>
+            <Link to="/gallary">
+                <p>Gallary</p>
+            </Link>
+        </div>
+        <div className="footer-community">
+            <h2>Community</h2>
+            <p>Blog</p>
+            <p>Community</p>
+            <p>Ideas</p>
+            <p>Developers</p>
         </div>
         </div>
         <span className='footer-last'>Privacy Policy | Terms & Condition | Cookie Center | Security & Safety | | © 2024 Pakshala Restro</span>

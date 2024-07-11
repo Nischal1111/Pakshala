@@ -2,11 +2,18 @@ import React,{useState} from 'react'
 import "../Css/About.css"
 import { donenotify } from './Notify'
 import { ToastContainer } from 'react-toastify'
+import {Dialog,DialogActions,DialogTitle,Button,DialogContent} from "@mui/material"
+import QR from "../assets/QR.png"
 
 const ContactForm = () => {
   const[name,setName]=useState("")
   const [contact, setContact] = useState("")
   const [message, setMessage] = useState("")
+
+   const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleNameChange = (event) => setName(event.target.value);
   const handleContactChange = (event) => setContact(event.target.value);
@@ -48,8 +55,25 @@ const ContactForm = () => {
                 <input className='menu--input' placeholder='Enter your fullname' type='text' autoComplete='off' required onChange={handleNameChange}/>
                 <input className='menu--input' placeholder='Enter your contact number' type='number' autoComplete='off' required onChange={handleContactChange}/>
                 <textarea name='message' placeholder='Place your order here (menu items)' cols='30'rows='6' autoComplete='off' required onChange={handleMessageChange}></textarea>
+                <div style={{display:"flex",gap:"1rem"}}>
                 <button type='submit' className='contact--btn'>Place order</button>
+                <button className='contact--btn' type='button' onClick={handleOpen} style={{backgroundColor:"#36C2CE"}}>Scan QR Code</button>
+                </div>
             </form>
+            <Dialog
+            open={open}
+            onClose={handleClose}
+          >
+            <DialogTitle>Pay online with Esewa</DialogTitle>
+            <DialogContent>
+              <img src={QR} alt="QR" />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary" sx={{ color: "var(--hover-color)" }}>
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
     </div>

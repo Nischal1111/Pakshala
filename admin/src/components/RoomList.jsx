@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "../css/menu.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
-import { Edit, Delete,Close } from '@mui/icons-material';
+import { Edit, Delete,Close,Check } from '@mui/icons-material';
 import { ImSpinner2 } from 'react-icons/im';
 import { delnotify } from '../components/delnotify';
 
@@ -52,6 +52,10 @@ const RoomList = ({ roomData, handleEdit,getAllRooms }) => {
     const roomToCancel=roomData.find(item => item._id === id)
       console.log(roomToCancel._id)
   }
+  const handleBooking=async(id)=>{
+    const roomToBook=roomData.find(item => item._id === id)
+      console.log(roomToBook._id)
+  }
 
   return (
     <>
@@ -92,8 +96,8 @@ const RoomList = ({ roomData, handleEdit,getAllRooms }) => {
                     <IconButton onClick={handleOpen}>
                       <Delete className='menu-delete' />
                     </IconButton>
-                    <IconButton onClick={()=>{handleCancelBooking(item._id)}}>
-                        <Close className='menu-delete' />
+                     <IconButton >
+                        {item.isBooked ?<Close className='menu-delete' onClick={()=>{handleBooking(item._id)}}/>: <Check className='menu-edit' onClick={()=>{handleCancelBooking(item._id)}} />}
                       </IconButton>
                   </TableCell>
                 </TableRow>
