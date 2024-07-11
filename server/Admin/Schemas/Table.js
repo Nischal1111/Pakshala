@@ -27,10 +27,12 @@ const TablesSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    isTableBooked: {
-        type: Boolean,
-        default: false
+    tableStatus: {
+        type: String,
+        default: 'Available',
+        enum: ['Available', 'Pending' ,'Booked']
     }
+
 },
 {
     timestamps: true
