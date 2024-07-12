@@ -35,8 +35,6 @@ const OrderCard = ({ order }) => {
     handleCloseDeleteDialog();
   };
 
-  console.log('OrderCard re-render:', order._id, order.status);
-
   return (
     <div style={{ width: '30%' }}>
       <Card

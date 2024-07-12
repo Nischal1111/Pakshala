@@ -233,7 +233,7 @@ const editRoom = async (req, res) => {
 // for updateing the current status of the ROom
 const updateStatusAvailableRoom = async()=>{
     try {
-        const roomId = req.params.tableId;
+        const roomId = req.params.roomId;
 
         const updateStatusAvailable = Room.findByIdAndUpdate(roomId,{
             $set: {roomStatus: 'Available'}
@@ -250,7 +250,7 @@ const updateStatusAvailableRoom = async()=>{
 
 const updatedStatusBooked = async()=>{
     try {
-        const roomId = req.params.id;
+        const roomId = req.params.roomId;
         const showStatusBooked = Room.findByIdAndUpdate(roomId,{
             $set: {roomStatus: 'Booked'}
             })
