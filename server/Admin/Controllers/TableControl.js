@@ -152,6 +152,40 @@ const editTableItem = async (req, res) => {
 };
 
 
+// for updateing the current status of the table
+const updateStatusAvailableTable = async()=>{
+    try {
+        const tableId = req.params.tableId;
+
+        const updateStatusAvailable = Table.findByIdAndUpdate(tableId,{
+            $set: {tableStatus: 'Available'}
+        })
+        if(!updateStatusAvailable){
+            return res.status(404).json({success: false, message: 'Error updating table status' });
+        }
+
+        res.status(200).json({success:true,mesasge:"Updated status to available",updateStatusAvailable})
+    } catch (error) {
+        res.status(400).json({success:false,error})
+    }
+}
+
+const updatedStatusBooked = async()=>{
+    try {
+        const tableId = req.params.id;
+        const showStatuBooked = Table.findByIdAndUpdate(tableId,{
+            $set: {tableStatus: 'Booked'}
+            })
+            if(!showStatuBooked){
+                return res.status(404).json({success: false, message: 'Error updating table status'})
+                }   
+                
+        res.status(200).json({success:true,message:"updated status to Booked",showStatuBooked})
+    } catch (error) {
+        res.status(400),json({success:false,error})
+    }
+}
+
 
 
 
@@ -159,5 +193,7 @@ module.exports = {
     addTableItem,
     getTableItems,
     deleteTableItem,
-    editTableItem
+    editTableItem,
+    updateStatusAvailableTable,
+    updatedStatusBooked
 };

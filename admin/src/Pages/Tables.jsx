@@ -10,6 +10,13 @@ import { delnotify } from "../components/delnotify";
 import { editnotify } from '../components/editnotify';
 import { ImSpinner2 } from "react-icons/im";
 
+
+// api for status of table
+// method = patch
+  //available-status/:tableId  
+  // for booked status table
+//"booked-status/:tableId (method=patch)
+//"maile feri push garrey hai"
 const Tables = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
