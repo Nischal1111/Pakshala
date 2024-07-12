@@ -69,6 +69,16 @@ const acceptTableReservation = async (req, res) => {
       return res.status(404).json({ success: false, message: "Table reservation not found" });
     }
 
+    const tableId = acceptTable.tableId;
+    const updateTableStatus = await Table.findByIdAndUpdate(
+        tableId,
+        { tableStatus: "Booked" },
+        { new: true }
+        );
+    if (!updateTableStatus) {
+        return res.status(404).json({ success: false, message: "Table not found" });
+    }
+
     res.status(200).json({ success: true, message: "Table reservation accepted", data: acceptTable });
   } catch (error) {
     res.status(400).json({ success: false, message: "Error accepting table reservation", error });
