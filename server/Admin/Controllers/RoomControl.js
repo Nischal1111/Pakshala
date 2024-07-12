@@ -137,12 +137,13 @@ const deleteRoom = async (req, res) => {
 
 
 // editing the room data
-
 const editRoom = async (req, res) => {
     try {
         const { id } = req.params;
         const { room_name, room_price, room_category } = req.body;
         const files = req.files;
+
+        // console.log(files)
 
         // Find the room by id
         const room = await Room.findById(id);
@@ -166,17 +167,27 @@ const editRoom = async (req, res) => {
             img4: room.room_image4.public_id,
         };
 
+        if (files.img1)
+            await deleteFile(oldImageIds.img1);
+        if(files.img2)
+            await deleteFile(oldImageIds.img2);
+        if(files.img3)
+            await deleteFile(oldImageIds.img3);
+        if(files.img4)
+            await deleteFile(oldImageIds.img4);
+
+
         // Upload new images and gather URLs
         const imageUploads = Object.keys(imagePaths).map(key => 
             imagePaths[key] ? uploadFile(imagePaths[key], 'rooms') : null
         );
         const uploadedImages = await Promise.all(imageUploads);
 
-        // Delete old images only if new images are provided
-        const deleteUploads = Object.keys(uploadedImages).map((key, index) =>
-            uploadedImages[index] ? deleteFile(oldImageIds[key]) : null
-        );
-        await Promise.all(deleteUploads);
+        // // Delete old images only if new images are provided
+        // const deleteUploads = Object.keys(uploadedImages).map((key, index) =>
+        //     uploadedImages[index] ? deleteFile(oldImageIds[key]) : null
+        // );
+        // await Promise.all(deleteUploads);
 
         // Update the room data
         room.room_name = room_name;
@@ -252,6 +263,8 @@ const updatedStatusBooked = async()=>{
         res.status(400),json({success:false,error})
     }
 }
+
+
 
 
 
