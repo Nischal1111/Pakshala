@@ -50,8 +50,8 @@ roomRoutes.patch('/update-room/:id', uploader.fields([
 ]),jwtAuth, editRoom);
 
 //for updating status
-roomRoutes.route("available-status/:roomId").patch(updateStatusAvailableRoom)
-roomRoutes.route("booked-status/:roomId").patch(updatedStatusBooked)
+roomRoutes.route("/available-status/:id").patch(updateStatusAvailableRoom);
+roomRoutes.route("/booked-status/:id").patch(updatedStatusBooked);
 
 
 module.exports = roomRoutes;

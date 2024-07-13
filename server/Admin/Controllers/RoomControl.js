@@ -227,41 +227,44 @@ const editRoom = async (req, res) => {
 };
 
 // for updateing the current status of the ROom >> to make booked room available >> admin manually do this  
-const updateStatusAvailableRoom = async(req,res)=>{
-    try {
-        const roomId = req.params.roomId;
 
-        const updateStatusAvailable = Room.findByIdAndUpdate(roomId,{
-            $set: {roomStatus: 'Available'}
-        })
-        if(!updateStatusAvailable){
-            return res.status(404).json({success: false, message: 'Error updating room status' });
+const updateStatusAvailableRoom = async (req, res) => {
+  try {
+    const roomId = req.params.id;
+
+    const updateStatusAvailable = await Room.findByIdAndUpdate(roomId, {
+      $set: { roomStatus: 'Available' }
+    }, { new: true });
+
+    if (!updateStatusAvailable) {
+      return res.status(404).json({ success: false, message: 'Error updating room status' });
+    }
+
+    res.status(200).json({ success: true, message: "Updated status to available", updateStatusAvailable });
+  } catch (error) {
+    console.error("Error updating room status to available:", error);
+    res.status(500).json({ success: false, error: error.message || error });
+  }}
+
+const updatedStatusBooked = async (req, res) => {
+    try {
+        const roomId = req.params.id;
+        console.log("Received request to update status to booked for roomId:", roomId);
+
+        const showStatusBooked = await Room.findByIdAndUpdate(roomId, {
+            $set: { roomStatus: 'Booked' }
+        }, { new: true });
+
+        if (!showStatusBooked) {
+            return res.status(404).json({ success: false, message: 'Error updating room status' });
         }
 
-        res.status(200).json({success:true,mesasge:"Updated status to available",updateStatusAvailable})
+        res.status(200).json({ success: true, message: "Updated status to booked", showStatusBooked });
     } catch (error) {
-        res.status(400).json({success:false,error})
+        console.error("Error updating room status to booked:", error);
+        res.status(400).json({ success: false, error: error.message || error });
     }
-}
-
-
-// for updating the status of the room to booked >> admin manually do this
-
-const updatedStatusBooked = async(req,res)=>{
-    try {
-        const roomId = req.params.roomId;
-        const showStatusBooked = Room.findByIdAndUpdate(roomId,{
-            $set: {roomStatus: 'Booked'}
-            })
-            if(!showStatusBooked){
-                return res.status(404).json({success: false, message: 'Error updating room status'})
-                }   
-                
-        res.status(200).json({success:true,message:"updated status to Booked",showStatusBooked})
-    } catch (error) {
-        res.status(400),json({success:false,error})
-    }
-}
+};
 
 
 

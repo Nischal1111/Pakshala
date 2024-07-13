@@ -5,7 +5,7 @@ import { Edit, Delete, Close, Check } from '@mui/icons-material';
 import { ImSpinner2 } from 'react-icons/im';
 import { delnotify } from '../components/delnotify';
 
-const RoomList = ({ roomData, handleEdit, getAllRooms }) => {
+const RoomList = ({ roomData, handleEdit, getAllRooms, setRoomData }) => {
   const [delloading, setdelLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
@@ -48,37 +48,54 @@ const RoomList = ({ roomData, handleEdit, getAllRooms }) => {
     }
   };
 
+  const updateRoomStatus = (id, status) => {
+    return roomData.map(room => room._id === id ? { ...room, roomStatus: status } : room);
+  };
+
   const handleCancelBooking = async (id) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/available-status/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-    const data = await res.json();
-    if (data.success) {
-      getAllRooms();
-    } else {
-      console.log(data.message);
+    console.log(`Sending request to update status to available for roomId: ${id}`);
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/available-status/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json', // Set the content type appropriately, even if empty
+        },
+        credentials: 'include', // Include credentials if necessary for authentication
+      });
+      const data = await res.json();
+      console.log("Response from server:", data);
+      if (data.success) {
+        setRoomData(prevRoomData => updateRoomStatus(id, 'Available'));
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error updating room status:", error);
     }
   };
 
   const handleBooking = async (id) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/booked-status/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-    const data = await res.json();
-    if (data.success) {
-      getAllRooms();
-    } else {
-      console.log(data.message);
+    console.log(`Sending request to update status to booked for roomId: ${id}`);
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/booked-status/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json', // Set the content type appropriately, even if empty
+        },
+        credentials: 'include', // Include credentials if necessary for authentication
+      });
+      const data = await res.json();
+      console.log("Response from server:", data);
+      if (data.success) {
+        setRoomData(prevRoomData => prevRoomData.map(room => room._id === id ? { ...room, roomStatus: 'Booked' } : room));
+      } else {
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error("Error updating room status:", error);
     }
   };
+
 
   return (
     <>
@@ -118,15 +135,15 @@ const RoomList = ({ roomData, handleEdit, getAllRooms }) => {
                     <IconButton onClick={() => handleOpen(item._id)}>
                       <Delete className='menu-delete' />
                     </IconButton>
-                      {item.roomStatus === "Booked" ?
+                    {item.roomStatus === "Booked" ?
                       <IconButton onClick={() => handleCancelBooking(item._id)}>
-                          <Close className='menu-delete'/>
+                        <Close className='menu-delete' />
                       </IconButton>
-                        : 
+                      :
                       <IconButton onClick={() => handleBooking(item._id)}>
-                          <Check className='menu-edit'  />
+                        <Check className='menu-edit' />
                       </IconButton>
-                      }
+                    }
                   </TableCell>
                 </TableRow>
               ))}
