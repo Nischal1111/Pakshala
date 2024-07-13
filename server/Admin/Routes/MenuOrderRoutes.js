@@ -6,7 +6,8 @@ const {
     createMenuRequest,
     getAllMenuOrders,
     acceptMenuOrders,
-    rejectMenuOrders
+    rejectMenuOrders,
+    deleteMenuOrder
 } = require('../Controllers/MenuOrderControl');
 
 
@@ -26,6 +27,9 @@ router.route("/accept-order-menu" ).patch(jwtAuth,acceptMenuOrders)
 
 // reject menu orders
 router.route("/reject-order-menu").patch(jwtAuth,rejectMenuOrders)
+
+// delete menu orders
+router.route('/delete-order-menu/:id').delete(jwtAuth, deleteMenuOrder)
 
 module.exports = router;
 

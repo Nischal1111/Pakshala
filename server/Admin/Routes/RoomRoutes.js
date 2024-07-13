@@ -16,8 +16,7 @@ const {
   getRooms,
   deleteRoom,
   editRoom,
-  updatedStatusBooked,
-  updateStatusAvailableRoom
+  updateStatusOfRoom
 } = require('../Controllers/RoomControl');
 
 // roomRoutes.use(jwtAuth)  // all routes are secured
@@ -50,8 +49,7 @@ roomRoutes.patch('/update-room/:id', uploader.fields([
 ]),jwtAuth, editRoom);
 
 //for updating status
-roomRoutes.route("/available-status/:id").patch(updateStatusAvailableRoom);
-roomRoutes.route("/booked-status/:id").patch(updatedStatusBooked);
+roomRoutes.route("/update-status-room/:id").patch(jwtAuth,updateStatusOfRoom)
 
 
 module.exports = roomRoutes;
