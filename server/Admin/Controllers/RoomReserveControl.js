@@ -94,8 +94,7 @@ const acceptRoomReservation = async (req, res) => {
 
 const rejectRoomReservation = async(req, res) => {
     try {
-        const { roomReservationId } = req.body;
-        console.log("Room Reservation ID:", roomReservationId);
+        const roomReservationId = req.params.roomId
 
         const rejectRoom = await RoomReserve.findByIdAndUpdate(roomReservationId, {
             status: "Rejected"
@@ -103,24 +102,18 @@ const rejectRoomReservation = async(req, res) => {
             new: true
         });
 
-        console.log("Rejected Room Reservation:", rejectRoom);
-
-        if (!rejectRoom) {
-            return res.status(404).json({ success: false, message: "Failed to reject reservation." });
-        }
-
+     
         const roomId = rejectRoom.roomId;
-        console.log("Room ID:", roomId);
 
         const room = await Room.findByIdAndUpdate(
             roomId,
-            { status: "Available" },
+            { roomStatus: "Available" },
             { new: true }
         );
 
-        console.log("Updated Room:", room);
+       
 
-        if (!room) {
+        if (!rejectRoom|| !room) {
             return res.status(404).json({ success: false, message: "Failed to update room status." });
         }
 
