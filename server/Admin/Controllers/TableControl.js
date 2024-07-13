@@ -154,41 +154,39 @@ const editTableItem = async (req, res) => {
 
 
 // for updateing the current status of the table >> to make booked table available >> admin manually do this  
-const updateStatusAvailableTable = async(req,res)=>{
+
+const updateStatusOfTable = async (req, res) => {
     try {
         const tableId = req.params.tableId;
+        const { status } = req.body;
 
-        const updateStatusAvailable = Table.findByIdAndUpdate(tableId,{
-            $set: {tableStatus: 'Available'}
-        })
-        if(!updateStatusAvailable){
-            return res.status(404).json({success: false, message: 'Error updating table status' });
+        let updateStatus;
+        if (status === 'Available' || status === 'Booked') {
+            updateStatus = await Table.findByIdAndUpdate(
+                tableId,
+                {
+                    $set: {
+                        tableStatus: status,
+                    }
+                },
+                { new: true }
+            );
+        } else {
+            return res.status(400).json({ success: false, message: 'Invalid status provided.' });
         }
 
-        res.status(200).json({success:true,mesasge:"Updated status to available",updateStatusAvailable})
+        if (!updateStatus) {
+            return res.status(404).json({ success: false, message: 'Table not found.' });
+        }
+
+        res.status(200).json({ success: true, message: 'Table status updated successfully.', data: updateStatus });
     } catch (error) {
-        res.status(400).json({success:false,error})
+        console.log(error);
+        res.status(500).json({ success: false, error: error.message || error });
     }
-}
+};
 
 
-// for updating the status of the table to booked >> admin manually do this
-
-const updatedStatusBooked = async(req,res)=>{
-    try {
-        const tableId = req.params.tableId;
-        const showStatusBooked = Table.findByIdAndUpdate(tableId,{
-            $set: {tableStatus: 'Booked'}
-            })
-            if(!showStatusBooked){
-                return res.status(404).json({success: false, message: 'Error updating table status'})
-                }   
-                
-        res.status(200).json({success:true,message:"Updated status to Booked",showStatusBooked})
-    } catch (error) {
-        res.status(400).json({success:false,error})
-    }
-}
 
 
 
@@ -200,6 +198,5 @@ module.exports = {
     getTableItems,
     deleteTableItem,
     editTableItem,
-    updateStatusAvailableTable,
-    updatedStatusBooked
+    updateStatusOfTable
 };

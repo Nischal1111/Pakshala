@@ -24,9 +24,15 @@ const addRoomReserve = async (req, res) => {
             roomId
         });
 
+        
+
         const reserve = await reserveRoom.save();
 
-        if (!reserve) {
+        const updateRoomStatus = await Room.findByIdAndUpdate(roomId,{
+                roomStatus: "Pending"
+            })
+
+        if (!reserve || !updateRoomStatus) {
             return res.status(400).json({ success: false, message: 'Room reservation failed' });
         }
 
@@ -66,9 +72,7 @@ const acceptRoomReservation = async (req, res) => {
       { new: true }
     );
 
-    if (!acceptRoom) {
-      return res.status(404).json({ success: false, message: "Room reservation not found" });
-    }
+ 
 
     const roomId = acceptRoom.roomId;
     const room = await Room.findByIdAndUpdate(
@@ -77,8 +81,8 @@ const acceptRoomReservation = async (req, res) => {
         { new: true }
     );
 
-    if (!room) {
-        return res.status(404).json({ success: false, message: "Room not found" });
+    if (!acceptRoom || !room) {
+        return res.status(404).json({ success: false, message: "Failed to accpet reservation" });
     }
 
     res.status(200).json({ success: true, message: "Room reservation accepted", data: acceptRoom });
@@ -98,9 +102,18 @@ const rejectRoomReservation = async(req,res)=>{
             new: true
         })
 
-        if(!rejectRoom){
-            return res.status(404).json({success:false, message: "Room reservation not found"})
+        
+        const roomId = rejectRoom.roomId;
+        const room = await Room.findByIdAndUpdate(
+            roomId,
+            { status: "Available" },
+            { new: true }
+        );
+
+        if(!rejectRoom || !room){
+            return res.status(404).json({success:false, message: "Failed to cancel reservation."})
         }
+
 
         res.status(200).json({success:true, message: "Room reservation rejected" })
     } catch (error) {

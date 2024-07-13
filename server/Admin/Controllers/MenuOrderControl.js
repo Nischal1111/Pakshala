@@ -89,11 +89,31 @@ const rejectMenuOrders = async(req,res)=>{
 }
 
 
+//for deleting menu orders
+const deleteMenuOrder = async (req, res) => {
+    try {
+        const orderId = req.params.id;
+
+        const deleteOrder = MenuOrder.findByIdAndDelete(orderId);
+
+        if (!deleteOrder) {
+            return res.status(404).json({ success: false, message: "Menu order not found" });
+        }
+
+        res.status(200).json({ success: true, message: "Menu order deleted" });
+
+    } catch (error) {
+        res.status(400).json({ success: false, message: "error", error })
+    }
+}
+
+
 module.exports = {
     createMenuRequest,
     getAllMenuOrders,
     acceptMenuOrders,
-    rejectMenuOrders
+    rejectMenuOrders,
+    deleteMenuOrder
 }
 
 
