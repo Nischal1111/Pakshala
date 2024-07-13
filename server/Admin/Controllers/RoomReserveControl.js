@@ -92,34 +92,46 @@ const acceptRoomReservation = async (req, res) => {
 };
 
 
-const rejectRoomReservation = async(req,res)=>{
+const rejectRoomReservation = async(req, res) => {
     try {
-        const roomReservationId = req.params.id;
+        const { roomReservationId } = req.body;
+        console.log("Room Reservation ID:", roomReservationId);
 
-        const rejectRoom = RoomReserve.findByIdAndUpdate(roomReservationId,{
+        const rejectRoom = await RoomReserve.findByIdAndUpdate(roomReservationId, {
             status: "Rejected"
-        },{
+        }, {
             new: true
-        })
+        });
 
-        
+        console.log("Rejected Room Reservation:", rejectRoom);
+
+        if (!rejectRoom) {
+            return res.status(404).json({ success: false, message: "Failed to reject reservation." });
+        }
+
         const roomId = rejectRoom.roomId;
+        console.log("Room ID:", roomId);
+
         const room = await Room.findByIdAndUpdate(
             roomId,
             { status: "Available" },
             { new: true }
         );
 
-        if(!rejectRoom || !room){
-            return res.status(404).json({success:false, message: "Failed to cancel reservation."})
+        console.log("Updated Room:", room);
+
+        if (!room) {
+            return res.status(404).json({ success: false, message: "Failed to update room status." });
         }
 
-
-        res.status(200).json({success:true, message: "Room reservation rejected" })
+        res.status(200).json({ success: true, message: "Room reservation rejected" });
     } catch (error) {
-        res.status(400).json({success:false,message:"error",error})
+        console.error("Error:", error);
+        res.status(400).json({ success: false, message: "error", error });
     }
-}
+};
+
+
 
 
 

@@ -54,8 +54,8 @@ const CheckProvider = ({ children }) => {
   }
 };
 
-const handleRejectOrder=async(orderId)=>{
-  try{
+const handleRejectOrder = async (orderId) => {
+  try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/reject-order-menu`, {
       method: 'PATCH',
       headers: {
@@ -66,7 +66,7 @@ const handleRejectOrder=async(orderId)=>{
     });
 
     const data = await response.json();
-     if (data.success) {
+    if (data.success) {
       setOrderDetails((prevOrders) =>
         prevOrders.map((order) =>
           order._id === orderId ? { ...order, status: "Rejected" } : order
@@ -75,11 +75,10 @@ const handleRejectOrder=async(orderId)=>{
     } else {
       console.error('API error:', data.message);
     }
-
-  }catch(err){
+  } catch (err) {
     console.error('Fetch error:', err);
   }
-}
+};
 
 
 

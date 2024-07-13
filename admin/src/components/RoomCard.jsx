@@ -5,7 +5,7 @@ import { booknotify } from './Notify';
 import { FaTrash } from 'react-icons/fa';
 
 const RoomCard = ({ reserve }) => {
-  const { handleStatusChange } = useContext(RoomReserveContext);
+  const { handleStatusChange,handleDeleteReservation } = useContext(RoomReserveContext);
   const [openCompleteDialog, setOpenCompleteDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
@@ -31,9 +31,13 @@ const RoomCard = ({ reserve }) => {
     handleCloseCompleteDialog();
   };
 
-  const handleDeleteReserve = () => {
+  const handleDeleteReserve = async () => {
+    await handleDeleteReservation(reserve._id)
     handleCloseDeleteDialog();
   };
+
+
+const [date, time] = reserve.createdAt.split('T');
 
   return (
     <div style={{ width: "100%",}}>
@@ -50,6 +54,9 @@ const RoomCard = ({ reserve }) => {
       >
         <CardContent sx={{ display: 'flex', flexDirection: 'column', color: 'black', flex: 1 }}>
           <Typography sx={{ fontSize: '1rem', letterSpacing: '1.5px', marginBottom: '.5rem' }}>Reservation Id: {reserve._id}</Typography>
+          <Typography sx={{ fontSize: '1rem', letterSpacing: '1.5px', marginBottom: '.5rem' }}>Date Reserved: {date}</Typography>
+          <Typography sx={{ fontSize: '1rem', letterSpacing: '1.5px', marginBottom: '.5rem' }}>Time Reserved: {time.split('.')[0]}</Typography>
+
           <hr className='order-line' />
           <Typography variant="subtitle1"
             sx={{

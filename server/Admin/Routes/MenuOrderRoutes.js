@@ -26,7 +26,7 @@ router.get('/get-all-menu-orders',jwtAuth, getAllMenuOrders);
 router.route("/accept-order-menu" ).patch(jwtAuth,acceptMenuOrders)
 
 // reject menu orders
-router.route("/reject-order-menu/:id").patch(jwtAuth,rejectMenuOrders)
+router.route("/reject-order-menu").patch(jwtAuth,rejectMenuOrders)
 
 // delete menu orders
 router.route('/delete-order-menu/:id').delete(jwtAuth, deleteMenuOrder)

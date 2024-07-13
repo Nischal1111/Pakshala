@@ -55,24 +55,30 @@ const RoomReserveProvider = ({ children }) => {
 
   const handleDeleteReservation = async (reserveId) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-room-reservation/${reserveId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/reject-order-menu`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({ roomReservationId: reserveId })
+        });
 
-      const data = await response.json();
-      if (data.success) {
-        setReserveDetails((prevDetails) => prevDetails.filter((reserve) => reserve._id !== reserveId));
-      } else {
-        console.error('API error:', data.message);
-      }
+        const data = await response.json();
+        if (data.success) {
+            setReserveDetails((prevDetails) =>
+                prevDetails.map((reserve) =>
+                    reserve._id === reserveId ? { ...reserve, status: "Rejected" } : reserve
+                )
+            );
+        } else {
+            console.error('API error:', data.message);
+        }
     } catch (error) {
-      console.error('Fetch error:', error);
+        console.error('Fetch error:', error);
     }
-  };
+};
+
 
   return (
     <RoomReserveContext.Provider value={{ reserveDetails, handleStatusChange, handleDeleteReservation,getReserveDetails }}>

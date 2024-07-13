@@ -35,6 +35,8 @@ const OrderCard = ({ order }) => {
     handleCloseDeleteDialog();
   };
 
+  const [date, time] = order.createdAt.split('T');
+
   return (
     <div style={{ width: '30%' }}>
       <Card
@@ -53,9 +55,15 @@ const OrderCard = ({ order }) => {
           color: 'white',
         }}
       >
-        <CardContent sx={{ color: 'black', height: '350px', minHeight: '350px' }}>
+        <CardContent sx={{ color: 'black'}}>
           <Typography sx={{ fontSize: '1rem', letterSpacing: '1.5px', marginBottom: '.5rem' }}>
             Order Id: {order._id}
+          </Typography>
+          <Typography sx={{ fontSize: '1rem', letterSpacing: '1.5px', marginBottom: '.5rem' }}>
+            Order date: {date}
+          </Typography>
+          <Typography sx={{ fontSize: '1rem', letterSpacing: '1.5px', marginBottom: '.5rem' }}>
+            Order Date: {time.split(".")[0]}
           </Typography>
           <hr className='order-line' />
           <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column', width: '100%' }}>
