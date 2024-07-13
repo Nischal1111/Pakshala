@@ -36,6 +36,7 @@ const EventCard = ({ booking }) => {
     handleCloseDeleteDialog();
   };
 
+
   return (
     <div style={{ width: "30%" }}>
       <Card
@@ -71,10 +72,6 @@ const EventCard = ({ booking }) => {
               backgroundColor: "rgb(255, 176, 79,.3)"
               , padding: ".5rem 1rem", borderRadius: "5px", marginBottom: ".2rem", marginTop: ".5rem"
             }}>{booking.message}</Typography>
-            <Typography variant="body1" sx={{
-              backgroundColor: "rgb(255, 176, 79,.3)"
-              , padding: ".5rem 1rem", borderRadius: "5px", marginBottom: ".2rem", marginTop: ".5rem"
-            }}>Reserve Date: {new Date(booking.reserveDate).toLocaleDateString()}</Typography>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0rem .4rem" }}>
               <Button
                 variant="contained"

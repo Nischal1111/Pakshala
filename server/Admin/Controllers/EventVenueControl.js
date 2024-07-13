@@ -73,8 +73,8 @@ const rejectEventBooking = async(req,res)=>{
     try {
         const eventId = req.params.id;
 
-        const rejectEvent = BookVenue.findByIdAndUpdate(eventId,{
-            status: "Declined"
+        const rejectEvent = await BookVenue.findByIdAndUpdate(eventId,{
+            status: "Rejected"
         },{
             new: true
         })

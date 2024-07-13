@@ -62,8 +62,8 @@ const EventBookingProvider = ({ children }) => {
     try {
 
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-event-booking/${bookingId}`, {
-        method: 'DELETE',
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/reject-event-booking/${bookingId}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -71,9 +71,8 @@ const EventBookingProvider = ({ children }) => {
       });
       const data = await response.json();
       if (data.success) {
-
         setEventBookings((bookings) =>
-          bookings.filter((booking) => booking._id !== bookingId)
+          bookings.map((booking) => booking._id === bookingId?({ ...booking, status: "Rejected" }) : booking)
         );
       } else {
         console.error('Failed to delete booking:', data.error);

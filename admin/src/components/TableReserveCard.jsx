@@ -35,8 +35,7 @@ const TableReserveCard = ({ reservation }) => {
     handleDeleteReservation(reservation._id);
     handleCloseDeleteDialog();
   };
-  
-  // const [date, time] = reservation.createdAt.split('T');
+
 
 
   console.log(reservation.createdAt)
@@ -60,8 +59,6 @@ const TableReserveCard = ({ reservation }) => {
       >
         <CardContent sx={{ color: "black", height: "auto" }}>
           <Typography sx={{ fontSize: "1rem", letterSpacing: "1.5px", marginBottom: ".5rem" }}>Reservation Id: {reservation._id}</Typography>
-          {/* <Typography sx={{ fontSize: "1rem", letterSpacing: "1.5px", marginBottom: ".5rem" }}>Reservation Date: {date}</Typography>
-          <Typography sx={{ fontSize: "1rem", letterSpacing: "1.5px", marginBottom: ".5rem" }}>Reservation Time: {time.split(".")[0]}</Typography> */}
           <hr className='order-line' />
           <div style={{ display: "flex", gap: "1rem", flexDirection: "column", width: "100%" }}>
             <Typography variant="subtitle1"

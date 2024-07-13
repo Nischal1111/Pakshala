@@ -58,8 +58,8 @@ const TableReserveProvider = ({ children }) => {
   const handleDeleteReservation = async (reservationId) => {
     try {
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-table-reservation/${reservationId}`, {
-        method: 'DELETE',
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/reject-table-reservation/${reservationId}`, {
+        method: "PATCH",
         headers: {
           'Content-Type': 'application/json',
         },
@@ -67,9 +67,11 @@ const TableReserveProvider = ({ children }) => {
       });
       const data = await response.json();
       if (data.success) {
-        setTableReservations((reservations) =>
-          reservations.filter((reservation) => reservation._id !== reservationId)
-        );
+       setTableReservations((prevDetails) =>
+      prevDetails.map((reservation) =>
+        reservation._id === reservationId ? { ...reservation, status: "Rejected" } : reservation
+      )
+    );
       } else {
         console.error('Failed to delete reservation:', data.error);
       }

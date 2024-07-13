@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import "../Css/About.css"
+import {contactnotify} from "./Notify"
+import { ToastContainer } from 'react-toastify';
 
 const ContactForm = () => {
   const { hash } = useLocation();
@@ -29,7 +31,7 @@ const ContactForm = () => {
 
       const data = await response.json();
       if (data.success) {
-        alert('BOoking Message sent successfully');
+        contactnotify()
         setName("");
         setEmail("");
         setContact("");
@@ -55,6 +57,7 @@ const ContactForm = () => {
 
   return (
     <div className='about-choose2' id='bookvenue'>
+      <ToastContainer/>
       <div className="contact-container-form">
         <h3>Send us Message</h3>
         <div className='contact--form'>

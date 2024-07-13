@@ -90,7 +90,7 @@ const rejectTableReservation = async(req,res)=>{
     try {
         const tableReservationId = req.params.id;
 
-        const rejectTable = TableReserve.findByIdAndUpdate(tableReservationId,{
+        const rejectTable = await TableReserve.findByIdAndUpdate(tableReservationId,{
             status: "Declined"
         },{
             new: true

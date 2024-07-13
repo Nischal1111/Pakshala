@@ -4,6 +4,8 @@ import { FaUser } from "react-icons/fa";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, TextField, CardContent, CardMedia, Typography } from '@mui/material';
 import { ImSpinner2 } from "react-icons/im";
 import { fadeIn } from "../motion/motion";
+import { Reservenotify, failednotify } from './Notify';
+import { ToastContainer } from 'react-toastify';
 
 const TableFilter = () => {
     const [loading, setLoading] = useState(false);
@@ -11,22 +13,36 @@ const TableFilter = () => {
     const [filteredTables, setFilteredTables] = useState([]);
     const [btnClicked, setClicked] = useState("all tables");
     const [open, setOpen] = useState(false);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [contact, setContact] = useState('');
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
-    const [guests, setGuests] = useState('');
+    const [selectedTable, setSelectedTable] = useState(null);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        contact: '',
+        date: '',
+        time: '',
+        guests: '',
+    });
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (table) => {
+        setSelectedTable(table);
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
+        setSelectedTable(null);
+        setFormData({
+            name: '',
+            email: '',
+            contact: '',
+            date: '',
+            time: '',
+            guests: '',
+        });
     };
 
     const getAllTable = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-items`);
             const data = await response.json();
@@ -35,7 +51,9 @@ const TableFilter = () => {
                 setFilteredTables(data.tableItems);
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -54,85 +72,53 @@ const TableFilter = () => {
         }
     };
 
-    const handleReserve = async (id) => {
+    const handleReserve = async () => {
         try {
-            const reserveData = {
-                name,
-                email,
-                contact,
-                date,
-                time,
-                guests
-            };
-
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/request-table-reserve/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/request-table-reserve/${selectedTable._id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(reserveData),
+                body: JSON.stringify(formData),
             });
             const data = await response.json();
 
             if (data.success) {
-                alert('Table reserved successfully');
-                setName('');
-                setEmail('');
-                setContact('');
-                setDate('');
-                setTime('');
-                setGuests('');
-
+                Reservenotify();
                 handleClose();
             } else {
-                alert('Table reservation failed');
+                failednotify();
             }
-
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
 
     const getCurrentDate = () => {
         const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        return today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
     };
 
     const getCurrentTime = () => {
         const today = new Date();
-        const hours = String(today.getHours()).padStart(2, '0');
-        const minutes = String(today.getMinutes()).padStart(2, '0');
-        return `${hours}:${minutes}`;
+        return today.toTimeString().split(' ')[0].slice(0, 5); // Format: HH:MM
     };
 
     return (
         <div className='room-filter'>
+            <ToastContainer />
             <h1>Reserve a table</h1>
             <div className="filter-choice">
-                <button value="all tables" onClick={handleFilter} className={btnClicked === "all tables" ? "clicked" : ""}>
-                    All tables
-                </button>
-                <button value="terrace" onClick={handleFilter} className={btnClicked === "terrace" ? "clicked" : ""}>
-                    Terrace
-                </button>
-                <button value="bar" onClick={handleFilter} className={btnClicked === "bar" ? "clicked" : ""}>
-                    Bar
-                </button>
-                <button value="lobby" onClick={handleFilter} className={btnClicked === "lobby" ? "clicked" : ""}>
-                    Lobby
-                </button>
-                <button value="indoor" onClick={handleFilter} className={btnClicked === "indoor" ? "clicked" : ""}>
-                    Cafe Indoor
-                </button>
-                <button value="dining" onClick={handleFilter} className={btnClicked === "dining" ? "clicked" : ""}>
-                    Dining
-                </button>
-                <button value="rooftop" onClick={handleFilter} className={btnClicked === "rooftop" ? "clicked" : ""}>
-                    Rooftop
-                </button>
+                {["all tables", "terrace", "bar", "lobby", "indoor", "dining", "rooftop"].map((category) => (
+                    <button
+                        key={category}
+                        value={category}
+                        onClick={handleFilter}
+                        className={btnClicked === category ? "clicked" : ""}
+                    >
+                        {category.charAt(0).toUpperCase() + category.slice(1)}
+                    </button>
+                ))}
             </div>
             <div className="room-cards">
                 {loading ? (
@@ -145,12 +131,15 @@ const TableFilter = () => {
                     </div>
                 ) : (
                     filteredTables.map((table, index) => (
-                        <motion.div key={table._id} className='singleroom-card'
+                        <motion.div
+                            key={table._id}
+                            className='singleroom-card'
                             style={{ backgroundColor: "#F3EEEA", position: "relative" }}
-                            variants={fadeIn("up", "spring", index * .01, .1)}
+                            variants={fadeIn("up", "spring", index * 0.01, 0.1)}
                             viewport={{ once: "true" }}
                             initial="hidden"
-                            whileInView="show">
+                            whileInView="show"
+                        >
                             <CardMedia
                                 component="img"
                                 alt={table.table_name}
@@ -170,100 +159,56 @@ const TableFilter = () => {
                                     </div>
                                 </Typography>
                             </CardContent>
-                            <div className="overlay2" onClick={handleClickOpen} >
-                                <h2 style={{backgroundColor:"var(--primary-color)"}}>Reserve</h2>
+                            <div className="overlay2" onClick={() => handleClickOpen(table)}>
+                                <button
+                                    style={{
+                                        backgroundColor: table.tableStatus === "Booked" ? "gray" :
+                                            table.tableStatus === "Pending" ? "#FFC107" : "var(--primary-color)",
+                                    }}
+                                    disabled={table.tableStatus === "Booked" || "Pending"}
+                                >
+                                    {table.tableStatus === "Booked" ? "Reserved" : 
+                                     table.tableStatus === "Pending" ? "Reserved" : "Reserve"}
+                                </button>
                             </div>
                             <div style={{ position: "absolute", top: ".7rem", left: "1.2rem", display: "flex", gap: ".5rem", alignItems: "center", backgroundColor: "white", padding: ".3rem .8rem", borderRadius: ".3rem" }}>
-                                <div style={{ height: ".7rem", width: ".7rem", borderRadius: "50%", backgroundColor:table.tableStatus==="Booked"?"#8686f0":"lightgreen" }}></div>
+                                <div style={{ height: ".7rem", width: ".7rem", borderRadius: "50%", backgroundColor: table.tableStatus === "Booked" ? "#8686f0" : table.tableStatus === "Pending" ? "#FFC107" : "lightgreen" }}></div>
                                 <p style={{ fontSize: ".8rem" }}>{table.tableStatus}</p>
                             </div>
-                            <Dialog open={open} onClose={handleClose}>
-                                <DialogTitle>Reserve {table.table_name}</DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText>
-                                        Please fill in the form to reserve your table.
-                                    </DialogContentText>
-                                    <form>
-                                        <TextField
-                                            autoFocus
-                                            margin="normal"
-                                            id="name"
-                                            label="Name"
-                                            type="text"
-                                            fullWidth
-                                            autoComplete='off'
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value)}
-                                        />
-                                        <TextField
-                                            margin="dense"
-                                            id="email"
-                                            label="Email"
-                                            type="email"
-                                            fullWidth
-                                            autoComplete='off'
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                        />
-                                        <TextField
-                                            margin="dense"
-                                            id="contact"
-                                            label="Contact Number"
-                                            type="tel"
-                                            fullWidth
-                                            autoComplete='off'
-                                            value={contact}
-                                            onChange={(e) => setContact(e.target.value)}
-                                        />
-                                        <TextField
-                                            margin="dense"
-                                            id="date"
-                                            label="Date"
-                                            type="date"
-                                            fullWidth
-                                            autoComplete='off'
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                            inputProps={{ min: getCurrentDate() }}
-                                            value={date}
-                                            onChange={(e) => setDate(e.target.value)}
-                                        />
-                                        <TextField
-                                            margin="dense"
-                                            id="time"
-                                            label="Time"
-                                            type="time"
-                                            fullWidth
-                                            autoComplete='off'
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                            inputProps={{ min: date === getCurrentDate() ? getCurrentTime() : undefined }}
-                                            value={time}
-                                            onChange={(e) => setTime(e.target.value)}
-                                        />
-                                        <TextField
-                                            margin="dense"
-                                            id="guests"
-                                            label="Guests"
-                                            type="number"
-                                            fullWidth
-                                            autoComplete='off'
-                                            value={guests}
-                                            onChange={(e) => setGuests(e.target.value)}
-                                        />
-                                    </form>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={handleClose}>Cancel</Button>
-                                    <Button onClick={() => handleReserve(table._id)}>Reserve</Button>
-                                </DialogActions>
-                            </Dialog>
                         </motion.div>
                     ))
                 )}
             </div>
+
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Reserve {selectedTable?.table_name}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Please fill in the form to reserve your table.
+                    </DialogContentText>
+                    <form>
+                        {Object.keys(formData).map((key) => (
+                            <TextField
+                                key={key}
+                                margin="dense"
+                                id={key}
+                                label={key.charAt(0).toUpperCase() + key.slice(1)}
+                                type={key === "guests" ? "number" : key === "date" ? "date" : key === "time" ? "time" : "text"}
+                                fullWidth
+                                autoComplete='off'
+                                InputLabelProps={{ shrink: true }}
+                                inputProps={key === "date" ? { min: getCurrentDate() } : key === "time" ? { min: formData.date === getCurrentDate() ? getCurrentTime() : undefined } : {}}
+                                value={formData[key]}
+                                onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                            />
+                        ))}
+                    </form>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleReserve}>Reserve</Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };
