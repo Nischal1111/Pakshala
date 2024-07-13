@@ -96,8 +96,15 @@ const rejectTableReservation = async(req,res)=>{
             new: true
         })
 
-        if(!rejectTable){
-            return res.status(404).json({success:false, message: "Table reservation not found"})
+        const tableId = rejectTable.tableId;
+        const updateTableStatus = await Table.findByIdAndUpdate(
+            tableId,
+            { tableStatus: "Available" },
+            { new: true }
+            );
+
+        if(!rejectTable || !updateTableStatus){
+            return res.status(404).json({success:false, message: "Failed to update table reservation status"})
         }
 
         res.status(200).json({success:true, message: "Table reservation rejected" })

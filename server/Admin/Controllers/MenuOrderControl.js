@@ -6,7 +6,6 @@ const {sendMenuOrderMail} = require('../../Utils/MailSend')
 // requesting new menu order
 
 const createMenuRequest = async (req, res) => {
-
     try {
         const { fullName, contact, order } = req.body;
 
@@ -69,9 +68,9 @@ const acceptMenuOrders = async (req, res) => {
 
 const rejectMenuOrders = async(req,res)=>{
     try {
-        const {orderId} = req.body;
+        const orderId = req.params.id;
 
-        const rejectOrder = await MenuOrder.findByIdAndUpdate(orderId,{
+        const rejectOrder = MenuOrder.findByIdAndUpdate(orderId,{
             status: "Rejected"
         },{
             new: true
@@ -87,7 +86,6 @@ const rejectMenuOrders = async(req,res)=>{
         res.status(400).json({success:false, message:"error", error})
     }
 }
-
 
 
 //for deleting menu orders
