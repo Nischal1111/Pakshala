@@ -118,9 +118,15 @@ const RoomList = ({ roomData, handleEdit, getAllRooms }) => {
                     <IconButton onClick={() => handleOpen(item._id)}>
                       <Delete className='menu-delete' />
                     </IconButton>
-                    <IconButton>
-                      {item.roomStatus === "Booked" ? <Close className='menu-delete' onClick={() => handleCancelBooking(item._id)} /> : <Check className='menu-edit' onClick={() => handleBooking(item._id)} />}
-                    </IconButton>
+                      {item.roomStatus === "Booked" ?
+                      <IconButton onClick={() => handleCancelBooking(item._id)}>
+                          <Close className='menu-delete'/>
+                      </IconButton>
+                        : 
+                      <IconButton onClick={() => handleBooking(item._id)}>
+                          <Check className='menu-edit'  />
+                      </IconButton>
+                      }
                   </TableCell>
                 </TableRow>
               ))}
