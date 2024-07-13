@@ -227,7 +227,7 @@ const editRoom = async (req, res) => {
 };
 
 // for updateing the current status of the ROom >> to make booked room available >> admin manually do this  
-const updateStatusAvailableRoom = async()=>{
+const updateStatusAvailableRoom = async(req,res)=>{
     try {
         const roomId = req.params.roomId;
 
@@ -247,7 +247,7 @@ const updateStatusAvailableRoom = async()=>{
 
 // for updating the status of the room to booked >> admin manually do this
 
-const updatedStatusBooked = async()=>{
+const updatedStatusBooked = async(req,res)=>{
     try {
         const roomId = req.params.roomId;
         const showStatusBooked = Room.findByIdAndUpdate(roomId,{

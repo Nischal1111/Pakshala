@@ -154,7 +154,7 @@ const editTableItem = async (req, res) => {
 
 
 // for updateing the current status of the table >> to make booked table available >> admin manually do this  
-const updateStatusAvailableTable = async()=>{
+const updateStatusAvailableTable = async(req,res)=>{
     try {
         const tableId = req.params.tableId;
 
@@ -174,7 +174,7 @@ const updateStatusAvailableTable = async()=>{
 
 // for updating the status of the table to booked >> admin manually do this
 
-const updatedStatusBooked = async()=>{
+const updatedStatusBooked = async(req,res)=>{
     try {
         const tableId = req.params.tableId;
         const showStatusBooked = Table.findByIdAndUpdate(tableId,{
@@ -186,7 +186,7 @@ const updatedStatusBooked = async()=>{
                 
         res.status(200).json({success:true,message:"Updated status to Booked",showStatusBooked})
     } catch (error) {
-        res.status(400),json({success:false,error})
+        res.status(400).json({success:false,error})
     }
 }
 
