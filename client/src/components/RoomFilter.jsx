@@ -62,7 +62,7 @@ const RoomCard = ({ room, index }) => {
                 </div>
             </Link>
             <div style={{position:"absolute", top:".7rem",left:"1.2rem",display:"flex",gap:".5rem",alignItems:"center",backgroundColor:"white",padding:".3rem .8rem",borderRadius:".3rem"}}>
-                <div style={{height:".7rem",width:".7rem",borderRadius:"50%",backgroundColor:room.roomStatus==="Booked"?"#8686f0":"lightgreen"}}></div>
+                <div style={{height:".7rem",width:".7rem",borderRadius:"50%",backgroundColor:room.roomStatus==="Booked"?"var(--hover-color)":"lightgreen"}}></div>
                 <p>{room.roomStatus}</p>
             </div>
         </motion.div>

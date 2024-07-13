@@ -54,10 +54,37 @@ const CheckProvider = ({ children }) => {
   }
 };
 
+const handleRejectOrder=async(orderId)=>{
+  try{
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/reject-order-menu`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ orderId }),
+    });
+
+    const data = await response.json();
+     if (data.success) {
+      setOrderDetails((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === orderId ? { ...order, status: "Rejected" } : order
+        )
+      );
+    } else {
+      console.error('API error:', data.message);
+    }
+
+  }catch(err){
+    console.error('Fetch error:', err);
+  }
+}
+
 
 
   return (
-    <CheckContext.Provider value={{ orderDetails, handleStatusChange, getOrderDetails }}>
+    <CheckContext.Provider value={{ orderDetails, handleStatusChange, getOrderDetails,handleRejectOrder }}>
       {children}
     </CheckContext.Provider>
   );

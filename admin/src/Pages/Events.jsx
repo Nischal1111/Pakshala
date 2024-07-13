@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { userLogged } from "../components/Cookie";
 import "../css/events.css";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { notify } from "../components/Notify";
+import { notify,Infonotify } from "../components/Notify";
 import { ToastContainer } from 'react-toastify';
 import { FaTrash } from "react-icons/fa";
 import { ImSpinner2 } from "react-icons/im";
 import {delnotify} from "../components/delnotify"
+
 const Events = () => {
   const [images, setImages] = useState([]);
   const [imageList, setImageList] = useState([]);
@@ -16,6 +17,7 @@ const Events = () => {
   const [open, setOpen] = useState(false);
   const [imageToDelete, setImageToDelete] = useState(null);
   const navigate = useNavigate();
+  const [uploading,setUploading]=useState(false)
 
   const handleOpen = (id) => {
     setOpen(true);
@@ -40,6 +42,7 @@ const Events = () => {
 
   const handleSubmit = async (e) => {
     setLoading(true);
+    setUploading(true)
     e.preventDefault();
     const formData = new FormData();
     images.forEach((image, index) => {
@@ -57,10 +60,12 @@ const Events = () => {
       if (data.success) {
         setImages([]);
         setLoading(false);
+        setUploading(false)
         notify();
         getImages();
       }
     } catch (error) {
+      setUploading(false)
       console.error('Error uploading images:', error);
     }
   };
@@ -131,15 +136,21 @@ const Events = () => {
             </Button>
           </label>
         </div>
-        {loading ? (
-          <div className='loading-spinner'>
-            <ImSpinner2 className='loading' />
-          </div>
-        ) : (
-            <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "#55AD9B" }}>
-              Confirm Upload
-            </Button>
-          )}
+        {images.length>0 ? (
+          <>
+          <Button type="submit" variant="contained" disabled={uploading}
+           className='submit-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor:"orange" }}>
+          {uploading ? "Uploading...":"Confirm Upload"}
+        </Button>
+          </>
+        ):(
+          <>
+          <Button variant="contained"
+           className='submit-button disabled-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem", backgroundColor: "lightgray",boxShadow:"none"}}onClick={()=>Infonotify()}>
+          Confirm Upload
+        </Button>
+          </>
+        )}
       </form>
       <div className="imageList-div" style={{marginTop:"1rem"}}>
         {imageList.map((item, index) => (
@@ -147,7 +158,7 @@ const Events = () => {
             <img src={item.image_url} alt={`Uploaded ${index}`} className="uploaded-image" />
             <div style={{ backgroundColor: "white", padding: ".4rem", borderRadius: "50%", height: "2rem", width: "2rem" }}
               className='fa-trash-icon2'
-              onClick={() => handleOpen(item._id)} // Pass item._id to handleOpen
+              onClick={() => handleOpen(item._id)}
             >
               <FaTrash
                 style={{ cursor: "pointer", color: "red" }}

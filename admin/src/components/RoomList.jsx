@@ -85,15 +85,16 @@ const RoomList = ({ roomData, handleEdit, getAllRooms, setRoomData }) => {
           <Table>
             <TableHead className='table-head'>
               <TableRow>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>SN</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Image</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Name</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Category</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Guests</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Single Beds</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Double Beds</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Price</TableCell>
-                <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Actions</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>SN</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Image</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Name</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Category</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Guests</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Single Beds</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Double Beds</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Status</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Price</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -108,6 +109,15 @@ const RoomList = ({ roomData, handleEdit, getAllRooms, setRoomData }) => {
                   <TableCell className='table-row'>{item.room_guests}</TableCell>
                   <TableCell className='table-row'>{item.room_single_beds}</TableCell>
                   <TableCell className='table-row'>{item.room_double_beds}</TableCell>
+                  <TableCell className='table-row'>{item.roomStatus === "Booked" ? (
+                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Available')}>
+                        <Close className='menu-delete' />
+                      </IconButton>
+                    ) : (
+                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Booked')}>
+                        <Check className='menu-edit' />
+                      </IconButton>
+                    )}</TableCell>
                   <TableCell className='table-row'>Rs. {item.room_price}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleEdit(item._id)}>
@@ -116,15 +126,6 @@ const RoomList = ({ roomData, handleEdit, getAllRooms, setRoomData }) => {
                     <IconButton onClick={() => handleOpen(item._id)}>
                       <Delete className='menu-delete' />
                     </IconButton>
-                    {item.roomStatus === "Booked" ? (
-                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Available')}>
-                        <Close className='menu-delete' />
-                      </IconButton>
-                    ) : (
-                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Booked')}>
-                        <Check className='menu-edit' />
-                      </IconButton>
-                    )}
                   </TableCell>
                 </TableRow>
               ))}

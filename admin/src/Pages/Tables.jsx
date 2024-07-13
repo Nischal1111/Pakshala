@@ -259,6 +259,7 @@ const Tables = () => {
                   <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Image</TableCell>
                   <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Name</TableCell>
                   <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Category</TableCell>
+                  <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Status</TableCell>
                   <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Guests</TableCell>
                   <TableCell style={{ fontSize: "1.2rem", letterSpacing: "1px", fontWeight: "500" }}>Actions</TableCell>
                 </TableRow>
@@ -273,6 +274,15 @@ const Tables = () => {
                     </TableCell>
                     <TableCell className='table-row'>{item.table_name}</TableCell>
                     <TableCell className='table-row'>{item.table_category}</TableCell>
+                    <TableCell className='table-row'>{item.tableStatus === "Booked" ? (
+                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Available')}>
+                        <Close className='menu-delete' />
+                      </IconButton>
+                    ) : (
+                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Booked')}>
+                        <Check className='menu-edit' />
+                      </IconButton>
+                    )}</TableCell>
                     <TableCell className='table-row'>{item.table_guests}</TableCell>
                     <TableCell>
                       <IconButton onClick={() => handleEdit(item._id)}>
@@ -281,15 +291,6 @@ const Tables = () => {
                       <IconButton onClick={handleDelOpen}>
                         <Delete className='menu-delete' />
                       </IconButton>
-                      {item.tableStatus === "Booked" ? (
-                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Available')}>
-                        <Close className='menu-delete' />
-                      </IconButton>
-                    ) : (
-                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Booked')}>
-                        <Check className='menu-edit' />
-                      </IconButton>
-                    )}
                     </TableCell>
                   </TableRow>
                   <Dialog

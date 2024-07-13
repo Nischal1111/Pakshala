@@ -126,7 +126,7 @@ const RoomReserve = () => {
             </div>
           </div>
           <div className="right">
-            {booked ? (
+            {room.roomStatus==="Available" ? (
               <div className="user-form">
                 <div className="user-form-title">
                   <h3>Reserve This room</h3>

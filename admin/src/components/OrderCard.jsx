@@ -3,9 +3,8 @@ import { Card, CardContent, Typography, Button, Dialog, DialogActions, DialogCon
 import { CheckContext } from './CheckBoxContext';
 import { Marknotify } from './Notify';
 import { FaTrash } from 'react-icons/fa';
-import {RxCross2, rxCross2} from "react-icons/rx"
 const OrderCard = ({ order }) => {
-  const { handleStatusChange } = useContext(CheckContext);
+  const { handleStatusChange,handleRejectOrder } = useContext(CheckContext);
   const [openCompleteDialog, setOpenCompleteDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
@@ -31,7 +30,8 @@ const OrderCard = ({ order }) => {
     handleCloseCompleteDialog();
   };
 
-  const handleDeleteOrder = () => {
+  const handleDeleteOrder =async () => {
+    await handleRejectOrder(order._id)
     handleCloseDeleteDialog();
   };
 
