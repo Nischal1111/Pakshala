@@ -115,4 +115,36 @@ transition: Bounce,
     }
     return Wrongnotify()
 }
+export const Roomnotify = () => {
+    const Wrongnotify=()=>{
+       toast.info("Booked Now", {
+position: "top-center",
+autoClose: 3000,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+theme: "colored",
+transition: Bounce,
+});
+    }
+    return Wrongnotify()
+}
+export const RoomCancelnotify = () => {
+    const Wrongnotify=()=>{
+       toast.info("Is Available", {
+position: "top-center",
+autoClose: 3000,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+theme: "colored",
+transition: Bounce,
+});
+    }
+    return Wrongnotify()
+}
 

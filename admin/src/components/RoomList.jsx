@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { Edit, Delete, Close, Check } from '@mui/icons-material';
 import { ImSpinner2 } from 'react-icons/im';
 import { delnotify } from '../components/delnotify';
+import { Roomnotify,RoomCancelnotify } from './Notify';
 
 const RoomList = ({ roomData, handleEdit, getAllRooms, setRoomData }) => {
   const [delloading, setdelLoading] = useState(false);
@@ -37,57 +38,38 @@ const RoomList = ({ roomData, handleEdit, getAllRooms, setRoomData }) => {
       }),
     });
     const data = await deleteR.json();
+    setdelLoading(false);
     if (data.success) {
-      setdelLoading(false);
       delnotify();
       getAllRooms();
       handleClose();
     } else {
-      setdelLoading(false);
       console.log(data.message);
     }
   };
 
-  const updateRoomStatus = (id, status) => {
-    return roomData.map(room => room._id === id ? { ...room, roomStatus: status } : room);
-  };
-
-  const handleCancelBooking = async (id) => {
-    console.log(`Sending request to update status to available for roomId: ${id}`);
+  const handleChangeBookingStatus = async (id, status) => {
+    console.log(`Sending request to update status to ${status} for roomId: ${id}`);
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/available-status/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/update-status-room/${id}`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json', // Set the content type appropriately, even if empty
+          'Content-Type': 'application/json',
         },
-        credentials: 'include', // Include credentials if necessary for authentication
+        credentials: 'include',
+        body: JSON.stringify({ status }),
       });
       const data = await res.json();
       console.log("Response from server:", data);
       if (data.success) {
-        setRoomData(prevRoomData => updateRoomStatus(id, 'Available'));
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error("Error updating room status:", error);
-    }
-  };
-
-  const handleBooking = async (id) => {
-    console.log(`Sending request to update status to booked for roomId: ${id}`);
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/booked-status/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json', // Set the content type appropriately, even if empty
-        },
-        credentials: 'include', // Include credentials if necessary for authentication
-      });
-      const data = await res.json();
-      console.log("Response from server:", data);
-      if (data.success) {
-        setRoomData(prevRoomData => prevRoomData.map(room => room._id === id ? { ...room, roomStatus: 'Booked' } : room));
+        if(status==="Available"){
+          RoomCancelnotify()
+        }else{
+          Roomnotify()
+        }
+        setRoomData(prevRoomData => 
+          prevRoomData.map(room => room._id === id ? { ...room, roomStatus: status } : room)
+        );
       } else {
         console.error(data.error);
       }
@@ -95,7 +77,6 @@ const RoomList = ({ roomData, handleEdit, getAllRooms, setRoomData }) => {
       console.error("Error updating room status:", error);
     }
   };
-
 
   return (
     <>
@@ -135,15 +116,15 @@ const RoomList = ({ roomData, handleEdit, getAllRooms, setRoomData }) => {
                     <IconButton onClick={() => handleOpen(item._id)}>
                       <Delete className='menu-delete' />
                     </IconButton>
-                    {item.roomStatus === "Booked" ?
-                      <IconButton onClick={() => handleCancelBooking(item._id)}>
+                    {item.roomStatus === "Booked" ? (
+                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Available')}>
                         <Close className='menu-delete' />
                       </IconButton>
-                      :
-                      <IconButton onClick={() => handleBooking(item._id)}>
+                    ) : (
+                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Booked')}>
                         <Check className='menu-edit' />
                       </IconButton>
-                    }
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

@@ -32,6 +32,7 @@ const Rooms = () => {
   const [editingIndex, setEditingIndex] = useState(null);
   const [loading,setLoading]=useState(false)
 
+
   const getAllRooms = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/get-rooms`,{
@@ -504,15 +505,19 @@ const handleEditSubmit = async () => {
               </Button>
             </label>
             {miniImagePreview.miniImg3 && <img src={miniImagePreview.miniImg3.url || miniImagePreview.miniImg3} alt="Preview" className="image-preview" />}
-
-            <Box display="flex" justifyContent="space-between" marginTop="16px">
+            {loading ?(<div className='loading-spinner'>
+                <ImSpinner2 className='loading' />
+              </div>):( <Box display="flex" justifyContent="space-between" marginTop="16px">
+              
               <Button variant="contained" color="primary" onClick={handleEditSubmit}>
                 Update
               </Button>
               <Button variant="contained" color="secondary" onClick={handleClose}>
                 Cancel
               </Button>
-            </Box>
+            </Box>)}
+
+           
           </form>
         </Box>
       </Modal>

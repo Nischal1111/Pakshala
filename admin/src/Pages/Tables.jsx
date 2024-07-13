@@ -5,7 +5,7 @@ import { Edit, Delete,Close,Check} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { userLogged } from "../components/Cookie";
 import { ToastContainer } from "react-toastify";
-import { notify } from "../components/Notify";
+import { notify,RoomCancelnotify,Roomnotify } from "../components/Notify";
 import { delnotify } from "../components/delnotify";
 import { editnotify } from '../components/editnotify';
 import { ImSpinner2 } from "react-icons/im";
@@ -217,14 +217,33 @@ const Tables = () => {
     }
   };
 
-  const handleCancelBooking=async(id)=>{
-    const tableToCancel=tableData.find(item => item._id === id)
-      console.log(tableToCancel._id)
-  }
-  const handleBooking=async(id)=>{
-    const tableToBook=tableData.find(item => item._id === id)
-      console.log(tableToBook._id)
-  }
+  const handleChangeBookingStatus = async (id, status) => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/update-status-table/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ status }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        if(status==="Available"){
+          RoomCancelnotify()
+        }else{
+          Roomnotify()
+        }
+        setTableData(prevTableData => 
+          prevTableData.map(table => table._id === id ? { ...table, tableStatus: status } : table)
+        );
+      } else {
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error("Error updating table status:", error);
+    }
+  };
 
   return (
     <>
@@ -262,9 +281,15 @@ const Tables = () => {
                       <IconButton onClick={handleDelOpen}>
                         <Delete className='menu-delete' />
                       </IconButton>
-                      <IconButton >
-                        {item.isBooked ?<Close className='menu-delete' onClick={()=>{handleBooking(item._id)}}/>: <Check className='menu-edit' onClick={()=>{handleCancelBooking(item._id)}} />}
+                      {item.tableStatus === "Booked" ? (
+                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Available')}>
+                        <Close className='menu-delete' />
                       </IconButton>
+                    ) : (
+                      <IconButton onClick={() => handleChangeBookingStatus(item._id, 'Booked')}>
+                        <Check className='menu-edit' />
+                      </IconButton>
+                    )}
                     </TableCell>
                   </TableRow>
                   <Dialog
@@ -272,8 +297,8 @@ const Tables = () => {
         onClose={handleDelClose}
         PaperProps={{
     style: {
-      backgroundColor: 'white', // Set your desired background color here
-      boxShadow: 'none', // Optional: Remove default box shadow if desired
+      backgroundColor: 'white',
+      boxShadow: 'none', 
     },
   }}
       >

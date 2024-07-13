@@ -174,8 +174,8 @@ const TableFilter = () => {
                                 <h2 style={{backgroundColor:"var(--primary-color)"}}>Reserve</h2>
                             </div>
                             <div style={{ position: "absolute", top: ".7rem", left: "1.2rem", display: "flex", gap: ".5rem", alignItems: "center", backgroundColor: "white", padding: ".3rem .8rem", borderRadius: ".3rem" }}>
-                                <div style={{ height: ".7rem", width: ".7rem", borderRadius: "50%", backgroundColor: "lightgreen" }}></div>
-                                <p style={{ fontSize: ".8rem" }}>{table.isBooked?"Booked":"Available"}</p>
+                                <div style={{ height: ".7rem", width: ".7rem", borderRadius: "50%", backgroundColor:table.tableStatus==="Booked"?"#8686f0":"lightgreen" }}></div>
+                                <p style={{ fontSize: ".8rem" }}>{table.tableStatus}</p>
                             </div>
                             <Dialog open={open} onClose={handleClose}>
                                 <DialogTitle>Reserve {table.table_name}</DialogTitle>
