@@ -70,6 +70,17 @@ const acceptRoomReservation = async (req, res) => {
       return res.status(404).json({ success: false, message: "Room reservation not found" });
     }
 
+    const roomId = acceptRoom.roomId;
+    const room = await Room.findByIdAndUpdate(
+        roomId,
+        { status: "Booked" },
+        { new: true }
+    );
+
+    if (!room) {
+        return res.status(404).json({ success: false, message: "Room not found" });
+    }
+
     res.status(200).json({ success: true, message: "Room reservation accepted", data: acceptRoom });
   } catch (error) {
     res.status(400).json({ success: false, message: "Error accepting room reservation", error });

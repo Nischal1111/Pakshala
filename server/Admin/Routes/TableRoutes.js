@@ -35,10 +35,10 @@ tableRoutes.delete('/delete-table-item/:id',jwtAuth, deleteTableItem);
 tableRoutes.patch('/edit-table-item/:id', uploader.single('img'),jwtAuth, editTableItem);
 
 //showAvailableStatusTable
-tableRoutes.route("available-status/:tableId").patch(updateStatusAvailableTable)
+tableRoutes.route("/available-status/:tableId").patch(updateStatusAvailableTable)
 
 //booked status
-tableRoutes.route("booked-status/:tableId").patch(updatedStatusBooked)
+tableRoutes.route("/booked-status/:tableId").patch(updatedStatusBooked)
 
 
 

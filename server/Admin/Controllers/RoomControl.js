@@ -183,11 +183,7 @@ const editRoom = async (req, res) => {
         );
         const uploadedImages = await Promise.all(imageUploads);
 
-        // // Delete old images only if new images are provided
-        // const deleteUploads = Object.keys(uploadedImages).map((key, index) =>
-        //     uploadedImages[index] ? deleteFile(oldImageIds[key]) : null
-        // );
-        // await Promise.all(deleteUploads);
+
 
         // Update the room data
         room.room_name = room_name;
@@ -225,12 +221,12 @@ const editRoom = async (req, res) => {
 
         res.status(200).json({ success: true, message: 'Room item edited successfully' });
     } catch (error) {
-        console.error('Error editing room item:', error); // Log the error for debugging
+        // console.error('Error editing room item:', error); 
         res.status(500).json({ success: false, message: 'Internal server error on Edit room Item' });
     }
 };
 
-// for updateing the current status of the ROom
+// for updateing the current status of the ROom >> to make booked room available >> admin manually do this  
 const updateStatusAvailableRoom = async()=>{
     try {
         const roomId = req.params.roomId;
@@ -247,6 +243,9 @@ const updateStatusAvailableRoom = async()=>{
         res.status(400).json({success:false,error})
     }
 }
+
+
+// for updating the status of the room to booked >> admin manually do this
 
 const updatedStatusBooked = async()=>{
     try {
