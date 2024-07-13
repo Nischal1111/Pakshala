@@ -22,6 +22,6 @@ router.post('/request-room-reserve/:id', addRoomReserve);
 router.get('/get-room-reserves',jwtAuth ,getRoomReserves);
 
 router.patch("/accept-room-reservation/:roomReservationId",acceptRoomReservation)
-router.route("/reject-order-menu").patch(jwtAuth,rejectRoomReservation)
+router.route("/reject-room-reservation/:roomId").patch(jwtAuth,rejectRoomReservation)
 
 module.exports = router;

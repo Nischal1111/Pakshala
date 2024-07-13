@@ -1,90 +1,108 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from "react"
 
-export const RoomReserveContext = createContext();
+export const RoomReserveContext = createContext()
 
 const RoomReserveProvider = ({ children }) => {
-  const [reserveDetails, setReserveDetails] = useState([]);
+  const [reserveDetails, setReserveDetails] = useState([])
 
   const getReserveDetails = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-room-reserves`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-      const data = await response.json();
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/get-room-reserves`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      )
+      const data = await response.json()
       if (data.success) {
-        setReserveDetails(data.reserves);
+        setReserveDetails(data.reserves)
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   useEffect(() => {
-    getReserveDetails();
-  }, []);
+    getReserveDetails()
+  }, [])
 
   const handleStatusChange = async (reserveId) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/accept-room-reservation/${reserveId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ reserveId }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/accept-room-reservation/${reserveId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ reserveId }),
+        }
+      )
 
-      const data = await response.json();
+      const data = await response.json()
       if (data.success) {
         setReserveDetails((prevDetails) =>
           prevDetails.map((reserve) =>
-            reserve._id === reserveId ? { ...reserve, status: "Completed" } : reserve
+            reserve._id === reserveId
+              ? { ...reserve, status: "Completed" }
+              : reserve
           )
-        );
+        )
       } else {
-        console.error('API error:', data.message);
+        console.error("API error:", data.message)
       }
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error("Fetch error:", error)
     }
-  };
+  }
 
   const handleDeleteReservation = async (reserveId) => {
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/reject-order-menu`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({ roomReservationId: reserveId })
-        });
-
-        const data = await response.json();
-        if (data.success) {
-            setReserveDetails((prevDetails) =>
-                prevDetails.map((reserve) =>
-                    reserve._id === reserveId ? { ...reserve, status: "Rejected" } : reserve
-                )
-            );
-        } else {
-            console.error('API error:', data.message);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/reject-room-reservation/${reserveId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
         }
-    } catch (error) {
-        console.error('Fetch error:', error);
-    }
-};
+      )
 
+      const data = await response.json()
+      if (data.success) {
+        setReserveDetails((prevDetails) =>
+          prevDetails.map((reserve) =>
+            reserve._id === reserveId
+              ? { ...reserve, status: "Rejected" }
+              : reserve
+          )
+        )
+      } else {
+        console.error("API error:", data.message)
+      }
+    } catch (error) {
+      console.error("Fetch error:", error)
+    }
+  }
 
   return (
-    <RoomReserveContext.Provider value={{ reserveDetails, handleStatusChange, handleDeleteReservation,getReserveDetails }}>
+    <RoomReserveContext.Provider
+      value={{
+        reserveDetails,
+        handleStatusChange,
+        handleDeleteReservation,
+        getReserveDetails,
+      }}
+    >
       {children}
     </RoomReserveContext.Provider>
-  );
-};
+  )
+}
 
-export default RoomReserveProvider;
+export default RoomReserveProvider
