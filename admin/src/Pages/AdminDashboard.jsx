@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from "../components/Sidebar";
 import "../css/admindashboard.css";
@@ -11,11 +11,20 @@ import { MdBedroomParent } from "react-icons/md";
 import { MdOutlineTableBar } from "react-icons/md";
 import { MdEvent } from "react-icons/md";
 import { FaBell } from "react-icons/fa";
+import { CheckContext } from '../components/CheckBoxContext';
+import { RoomReserveContext } from '../components/RoomReserveContext';
+import { TableReserveContext } from '../components/TableContext';
+import { EventContext } from '../components/EventContext';
 
 
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
+const {orderDetails} = useContext(CheckContext)
+const {reserveDetails}=useContext(RoomReserveContext)
+const {tableReservations}=useContext(TableReserveContext)
+const {eventBookings}=useContext(EventContext)
+const navigate = useNavigate();
+
   useEffect(() => {
     if (!userLogged()) {
       navigate('/login');
@@ -31,6 +40,11 @@ const AdminDashboard = () => {
     },200)
   },[])
 
+  const Menunotification=orderDetails.filter((order)=>order.status==="Pending" || 0)
+  const Roomnotification=reserveDetails.filter((reserve)=>reserve.roomStatus==="Pending" || 0)
+  const Tablenotifications=tableReservations.filter((reservation)=>reservation.status==="Pending" || 0)
+  const Eventnotifications=eventBookings.filter((booking)=>booking.status==="Pending" || 0)
+
   return (
     <div>
       <ToastContainer/>
@@ -44,7 +58,12 @@ const AdminDashboard = () => {
                 <IoFastFoodOutline className='dash-icon'/>
                 <p>Menu Orders</p>
               </div>
-              <FaBell className='dash-icon'/>
+              <div style={{position:"relative"}}>
+                <FaBell className='dash-icon'/>
+                <div style={{backgroundColor:"var(--hover-color)",position:"absolute",top:"-.6rem",right:".6rem",height:"1.4rem",width:"1.4rem",borderRadius:"100%",boxShadow:"0px 2px 2px rgba(0,0,0,.2)"}}>
+                  <p style={{position:"absolute",top:"0.1rem",right:".4rem",fontSize:"15px",color:"white"}}>{Menunotification.length}</p>
+                </div>
+              </div>
             </div>
           </Link>
           <Link to="/rooms-dash" className='link-dash'>
@@ -53,7 +72,12 @@ const AdminDashboard = () => {
               <MdBedroomParent className='dash-icon'/>
               <p>Room Reservations</p>
               </div>
-              <FaBell className='dash-icon'/>
+              <div style={{position:"relative"}}>
+                <FaBell className='dash-icon'/>
+                <div style={{backgroundColor:"var(--hover-color)",position:"absolute",top:"-.6rem",right:".6rem",height:"1.4rem",width:"1.4rem",borderRadius:"100%",boxShadow:"0px 2px 2px rgba(0,0,0,.2)"}}>
+                  <p style={{position:"absolute",top:"0.1rem",right:".4rem",fontSize:"15px",color:"white"}}>{Roomnotification.length}</p>
+                </div>
+              </div>
             </div>
           </Link>
           <Link to="/table-dash" className='link-dash'>
@@ -62,7 +86,12 @@ const AdminDashboard = () => {
                 <MdOutlineTableBar className='dash-icon'/>
                 <p>Table Reservations</p>
               </div>
-              <FaBell className='dash-icon'/>
+              <div style={{position:"relative"}}>
+                <FaBell className='dash-icon'/>
+                <div style={{backgroundColor:"var(--hover-color)",position:"absolute",top:"-.6rem",right:".6rem",height:"1.4rem",width:"1.4rem",borderRadius:"100%",boxShadow:"0px 2px 2px rgba(0,0,0,.2)"}}>
+                  <p style={{position:"absolute",top:"0.1rem",right:".4rem",fontSize:"15px",color:"white"}}>{Tablenotifications.length}</p>
+                </div>
+              </div>
             </div>
           </Link>
           <Link to="/event-dash" className='link-dash'>
@@ -71,7 +100,12 @@ const AdminDashboard = () => {
                 <MdEvent className='dash-icon'/>
                 <p>Event Bookings</p>
               </div>
-              <FaBell className='dash-icon'/>
+              <div style={{position:"relative"}}>
+                <FaBell className='dash-icon'/>
+                <div style={{backgroundColor:"var(--hover-color)",position:"absolute",top:"-.6rem",right:".6rem",height:"1.4rem",width:"1.4rem",borderRadius:"100%",boxShadow:"0px 2px 2px rgba(0,0,0,.2)"}}>
+                  <p style={{position:"absolute",top:"0.1rem",right:".4rem",fontSize:"15px",color:"white"}}>{Eventnotifications.length}</p>
+                </div>
+              </div>
             </div>
           </Link>
         </section>

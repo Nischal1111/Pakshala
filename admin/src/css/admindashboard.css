@@ -32,6 +32,7 @@
     background-color:rgb(249, 249, 249);
     padding: 2rem;
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: space-between;
     border-left: 3px solid rgb(254, 143, 8);

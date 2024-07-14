@@ -165,10 +165,10 @@ const TableFilter = () => {
                                         backgroundColor: table.tableStatus === "Booked" ? "gray" :
                                             table.tableStatus === "Pending" ? "#FFC107" : "var(--primary-color)",
                                     }}
-                                    disabled={table.tableStatus === "Booked" || "Pending"}
+                                    disabled={table.tableStatus !== "Available"}
                                 >
                                     {table.tableStatus === "Booked" ? "Reserved" : 
-                                     table.tableStatus === "Pending" ? "Reserved" : "Reserve"}
+                                     table.tableStatus === "Pending" ? "In Queue" : "Reserve"}
                                 </button>
                             </div>
                             <div style={{ position: "absolute", top: ".7rem", left: "1.2rem", display: "flex", gap: ".5rem", alignItems: "center", backgroundColor: "white", padding: ".3rem .8rem", borderRadius: ".3rem" }}>
