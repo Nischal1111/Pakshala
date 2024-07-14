@@ -1,9 +1,9 @@
 import React,{useState} from 'react'
 import "../Css/About.css"
-import { donenotify } from './Notify'
 import { ToastContainer } from 'react-toastify'
 import {Dialog,DialogActions,DialogTitle,Button,DialogContent} from "@mui/material"
 import QR from "../assets/QR.png"
+import ConfirmationModal from './ConfirmationModal'
 
 const ContactForm = () => {
   const[name,setName]=useState("")
@@ -11,9 +11,12 @@ const ContactForm = () => {
   const [message, setMessage] = useState("")
 
    const [open, setOpen] = useState(false);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+   
+   const handleOpen = () => setOpen(true);
+   const handleClose = () => setOpen(false);
+   
+   const [modalOpen,setModalOpen]=useState(false)
+  const handleModalClose=()=>setModalOpen(false)
 
   const handleNameChange = (event) => setName(event.target.value);
   const handleContactChange = (event) => setContact(event.target.value);
@@ -31,7 +34,7 @@ const ContactForm = () => {
         });
         const data = await response.json();
         if(data.success){
-          donenotify()
+          setModalOpen(true)
           setName("");
           setContact("");
           setMessage("");
@@ -76,6 +79,7 @@ const ContactForm = () => {
           </Dialog>
         </div>
       </div>
+      <ConfirmationModal message={"placed your order"} open={modalOpen} handleClose={handleModalClose}/>
     </div>
   )
 }

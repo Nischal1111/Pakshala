@@ -4,8 +4,9 @@ import { FaUser } from "react-icons/fa";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, TextField, CardContent, CardMedia, Typography } from '@mui/material';
 import { ImSpinner2 } from "react-icons/im";
 import { fadeIn } from "../motion/motion";
-import { Reservenotify, failednotify } from './Notify';
+import { failednotify } from './Notify';
 import { ToastContainer } from 'react-toastify';
+import ConfirmationModal from "../components/ConfirmationModal"
 
 const TableFilter = () => {
     const [loading, setLoading] = useState(false);
@@ -40,6 +41,9 @@ const TableFilter = () => {
             guests: '',
         });
     };
+
+    const [modalOpen,setModalOpen]=useState(false)
+  const handleModalClose=()=>setModalOpen(false)
 
     const getAllTable = async () => {
         setLoading(true);
@@ -84,7 +88,7 @@ const TableFilter = () => {
             const data = await response.json();
 
             if (data.success) {
-                Reservenotify();
+                setModalOpen(true)
                 handleClose();
             } else {
                 failednotify();
@@ -209,6 +213,7 @@ const TableFilter = () => {
                     <Button onClick={handleReserve}>Reserve</Button>
                 </DialogActions>
             </Dialog>
+            <ConfirmationModal open={modalOpen} handleClose={handleModalClose} message={"reserved a table"}/>
         </div>
     );
 };

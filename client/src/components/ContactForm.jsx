@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import "../Css/About.css"
 import {contactnotify} from "./Notify"
 import { ToastContainer } from 'react-toastify';
+import ConfirmationModal from './ConfirmationModal';
 
 const ContactForm = () => {
   const { hash } = useLocation();
@@ -15,6 +16,9 @@ const ContactForm = () => {
   const handleEmailChange = (event) => setEmail(event.target.value);
   const handleContactChange = (event) => setContact(event.target.value);
   const handleMessageChange = (event) => setMessage(event.target.value);
+
+  const [modalOpen,setModalOpen]=useState(false)
+  const handleModalClose=()=>setModalOpen(false)
 
   const handleSubmit =async (e) => {
     e.preventDefault();
@@ -31,7 +35,7 @@ const ContactForm = () => {
 
       const data = await response.json();
       if (data.success) {
-        contactnotify()
+        setModalOpen(true)
         setName("");
         setEmail("");
         setContact("");
@@ -103,6 +107,7 @@ const ContactForm = () => {
           </form>
         </div>
       </div>
+      <ConfirmationModal open={modalOpen} handleClose={handleModalClose} message={"sent message"}/>
     </div>
   );
 }

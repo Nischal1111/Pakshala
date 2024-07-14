@@ -12,6 +12,7 @@ import Footer from '../components/Footer';
 import { Reservenotify,failednotify } from '../components/Notify';
 import { ToastContainer } from 'react-toastify';
 import {ImSpinner2} from "react-icons/im"
+import ConfirmationModal from '../components/ConfirmationModal';
 
 const RoomReserve = () => {
   const [allRooms, setAllRooms] = useState([]);
@@ -20,6 +21,10 @@ const RoomReserve = () => {
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [isBooked, setIsBooked] = useState(false);
+
+
+  const [modalOpen,setModalOpen]=useState(false)
+  const handleModalClose=()=>setModalOpen(false)
 
   const getAllRoomsClient = async () => {
     try {
@@ -52,7 +57,7 @@ const RoomReserve = () => {
 
       const data = await response.json();
       if (data.success) {
-        Reservenotify()
+        setModalOpen(true)
         setIsBooked(true);
         setName("");
         setContact("");
@@ -169,6 +174,7 @@ const RoomReserve = () => {
           </div>
         </div>
       </div>
+      <ConfirmationModal open={modalOpen} message={"booked a room"} handleClose={handleModalClose}/>
       <Footer />
     </>
   );
