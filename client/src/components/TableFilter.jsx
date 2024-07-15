@@ -100,12 +100,12 @@ const TableFilter = () => {
 
     const getCurrentDate = () => {
         const today = new Date();
-        return today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        return today.toISOString().split('T')[0];
     };
 
     const getCurrentTime = () => {
         const today = new Date();
-        return today.toTimeString().split(' ')[0].slice(0, 5); // Format: HH:MM
+        return today.toTimeString().split(' ')[0].slice(0, 5);
     };
 
     return (
@@ -172,7 +172,7 @@ const TableFilter = () => {
                                     disabled={table.tableStatus !== "Available"}
                                 >
                                     {table.tableStatus === "Booked" ? "Reserved" : 
-                                     table.tableStatus === "Pending" ? "In Queue" : "Reserve"}
+                                        table.tableStatus === "Pending" ? "In Queue" : "Reserve"}
                                 </button>
                             </div>
                             <div style={{ position: "absolute", top: ".7rem", left: "1.2rem", display: "flex", gap: ".5rem", alignItems: "center", backgroundColor: "white", padding: ".3rem .8rem", borderRadius: ".3rem" }}>
@@ -185,34 +185,45 @@ const TableFilter = () => {
             </div>
 
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Reserve {selectedTable?.table_name}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Please fill in the form to reserve your table.
-                    </DialogContentText>
-                    <form>
-                        {Object.keys(formData).map((key) => (
-                            <TextField
-                                key={key}
-                                margin="dense"
-                                id={key}
-                                label={key.charAt(0).toUpperCase() + key.slice(1)}
-                                type={key === "guests" ? "number" : key === "date" ? "date" : key === "time" ? "time" : "text"}
-                                fullWidth
-                                autoComplete='off'
-                                InputLabelProps={{ shrink: true }}
-                                inputProps={key === "date" ? { min: getCurrentDate() } : key === "time" ? { min: formData.date === getCurrentDate() ? getCurrentTime() : undefined } : {}}
-                                value={formData[key]}
-                                onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
-                            />
-                        ))}
-                    </form>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleReserve}>Reserve</Button>
-                </DialogActions>
-            </Dialog>
+    <DialogTitle>Reserve {selectedTable?.table_name}</DialogTitle>
+    <DialogContent>
+        <DialogContentText>
+            Please fill in the form to reserve your table.
+        </DialogContentText>
+        <form>
+            {Object.keys(formData).map((key) => (
+                <TextField
+                    key={key}
+                    margin="dense"
+                    id={key}
+                    label={key.charAt(0).toUpperCase() + key.slice(1)}
+                    type={key === "guests" ? "number" : key === "date" ? "date" : key === "time" ? "time" : key === "email" ? "email" : "text"}
+                    fullWidth
+                    autoComplete='off'
+                    InputLabelProps={{ shrink: true }}
+                    inputProps={
+                        key === "contact" 
+                        ? { inputMode: 'numeric', pattern: '[0-9]*' }
+                        : key === "email"
+                        ? { pattern: '^[a-zA-Z0-9._%+-]+@gmail\.com$' }
+                        : key === "date" 
+                        ? { min: getCurrentDate() } 
+                        : key === "time" 
+                        ? { min: formData.date === getCurrentDate() ? getCurrentTime() : undefined } 
+                        : {}
+                    }
+                    value={formData[key]}
+                    onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                />
+            ))}
+        </form>
+    </DialogContent>
+    <DialogActions>
+        <Button onClick={handleClose} style={{color:"var(--hover-color)"}}>Cancel</Button>
+        <Button onClick={handleReserve}>Reserve</Button>
+    </DialogActions>
+</Dialog>
+
             <ConfirmationModal open={modalOpen} handleClose={handleModalClose} message={"reserved a table"}/>
         </div>
     );

@@ -61,9 +61,11 @@ const Special = () => {
           handleClose();
           getSpecialMenu()
         } else {
+          setLoading(false);
           alert('Failed to add special item.');
         }
       } catch (error) {
+        setLoading(false);
         console.log("Error on adding menu:", error);
       } finally {
         setLoading(false);
@@ -167,7 +169,6 @@ const Special = () => {
           </>)}
       </Dialog>
             </>
-            
           ))}
           <div className='special-card' onClick={handleOpen}>
             <FaPlus style={{ fontSize: "2.5rem", color: "#B4B4B8" }} />
