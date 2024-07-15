@@ -13,7 +13,7 @@ const {
 
 
 
-//routes
+//routes for event reservation
 
 router.post('/request-event-venue', addBookVenue);
 
