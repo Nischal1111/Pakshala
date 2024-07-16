@@ -352,7 +352,7 @@ const Tables = () => {
             <TextField
               label="Category"
               name="category"
-              value={newTable.category}
+              value={newTable.category.toLowerCase()}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -417,7 +417,7 @@ const Tables = () => {
             <TextField
               label="Category"
               name="category"
-              value={editTableData.category}
+              value={editTableData.category.toLowerCase()}
               onChange={handleChange}
               fullWidth
               margin="normal"

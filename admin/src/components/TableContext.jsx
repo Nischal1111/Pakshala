@@ -5,6 +5,7 @@ export const TableReserveContext = createContext();
 
 const TableReserveProvider = ({ children }) => {
   const [tableReservations, setTableReservations] = useState([]);
+  const [refetch,setRefetch]=useState(false)
 
   const fetchTableReservations = async () => {
     try {
@@ -18,15 +19,22 @@ const TableReserveProvider = ({ children }) => {
       const data = await response.json();
       if (data.success) {
         setTableReservations(data.reserves);
+        setRefetch(true)
       }
     } catch (error) {
       console.error('Error fetching table reservations:', error);
     }
   };
   useEffect(() => {
-
+    
     fetchTableReservations();
   }, []);
+
+  useEffect(()=>{
+    if(refetch){
+      fetchTableReservations()
+    }
+  },[refetch])
 
   const handleStatusChange = async(reservationId) => {
     try{
@@ -40,18 +48,16 @@ const TableReserveProvider = ({ children }) => {
       })
       const data=await response.json()
       if(data.success){
+        fetchTableReservations()
         setTableReservations((reservations) =>
       reservations.map((reservation) =>
         reservation._id === reservationId ? { ...reservation, status: "Completed" } : reservation
       )
     );
-    fetchTableReservations()
+    
       }else{
         console.log("Error")
       }
-
-
-
     }catch(err){
       console.log(err);
     }

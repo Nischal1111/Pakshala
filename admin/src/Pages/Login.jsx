@@ -135,8 +135,8 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link to="/signup" variant="body2" style={{color:"#3ABEF9",fontSize:".8rem"}}>
-                  Don't have an account? Sign Up
+                <Link to="#" variant="body2" style={{color:"#3ABEF9",fontSize:".8rem"}}>
+                  Click here to reset the password.
                 </Link>
               </Grid>
             </Grid>

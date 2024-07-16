@@ -21,7 +21,7 @@ const RoomReserve = () => {
   const [contact, setContact] = useState('');
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
-  const [isBooked, setIsBooked] = useState(false);
+  const [refetch,setRefetch]=useState(false)
 
 
 
@@ -33,15 +33,22 @@ const RoomReserve = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/get-rooms`);
       const data = await response.json();
       setAllRooms(data.rooms || []);
+      setRefetch(true)
     } catch (error) {
       console.error('Error fetching rooms:', error);
     }
   };
 
   useEffect(() => {
+    setRefetch(false)
     getAllRoomsClient();
   }, []);
+  useEffect(()=>{
+    if(refetch){
+      getAllRoomsClient()
+    }
 
+  },[refetch])
   const { id } = useParams();
   const room = allRooms.find(room => room._id === id);
 
@@ -61,7 +68,6 @@ const RoomReserve = () => {
       if (data.success) {
         getAllRoomsClient()
         setModalOpen(true)
-        setIsBooked(true);
         setName("");
         setContact("");
         setCheckInDate("");
@@ -100,7 +106,7 @@ const RoomReserve = () => {
               <div className='small-imgs-div' style={{ marginTop: "1rem" }}>
                 <img src={room.room_image2.url} alt="Small 1" />
                 <img src={room.room_image3.url} alt="Small 2" />
-                <img src={room.room_image3.url} alt="Small 3" />
+                <img src={room.room_image4.url} alt="Small 3" />
               </div>
             </div>
             <div className="room-reserve-desc">
@@ -147,11 +153,6 @@ const RoomReserve = () => {
             </div>
           </div>
           <div className="right">
-            {isBooked || room.roomStatus ==="Booked" ? (
-              <div>
-                The room is booked.
-              </div>
-            ) : (
               <div className="user-form">
                 <div className="user-form-title">
                   <h3>Reserve This room</h3>
@@ -174,10 +175,10 @@ const RoomReserve = () => {
                     <input type="date" required value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)} min={checkInDate || today} />
                   </div>
                   {room.roomStatus==="Pending" && <p style={{color:"var(--primary-color)",marginBottom:"-1rem",marginTop:".6rem"}}>This room is currently being requested. Thank you for your understanding.</p>}
-                  <button type="submit" style={{ backgroundColor:room.roomStatus==="Pending"? "#FFC107": "var(--primary-color)",cursor:room.roomStatus==="Pending"?"not-allowed":""}} disabled={room.roomStatus==="Pending"}>{room.roomStatus==="Pending"?"In Queue":("Reserve")}</button>
+                  {room.roomStatus==="Booked" && <p style={{color:"var(--primary-color)",marginBottom:"-1rem",marginTop:".6rem"}}>This room is currently booked. Thank you for your understanding.</p>}
+                  <button type="submit" style={{ backgroundColor:room.roomStatus==="Pending"? "#FFC107":room.roomStatus==="Booked"?"gray": "var(--primary-color)",cursor:room.roomStatus==="Pending"|| room.roomStatus==="Booked"?"not-allowed":""}} disabled={room.roomStatus==="Pending" || room.roomStatus==="Booked"}>{room.roomStatus==="Pending"?"In Queue":room.roomStatus==="Booked"?"Booked":("Reserve")}</button>
                 </form>
               </div>
-            )}
           </div>
         </div>
       </div>

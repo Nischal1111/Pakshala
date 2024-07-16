@@ -77,7 +77,7 @@ const acceptRoomReservation = async (req, res) => {
     const roomId = acceptRoom.roomId;
     const room = await Room.findByIdAndUpdate(
         roomId,
-        { status: "Booked" },
+        { roomStatus: "Booked" },
         { new: true }
     );
 
