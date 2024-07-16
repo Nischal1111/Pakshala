@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import {delnotify} from "./delnotify"
 
 export const TableReserveContext = createContext();
 
@@ -67,6 +68,7 @@ const TableReserveProvider = ({ children }) => {
       });
       const data = await response.json();
       if (data.success) {
+        delnotify()
        setTableReservations((prevDetails) =>
       prevDetails.map((reservation) =>
         reservation._id === reservationId ? { ...reservation, status: "Rejected" } : reservation

@@ -68,9 +68,9 @@ const acceptMenuOrders = async (req, res) => {
 
 const rejectMenuOrders = async(req,res)=>{
     try {
-        const orderId = req.params.id;
+        const {orderId} = req.body;
 
-        const rejectOrder = MenuOrder.findByIdAndUpdate(orderId,{
+        const rejectOrder = await MenuOrder.findByIdAndUpdate(orderId,{
             status: "Rejected"
         },{
             new: true

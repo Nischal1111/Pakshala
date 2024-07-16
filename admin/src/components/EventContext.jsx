@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import {delnotify} from './delnotify';
 
 
 export const EventContext = createContext();
@@ -71,10 +72,12 @@ const EventBookingProvider = ({ children }) => {
       });
       const data = await response.json();
       if (data.success) {
+        delnotify()
         setEventBookings((bookings) =>
           bookings.map((booking) => booking._id === bookingId?({ ...booking, status: "Rejected" }) : booking)
         );
       } else {
+        
         console.error('Failed to delete booking:', data.error);
       }
     } catch (error) {

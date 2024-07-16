@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react"
+import {delnotify} from "./delnotify"
 
 export const RoomReserveContext = createContext()
 
@@ -76,6 +77,7 @@ const RoomReserveProvider = ({ children }) => {
 
       const data = await response.json()
       if (data.success) {
+        delnotify()
         setReserveDetails((prevDetails) =>
           prevDetails.map((reserve) =>
             reserve._id === reserveId
@@ -84,6 +86,7 @@ const RoomReserveProvider = ({ children }) => {
           )
         )
       } else {
+        
         console.error("API error:", data.message)
       }
     } catch (error) {

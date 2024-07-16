@@ -16,8 +16,13 @@ const RoomsDash = () => {
     setSelectedTab(newValue);
   };
 
-  const completedReserves = reserveDetails.filter((reserve) => reserve.status === "Completed");
-  const pendingReserves = reserveDetails.filter((reserve) => reserve.status === "Pending");
+  const sortOrdersByDate = (orders) => {
+    return orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  };
+
+
+  const completedReserves = sortOrdersByDate(reserveDetails.filter((reserve) => reserve.status === "Completed"))
+  const pendingReserves = sortOrdersByDate(reserveDetails.filter((reserve) => reserve.status === "Pending"))
 
   return (
     <div className='menu-dash-page'>

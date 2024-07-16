@@ -5,10 +5,10 @@ import { Button, Modal, TextField } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { userLogged } from "../components/Cookie";
-import { notify } from '../components/Notify';
+import { failednotify, notify } from '../components/Notify';
 import { ToastContainer } from 'react-toastify';
 import { ImSpinner2 } from "react-icons/im";
-import { delnotify } from '../components/delnotify';
+import { delnotify, failedaddnotify } from '../components/delnotify';
 import { FaRegEye } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
@@ -279,10 +279,13 @@ const Menu = () => {
       setDrinkFile(null);
       setUploadSuccess(true);
     } else {
+      failedaddnotify()
+      setLoading(false);
       alert('Failed to add menu');
     }
   } catch (error) {
-    console.log("Error on adding menu:", error);
+    failedaddnotify()
+    setLoading(false);
     alert('Failed to add menu. Please try again.');
   } finally {
     setLoading(false);
@@ -393,7 +396,8 @@ const Menu = () => {
                 <ImSpinner2 className='loading' />
               </div>
             ) : (
-              <Button type="submit" variant="contained" className='submit-button' style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem" }}>
+              <Button type="submit" variant="contained" className={!file || !drinkfile ? 'submit-button disabled-button' : 'submit-button'} style={{ marginLeft: ".5rem", marginTop: "1rem", marginBottom: "1rem" }}
+              disabled={!file || !drinkfile}>
                 Confirm Upload
               </Button>
             )}
@@ -406,11 +410,6 @@ const Menu = () => {
                   View Menu PDF <FaRegEye style={{ marginLeft: ".5rem" }} />
                 </Button>
                 </Link>
-                <FaTrash
-                  style={{ cursor: "pointer", color: "red" }}
-                  className='fa-trash-icon'
-                  onClick={() => handleDelete(uploadSuccess._id)}
-                />
               </div>
               <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
                 <Link to={drink} target='_blank'>
@@ -418,12 +417,8 @@ const Menu = () => {
                   View Drink PDF <FaRegEye style={{ marginLeft: ".5rem" }} />
                 </Button>
                 </Link>
-                <FaTrash
-                  style={{ cursor: "pointer", color: "red" }}
-                  className='fa-trash-icon'
-                  onClick={() => handleDelete(uploadSuccess._id)}
-                />
               </div>
+              <button onClick={handleDelete} style={{border:"1px solid red", padding:"12px 24px", borderRadius:".2rem",width:"50%",backgroundColor:"transparent",color:"red",cursor:"pointer"}}>Delete PDFs</button>
             </div>
           )}
         </div>

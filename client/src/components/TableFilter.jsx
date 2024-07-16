@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser } from "react-icons/fa";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, TextField, CardContent, CardMedia, Typography } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, CardContent, CardMedia, Typography, TextField } from '@mui/material';
 import { ImSpinner2 } from "react-icons/im";
 import { fadeIn } from "../motion/motion";
 import { failednotify } from './Notify';
 import { ToastContainer } from 'react-toastify';
-import ConfirmationModal from "../components/ConfirmationModal"
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const TableFilter = () => {
     const [loading, setLoading] = useState(false);
@@ -42,8 +42,8 @@ const TableFilter = () => {
         });
     };
 
-    const [modalOpen,setModalOpen]=useState(false)
-  const handleModalClose=()=>setModalOpen(false)
+    const [modalOpen, setModalOpen] = useState(false);
+    const handleModalClose = () => setModalOpen(false);
 
     const getAllTable = async () => {
         setLoading(true);
@@ -76,7 +76,8 @@ const TableFilter = () => {
         }
     };
 
-    const handleReserve = async () => {
+    const handleReserve = async (e) => {
+        e.preventDefault();
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/request-table-reserve/${selectedTable._id}`, {
                 method: 'POST',
@@ -88,7 +89,7 @@ const TableFilter = () => {
             const data = await response.json();
 
             if (data.success) {
-                setModalOpen(true)
+                setModalOpen(true);
                 handleClose();
             } else {
                 failednotify();
@@ -98,14 +99,21 @@ const TableFilter = () => {
         }
     };
 
-    const getCurrentDate = () => {
+    // Function to get today's date in YYYY-MM-DD format
+    const getTodayDate = () => {
         const today = new Date();
-        return today.toISOString().split('T')[0];
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
     };
 
+    // Function to get the current time in HH:MM format
     const getCurrentTime = () => {
         const today = new Date();
-        return today.toTimeString().split(' ')[0].slice(0, 5);
+        const hours = String(today.getHours()).padStart(2, '0');
+        const minutes = String(today.getMinutes()).padStart(2, '0');
+        return `${hours}:${minutes}`;
     };
 
     return (
@@ -185,46 +193,91 @@ const TableFilter = () => {
             </div>
 
             <Dialog open={open} onClose={handleClose}>
-    <DialogTitle>Reserve {selectedTable?.table_name}</DialogTitle>
-    <DialogContent>
-        <DialogContentText>
-            Please fill in the form to reserve your table.
-        </DialogContentText>
-        <form>
-            {Object.keys(formData).map((key) => (
-                <TextField
-                    key={key}
-                    margin="dense"
-                    id={key}
-                    label={key.charAt(0).toUpperCase() + key.slice(1)}
-                    type={key === "guests" ? "number" : key === "date" ? "date" : key === "time" ? "time" : key === "email" ? "email" : "text"}
-                    fullWidth
-                    autoComplete='off'
-                    InputLabelProps={{ shrink: true }}
-                    inputProps={
-                        key === "contact" 
-                        ? { inputMode: 'numeric', pattern: '[0-9]*' }
-                        : key === "email"
-                        ? { pattern: '^[a-zA-Z0-9._%+-]+@gmail\.com$' }
-                        : key === "date" 
-                        ? { min: getCurrentDate() } 
-                        : key === "time" 
-                        ? { min: formData.date === getCurrentDate() ? getCurrentTime() : undefined } 
-                        : {}
-                    }
-                    value={formData[key]}
-                    onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
-                />
-            ))}
-        </form>
-    </DialogContent>
-    <DialogActions>
-        <Button onClick={handleClose} style={{color:"var(--hover-color)"}}>Cancel</Button>
-        <Button onClick={handleReserve}>Reserve</Button>
-    </DialogActions>
-</Dialog>
+                <DialogTitle>Reserve {selectedTable?.table_name}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Please fill in the form to reserve your table.
+                    </DialogContentText>
+                    <form onSubmit={handleReserve} className='table-form'>
+                        <div>
+                            <input
+                                type="text"
+                                placeholder='Name'
+                                required
+                                value={formData.name}
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                style={{width:"100%",border:"gray 0.1px solid"}}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="email"
+                                required
+                                placeholder='Email'
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                style={{width:"100%",border:"gray 0.1px solid "}}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="number"
+                                required
+                                placeholder='Contact'
+                                minLength={10}
+                                value={formData.contact}
+                                onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+                                style={{width:"100%",border:"gray 0.1px solid "}}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="number"
+                                required
+                                placeholder='Guests'
+                                value={formData.guests}
+                                onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
+                                style={{width:"100%",border:"gray 0.1px solid "}}
+                            />
+                        </div>
+                        <div style={{marginTop:".3rem",marginBottom:"-1rem"}}>
+                            <label htmlFor="" style={{marginTop:".3rem",marginBottom:"-.5rem"}}>Date</label>
+                            <input
+                                type="date"
+                                required
+                                placeholder='Date to book'
+                                value={formData.date}
+                                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                                min={getTodayDate()}
+                                style={{width:"100%",border:"gray 0.1px solid",marginTop:"0rem"}}
+                            />
+                        </div>
+                        <div style={{marginTop:"2rem",marginBottom:"-1rem"}}>
+                            <label htmlFor="" style={{marginTop:"1rem",marginBottom:"1rem"}}>Time</label>
+                            <input
+                                type="time"
+                                required
+                                placeholder='Estimated arrival time'
+                                value={formData.time}
+                                onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                                min={getCurrentTime()}
+                                style={{width:"100%",border:"gray 0.1px solid ",marginTop:"0rem"}}
+                            />
+                        </div>
+                        <div style={{display:"flex",justifyContent:"space-between",marginTop:"2rem",gap:"1rem",fontSize:"15px",cursor:"pointer"}}>
+                        <button style={{border:"none",letterSpacing:"1px"}} onClick={handleClose} className='form-cancel'>
+                            CANCEL
+                        </button>
+                        <button type='submit' style={{border:"none",letterSpacing:"1px",transition:"all .3s"}} className='form-reserve'>
+                            RESERVE
+                        </button>
+                        </div>
+                    </form>
+                </DialogContent>
+               
+            </Dialog>
 
-            <ConfirmationModal open={modalOpen} handleClose={handleModalClose} message={"reserved a table"}/>
+            <ConfirmationModal open={modalOpen} handleClose={handleModalClose} message={"reserved a table"} />
         </div>
     );
 };

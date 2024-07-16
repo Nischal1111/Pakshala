@@ -50,8 +50,10 @@ const Home = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 1 }}
       transition={{ duration: 1.4, ease: [0.17, 0.67, 0.83, 0.67] }}>
+        
       <Nav />
 
+      {offer && 
       <Modal
         open={open}
         onClose={handleClose}
@@ -89,6 +91,8 @@ const Home = () => {
           </IconButton>
         </Box>
       </Modal>
+      }
+      
 
       <Parallax strength={400}>
         <div className='pakshala-home-div'>

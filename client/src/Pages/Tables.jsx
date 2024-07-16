@@ -3,9 +3,13 @@ import {motion} from "framer-motion"
 import Nav from "../components/Nav"
 import Footer from "../components/Footer"
 import TableFilter from "../components/TableFilter"
+import {Helmet} from "react-helmet"
 const Tables = () => {
   return (
     <>
+     <Helmet>
+            <title>Pakshala - Tables</title>
+          </Helmet>
     <Nav/>
     <motion.div exit={{ opacity: 1 }}
       initial={{ opacity: 0 }}

@@ -5,6 +5,7 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import "../Css/nav.css"
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
+import {Helmet} from "react-helmet"
 
 const EventGallary = () => {
   const [imageList,setImageList]=useState([])
@@ -30,6 +31,9 @@ const EventGallary = () => {
   },[])
   return (
     <>
+    <Helmet>
+      <title>Pakshala - Gallary</title>
+    </Helmet>
     <Nav/>
     <div className='main-event-div'>
       <motion.div className="res-text">

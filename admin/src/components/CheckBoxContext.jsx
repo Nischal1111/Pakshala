@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import {delnotify} from "./delnotify"
 
 export const CheckContext = createContext();
 
@@ -67,11 +68,13 @@ const handleRejectOrder = async (orderId) => {
 
     const data = await response.json();
     if (data.success) {
+      
       setOrderDetails((prevOrders) =>
         prevOrders.map((order) =>
           order._id === orderId ? { ...order, status: "Rejected" } : order
         )
       );
+      delnotify()
     } else {
       console.error('API error:', data.message);
     }

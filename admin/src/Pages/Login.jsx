@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {Outnotify, notify} from "../components/Notify"
+import {Enternotify, Outnotify, notify} from "../components/Notify"
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { Wrongnotify } from '../components/Notify';
@@ -64,7 +64,11 @@ export default function Login() {
         notify()
         navigate('/');
       }else{
-        Wrongnotify()
+        if(formData.email===""||formData.password===""){
+          Enternotify()
+        }else{
+          Wrongnotify()
+        }
       }
 
     } catch (error) {
