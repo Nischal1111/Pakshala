@@ -44,15 +44,23 @@ const addTableItem = async (req, res) => {
 const getTableItems = async (req, res) => {
     try {
         const tableItems = await Table.find();
-        if(!tableItems) {
+        if (!tableItems) {
             return res.status(404).json({ message: 'No table items found' });
         }
-        res.status(200).json({success:true, tableItems});
+
+        // Sorting tableItems based on tableStatus
+        const sortedTableItems = tableItems.sort((a, b) => {
+            const statusOrder = ['Available', 'Pending', 'Booked'];
+            return statusOrder.indexOf(a.tableStatus) - statusOrder.indexOf(b.tableStatus);
+        });
+
+        res.status(200).json({ success: true, tableItems: sortedTableItems });
     } catch (error) {
-        res.status(500).json({success:false, message: 'Internal server error on Get table Items' });
-        console.log(error)
+        res.status(500).json({ success: false, message: 'Internal server error on Get table Items' });
+        console.log(error);
     }
 }
+
 
 
 
