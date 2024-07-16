@@ -3,7 +3,6 @@ import "../Css/nav.css"
 import { motion } from 'framer-motion';
 import { textVariant } from '../motion/motion';
 import PakshalaLogo from "../assets/pakshalalogo.png"
-import Icon1 from '../assets/nav-icon1.svg';
 import Icon2 from '../assets/nav-icon2.svg';
 import Icon3 from '../assets/nav-icon3.svg';
 import {Link} from "react-router-dom"
@@ -18,9 +17,8 @@ const Footer = () => {
         <div className="find-Us">
             <h2>Find us in social media</h2>
              <div className="social-icon">
-                <a href="#"><img src={Icon1} alt="" /></a>
-                <a href="#"><img src={Icon2} alt="" /></a>
-                <a href="#"><img src={Icon3} alt="" /></a>
+                <Link to="https://facebook.com" target='_blank' className='fb'><img src={Icon2} alt="" /></Link>
+                <Link to="https://www.instagram.com/pakshalarestro/" target='_blank' className='ig'><img src={Icon3} alt="" /></Link>
               </div>
               <h2 style={{marginTop:"1rem"}}>Contact us in</h2>
               <p>014 5844939</p>
