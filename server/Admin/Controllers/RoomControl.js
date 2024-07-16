@@ -92,12 +92,20 @@ const getRooms = async (req, res) => {
         if (!rooms) {
             return res.status(404).json({ message: 'No rooms found.' });
         }
-        res.status(200).json({ success: true, rooms });
+
+        // Sort rooms based on roomStatus
+        const sortedRooms = rooms.sort((a, b) => {
+            const statusOrder = ['Available', 'Pending', 'Booked'];
+            return statusOrder.indexOf(a.roomStatus) - statusOrder.indexOf(b.roomStatus);
+        });
+
+        res.status(200).json({ success: true, rooms: sortedRooms });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 }
+
 
 
 
