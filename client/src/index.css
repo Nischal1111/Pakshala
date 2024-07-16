@@ -57,3 +57,12 @@ body {
 .table-form input:focus{
   outline: none;
 }
+.event-button{
+  background-color: var(--primary-color);
+  transition: .3s all;
+}
+.event-button:hover{
+  background-color: var(--hover-color);
+  transition: .3s all;
+  transform: scale(1.04);
+}
