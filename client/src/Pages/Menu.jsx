@@ -10,6 +10,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { fadeIn } from '../motion/motion';
+import {Helmet} from "react-helmet"
 
 const MenuMain = () => {
   return (
@@ -117,6 +118,9 @@ const Menu = () => {
 
   return (
     <>
+     <Helmet>
+            <title>Pakshala - Menu</title>
+          </Helmet>
       <Nav />
       <motion.div initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

@@ -12,8 +12,12 @@ const EventDash = () => {
     setSelectedTab(newValue);
   };
 
-  const completedBookings = eventBookings.filter((booking) => booking.status === "Completed");
-  const pendingBookings = eventBookings.filter((booking) => booking.status === "Pending");
+  const sortOrdersByDate = (orders) => {
+    return orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  };
+
+  const completedBookings = sortOrdersByDate(eventBookings.filter((booking) => booking.status === "Completed"))
+  const pendingBookings = sortOrdersByDate(eventBookings.filter((booking) => booking.status === "Pending"))
 
   return (
     <div className='menu-dash-page'>

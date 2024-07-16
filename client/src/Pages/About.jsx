@@ -8,6 +8,7 @@ import ContactForm from '../components/ContactForm'
 import { motion } from 'framer-motion'
 import {Background, Parallax} from "react-parallax";
 import OurService from '../components/OurService'
+import {Helmet} from "react-helmet"
 
 const About = () => {
   return (
@@ -18,6 +19,9 @@ const About = () => {
   animate={{ opacity: 1 }}
   transition={{ duration: 1.4, ease: [0.17, 0.67, 0.83, 0.67] }}
         >
+          <Helmet>
+            <title>Pakshala - About Us</title>
+          </Helmet>
       <Nav/>
       <div className="mainContainer">
         <div className="wave top red">

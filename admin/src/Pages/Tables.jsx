@@ -131,9 +131,11 @@ const Tables = () => {
         setLoading(false);
         getAllTableItems();
       } else {
+        setLoading(false)
         console.error('Error adding table item:', data.error);
       }
     } catch (error) {
+      setLoading(false)
       console.error('Error adding table item:', error);
     }
 

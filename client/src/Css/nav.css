@@ -305,7 +305,7 @@
             cursor: pointer;
     }
     p:hover{
-        color: black;
+        color: var(--hover-color);
         font-weight: 500;
         transform: scale(1.1);
         transition: all .3s ease-in-out;
@@ -330,7 +330,19 @@
     margin-top: .5rem;
 }
 
-.social-icon a {
+.social-icon .ig{
+    width: 40px;
+    color: black;
+    height: 40px;
+    background: rgba(217, 217, 217, 0.1);
+    display: inline-flex;
+    border-radius: 50%;
+    margin-right: 2rem;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+}
+.social-icon .fb {
     width: 40px;
     color: black;
     height: 40px;
@@ -343,19 +355,31 @@
     border: 2px solid black;
 }
 
-.social-icon a::before {
+.social-icon .fb::before {
     content: "";
     width: 45px;
     height: 45px;
     position: absolute;
-    background-color: #ffffff;
+    background-color: lightblue;
     border-radius: 50%;
     transform: scale(0);
     transition: 0.3s ease-in-out;
-    border: 2px solid black;
+    border: 2px solid white;
+}
+.social-icon .ig::before {
+    content: "";
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    background-color: lightpink;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 0.3s ease-in-out;
+    border: 2px solid white;
 }
 
 .social-icon a:hover::before {
+    color: var(--hover-color);
     transform: scale(1);
 }
 

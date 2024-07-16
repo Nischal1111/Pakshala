@@ -4,10 +4,14 @@ import "../Css/Rooms.css"
 import { motion } from 'framer-motion'
 import RoomFilter from '../components/RoomFilter'
 import Footer from "../components/Footer"
+import {Helmet} from "react-helmet"
 
 const Rooms = () => {
   return (
     <>
+     <Helmet>
+            <title>Pakshala - Rooms</title>
+          </Helmet>
     <Nav/>
     <motion.div exit={{ opacity: 1 }}
       initial={{ opacity: 0 }}

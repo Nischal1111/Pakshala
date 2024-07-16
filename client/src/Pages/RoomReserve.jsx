@@ -13,6 +13,7 @@ import { Reservenotify,failednotify } from '../components/Notify';
 import { ToastContainer } from 'react-toastify';
 import {ImSpinner2} from "react-icons/im"
 import ConfirmationModal from '../components/ConfirmationModal';
+import {Helmet} from "react-helmet"
 
 const RoomReserve = () => {
   const [allRooms, setAllRooms] = useState([]);
@@ -86,6 +87,9 @@ const RoomReserve = () => {
     <>
     <ToastContainer/>
       <Nav />
+       <Helmet>
+            <title>Pakshala - Room - {room.room_name}</title>
+          </Helmet>
       <div>
         <div className="room-reserve">
           <div className="left-part">

@@ -16,8 +16,12 @@ const MenuDash = () => {
     getOrderDetails();
   }, []);
 
-  const completedOrders = orderDetails.filter((order) => order.status === "Completed");
-  const pendingOrders = orderDetails.filter((order) => order.status === "Pending");
+  const sortOrdersByDate = (orders) => {
+    return orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  };
+
+  const completedOrders = sortOrdersByDate(orderDetails.filter((order) => order.status === "Completed"));
+  const pendingOrders = sortOrdersByDate(orderDetails.filter((order) => order.status === "Pending"));
 
   return (
     <div className='menu-dash-page'>

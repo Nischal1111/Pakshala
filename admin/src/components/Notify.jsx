@@ -147,4 +147,21 @@ transition: Bounce,
     }
     return Wrongnotify()
 }
+export const Enternotify = () => {
+    const Wrongnotify=()=>{
+       toast.info("Please enter email or password.", {
+position: "top-center",
+autoClose: 3000,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+theme: "colored",
+transition: Bounce,
+});
+    }
+    return Wrongnotify()
+}
+
 

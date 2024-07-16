@@ -81,7 +81,7 @@ const TableReserveCard = ({ reservation }) => {
             <Typography variant="body1" sx={{
               backgroundColor: "rgb(255, 176, 79,.3)"
               , padding: ".5rem 1rem", borderRadius: "5px", marginBottom: ".2rem"
-            }}>Date: {reservation.reserveDate}</Typography>
+            }}>Date: {reservation.reserveDate.split("T")[0]}</Typography>
             <Typography variant="body1" sx={{
               backgroundColor: "rgb(255, 176, 79,.3)"
               , padding: ".5rem 1rem", borderRadius: "5px", marginBottom: ".2rem"

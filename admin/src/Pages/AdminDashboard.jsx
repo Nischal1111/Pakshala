@@ -41,7 +41,7 @@ const navigate = useNavigate();
   },[])
 
   const Menunotification=orderDetails.filter((order)=>order.status==="Pending" || 0)
-  const Roomnotification=reserveDetails.filter((reserve)=>reserve.roomStatus==="Pending" || 0)
+  const Roomnotification=reserveDetails.filter((reserve)=>reserve.status==="Pending" || 0)
   const Tablenotifications=tableReservations.filter((reservation)=>reservation.status==="Pending" || 0)
   const Eventnotifications=eventBookings.filter((booking)=>booking.status==="Pending" || 0)
 

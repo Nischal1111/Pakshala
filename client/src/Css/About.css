@@ -366,9 +366,17 @@ form .contact--btn:hover {
 .service-card-desc{
     line-height: 2rem;
 }
+
 .service-card-button{
-    margin-bottom: 0rem;
-    width: auto;
+    background-color: var(--primary-color);
+        transition: all .3s;
+        border-radius: 5px;
+        
+    }
+.service-card-button:hover{
+    background-color: var(--hover-color);
+    transition: all .3s;
+    transform: scale(1.1);
 }
 @media(max-width:768px) {
     .contact-container {

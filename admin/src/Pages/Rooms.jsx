@@ -163,6 +163,7 @@ const Rooms = () => {
         setLoading(false)
       }
     } catch (error) {
+      setLoading(false)
       console.error('Error adding room:', error);
       
     }
