@@ -42,7 +42,7 @@ const RoomCard = ({ room, index }) => {
                 <Typography variant="body2" style={{ fontFamily: "Lato", fontSize: "1rem", letterSpacing: "1.4px", color: "black", lineHeight: "2rem" }}>
                     <div style={{ display: "flex", gap: "1rem", alignItems: "center", marginTop: ".8rem" }}>
                         <FaUser />
-                        <span>Up to {room.guests} guest/s</span>
+                        <span>Up to {room.room_guests} guest/s</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: ".8rem", marginTop: "1rem" }}>
                         <div style={{ background: "#ff8800", display: "flex", alignItems: "center", gap: ".8rem", color: "aliceblue", padding: ".2rem .7rem", borderRadius: "2rem" }}>
@@ -62,7 +62,7 @@ const RoomCard = ({ room, index }) => {
                 </div>
             </Link>
             <div style={{position:"absolute", top:".7rem",left:"1.2rem",display:"flex",gap:".5rem",alignItems:"center",backgroundColor:"white",padding:".3rem .8rem",borderRadius:".3rem"}}>
-                <div style={{height:".7rem",width:".7rem",borderRadius:"50%",backgroundColor:room.roomStatus==="Booked"?"var(--hover-color)":"lightgreen"}}></div>
+                <div style={{height:".7rem",width:".7rem",borderRadius:"50%",backgroundColor: room.roomStatus === "Booked" ? "#8686f0" : room.roomStatus === "Pending" ? "#FFC107" : "lightgreen"}}></div>
                 <p>{room.roomStatus}</p>
             </div>
         </motion.div>

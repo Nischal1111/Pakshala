@@ -407,4 +407,10 @@
         padding: 0;
         margin: 0;
     }
+    .room-reserve-desc{
+
+        .price-div-2{
+            margin-top: .5rem;
+        }
+    }
 }

@@ -55,9 +55,9 @@ const ContactForm = () => {
         <h3>Order Here</h3>
         <div className='menu--form'>
             <form onSubmit={handleSubmit}>
-                <input className='menu--input' placeholder='Enter your fullname' type='text' autoComplete='off' required onChange={handleNameChange}/>
-                <input className='menu--input' placeholder='Enter your contact number' type='number' autoComplete='off' required onChange={handleContactChange}/>
-                <textarea name='message' placeholder='Place your order here (menu items)' cols='30'rows='6' autoComplete='off' required onChange={handleMessageChange}></textarea>
+                <input className='menu--input' placeholder='Enter your fullname' type='text' autoComplete='off' value={name} required onChange={handleNameChange}/>
+                <input className='menu--input' placeholder='Enter your contact number' type='number' autoComplete='off' value={contact} required onChange={handleContactChange}/>
+                <textarea name='message' placeholder='Place your order here (menu items)' cols='30'rows='6' autoComplete='off' value={message} required onChange={handleMessageChange}></textarea>
                 <div style={{display:"flex",gap:"1rem"}}>
                 <button type='submit' className='contact--btn'>Place order</button>
                 <button className='contact--btn' type='button' onClick={handleOpen} style={{backgroundColor:"#36C2CE"}}>Scan QR Code</button>

@@ -5,7 +5,7 @@ import { Button, Modal, TextField } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { userLogged } from "../components/Cookie";
-import { failednotify, notify } from '../components/Notify';
+import { failednotify, notify,menufailnotify } from '../components/Notify';
 import { ToastContainer } from 'react-toastify';
 import { ImSpinner2 } from "react-icons/im";
 import { delnotify, failedaddnotify } from '../components/delnotify';
@@ -71,7 +71,7 @@ const Special = () => {
         setLoading(false);
       }
     } else {
-      alert("Please provide both an item name and image.");
+      menufailnotify()
       setLoading(false);
     }
   };
@@ -181,6 +181,7 @@ const Special = () => {
           <TextField
             label="Item Name"
             variant="outlined"
+            required
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
             fullWidth

@@ -9,7 +9,7 @@ import { GiWashingMachine } from "react-icons/gi";
 import { IoCallSharp } from "react-icons/io5";
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
-import { Reservenotify,failednotify } from '../components/Notify';
+import {failednotify } from '../components/Notify';
 import { ToastContainer } from 'react-toastify';
 import {ImSpinner2} from "react-icons/im"
 import ConfirmationModal from '../components/ConfirmationModal';
@@ -22,6 +22,7 @@ const RoomReserve = () => {
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [isBooked, setIsBooked] = useState(false);
+
 
 
   const [modalOpen,setModalOpen]=useState(false)
@@ -58,6 +59,7 @@ const RoomReserve = () => {
 
       const data = await response.json();
       if (data.success) {
+        getAllRoomsClient()
         setModalOpen(true)
         setIsBooked(true);
         setName("");
@@ -102,7 +104,7 @@ const RoomReserve = () => {
               </div>
             </div>
             <div className="room-reserve-desc">
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between",flexWrap:"wrap" }}>
                 <div className="nameandrating" style={{ display: "flex", alignItems: "center" }}>
                   <p style={{ fontFamily: "Lato", fontSize: "1.8rem", letterSpacing: "2px" }}>
                     {room.room_name}
@@ -145,7 +147,7 @@ const RoomReserve = () => {
             </div>
           </div>
           <div className="right">
-            {isBooked || room.roomStatus !== "Available" ? (
+            {isBooked || room.roomStatus ==="Booked" ? (
               <div>
                 The room is booked.
               </div>
@@ -171,7 +173,8 @@ const RoomReserve = () => {
                     <label>Check-out Date</label>
                     <input type="date" required value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)} min={checkInDate || today} />
                   </div>
-                  <button type="submit" style={{ backgroundColor: "var(--primary-color)" }}>Reserve</button>
+                  {room.roomStatus==="Pending" && <p style={{color:"var(--primary-color)",marginBottom:"-1rem",marginTop:".6rem"}}>This room is currently being requested. Thank you for your understanding.</p>}
+                  <button type="submit" style={{ backgroundColor:room.roomStatus==="Pending"? "#FFC107": "var(--primary-color)",cursor:room.roomStatus==="Pending"?"not-allowed":""}} disabled={room.roomStatus==="Pending"}>{room.roomStatus==="Pending"?"In Queue":("Reserve")}</button>
                 </form>
               </div>
             )}

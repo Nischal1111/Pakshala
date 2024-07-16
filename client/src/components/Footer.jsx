@@ -20,10 +20,12 @@ const Footer = () => {
                 <Link to="https://facebook.com" target='_blank' className='fb'><img src={Icon2} alt="" /></Link>
                 <Link to="https://www.instagram.com/pakshalarestro/" target='_blank' className='ig'><img src={Icon3} alt="" /></Link>
               </div>
-              <h2 style={{marginTop:"1rem"}}>Contact us in</h2>
-              <p>014 5844939</p>
-              <p>+977 9487473774</p>
-              <p>pakshala@restro.np</p>
+              <div className='contact-us-list'>
+                <h2 style={{marginTop:"1rem"}}>Contact us in</h2>
+                <p>014 5844939</p>
+                <p>+977 9487473774</p>
+                <p>pakshala@restro.np</p>
+              </div>
         </div>
         <div className="our-services">
             <h2>Our Services</h2>
@@ -54,12 +56,24 @@ const Footer = () => {
                 <p>Gallary</p>
             </Link>
         </div>
+         <div className='responsive-contact-us'>
+                <h2 style={{marginTop:"1rem"}}>Contact us in</h2>
+                <p>014 5844939</p>
+                <p>+977 9487473774</p>
+                <p>pakshala@restro.np</p>
+              </div>
         <div className="footer-community">
             <h2>Community</h2>
             <p>Blog</p>
             <p>Community</p>
             <p>Ideas</p>
             <p>Developers</p>
+        </div>
+        <div className='responsive-find-us'>
+        <div className="social-icon responsive">
+                <Link to="https://facebook.com" target='_blank' className='fb'><img src={Icon2} alt="" /></Link>
+                <Link to="https://www.instagram.com/pakshalarestro/" target='_blank' className='ig'><img src={Icon3} alt="" /></Link>
+              </div>
         </div>
         </div>
         <span className='footer-last'>Privacy Policy | Terms & Condition | Cookie Center | Security & Safety | | © 2024 Pakshala Restro</span>

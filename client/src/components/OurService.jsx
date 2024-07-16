@@ -34,8 +34,8 @@ const ServiceCard = ({ item,index }) => {
                 </Typography>
             </CardContent>
             <CardActions >
-                <Link to={item.link} style={{width:"100%"}} >
-                    <button style={{fontSize: ".8rem",border: "1px solid white",padding: ".5rem 1rem",color:"white",bottom:"0px",width:"30%",textTransform:"capitalize"}} className='service-card-button'>{item.button}</button>
+                <Link to={item.link} >
+                    <button style={{fontSize: ".8rem",border: "1px solid white",padding: ".5rem 1rem",color:"white",bottom:"0px",textTransform:"capitalize"}} className='service-card-button'>{item.button}</button>
                 </Link>
             </CardActions>
             </div>

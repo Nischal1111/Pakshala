@@ -163,5 +163,21 @@ transition: Bounce,
     }
     return Wrongnotify()
 }
+export const menufailnotify = () => {
+    const Wrongnotify=()=>{
+       toast.info("Please provide both an item name and image.", {
+position: "top-center",
+autoClose: 3000,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+theme: "colored",
+transition: Bounce,
+});
+    }
+    return Wrongnotify()
+}
 
 

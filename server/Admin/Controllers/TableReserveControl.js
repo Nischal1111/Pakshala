@@ -28,7 +28,11 @@ const addTableReserve = async (req, res) => {
 
         const reserve = await reserveTable.save();
 
-        if (!reserve) {
+        const tablereserveStatus = await Table.findByIdAndUpdate(tableId,{
+            tableStatus:"Pending"
+        })
+
+        if (!reserve || !tablereserveStatus) {
             return res.status(400).json({ success: false, message: 'Table reservation failed' });
         }
         await sendTableBookingMail({ bookingDetails: reserve });

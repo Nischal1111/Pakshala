@@ -54,6 +54,7 @@ const RoomReserveProvider = ({ children }) => {
               : reserve
           )
         )
+        getReserveDetails()
       } else {
         console.error("API error:", data.message)
       }
@@ -77,6 +78,7 @@ const RoomReserveProvider = ({ children }) => {
 
       const data = await response.json()
       if (data.success) {
+        getReserveDetails()
         delnotify()
         setReserveDetails((prevDetails) =>
           prevDetails.map((reserve) =>

@@ -47,6 +47,7 @@ const CheckProvider = ({ children }) => {
           order._id === orderId ? { ...order, status: "Completed" } : order
         )
       );
+      getOrderDetails()
     } else {
       console.error('API error:', data.message);
     }
@@ -75,6 +76,7 @@ const handleRejectOrder = async (orderId) => {
         )
       );
       delnotify()
+      getOrderDetails()
     } else {
       console.error('API error:', data.message);
     }

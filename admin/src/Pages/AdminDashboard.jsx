@@ -19,19 +19,24 @@ import { EventContext } from '../components/EventContext';
 
 
 const AdminDashboard = () => {
-const {orderDetails} = useContext(CheckContext)
-const {reserveDetails}=useContext(RoomReserveContext)
-const {tableReservations}=useContext(TableReserveContext)
-const {eventBookings}=useContext(EventContext)
+const {orderDetails,getOrderDetails} = useContext(CheckContext)
+const {reserveDetails,getReserveDetails}=useContext(RoomReserveContext)
+const {tableReservations,fetchTableReservations}=useContext(TableReserveContext)
+const {eventBookings,fetchEventBookings}=useContext(EventContext)
 const navigate = useNavigate();
 
   useEffect(() => {
+    
     if (!userLogged()) {
       navigate('/login');
     }
   }, [navigate]);
 
   useEffect(()=>{
+    fetchEventBookings()
+    getReserveDetails()
+    getOrderDetails()
+    fetchTableReservations()
     setTimeout(()=>{
       if(userLogged() && localStorage.getItem("notify")==="true"){
         lognotify()

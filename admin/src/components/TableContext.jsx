@@ -6,24 +6,24 @@ export const TableReserveContext = createContext();
 const TableReserveProvider = ({ children }) => {
   const [tableReservations, setTableReservations] = useState([]);
 
-  useEffect(() => {
-    const fetchTableReservations = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-reserves`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-        const data = await response.json();
-        if (data.success) {
-          setTableReservations(data.reserves);
-        }
-      } catch (error) {
-        console.error('Error fetching table reservations:', error);
+  const fetchTableReservations = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/get-table-reserves`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (data.success) {
+        setTableReservations(data.reserves);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching table reservations:', error);
+    }
+  };
+  useEffect(() => {
 
     fetchTableReservations();
   }, []);
@@ -45,6 +45,7 @@ const TableReserveProvider = ({ children }) => {
         reservation._id === reservationId ? { ...reservation, status: "Completed" } : reservation
       )
     );
+    fetchTableReservations()
       }else{
         console.log("Error")
       }
@@ -74,6 +75,7 @@ const TableReserveProvider = ({ children }) => {
         reservation._id === reservationId ? { ...reservation, status: "Rejected" } : reservation
       )
     );
+    fetchTableReservations()
       } else {
         console.error('Failed to delete reservation:', data.error);
       }
@@ -85,6 +87,7 @@ const TableReserveProvider = ({ children }) => {
     tableReservations,
     handleStatusChange,
     handleDeleteReservation,
+    fetchTableReservations
   };
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser } from "react-icons/fa";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, CardContent, CardMedia, Typography, TextField } from '@mui/material';
+import { Dialog, DialogContent, DialogContentText, DialogTitle,  CardContent, CardMedia, Typography} from '@mui/material';
 import { ImSpinner2 } from "react-icons/im";
 import { fadeIn } from "../motion/motion";
 import { failednotify } from './Notify';
@@ -23,6 +23,7 @@ const TableFilter = () => {
         time: '',
         guests: '',
     });
+    const [refetch,setreFetch]=useState(false)
 
     const handleClickOpen = (table) => {
         setSelectedTable(table);
@@ -43,7 +44,10 @@ const TableFilter = () => {
     };
 
     const [modalOpen, setModalOpen] = useState(false);
-    const handleModalClose = () => setModalOpen(false);
+    const handleModalClose = () => {
+        setModalOpen(false);
+        setreFetch(true)
+    }
 
     const getAllTable = async () => {
         setLoading(true);
@@ -53,6 +57,7 @@ const TableFilter = () => {
             if (data.success) {
                 setTableList(data.tableItems);
                 setFilteredTables(data.tableItems);
+                setreFetch(false)
             }
         } catch (error) {
             console.error(error);
@@ -64,6 +69,12 @@ const TableFilter = () => {
     useEffect(() => {
         getAllTable();
     }, []);
+
+    useEffect(() => {
+    if (refetch) {
+      getAllTable()
+    }
+  }, [refetch]);
 
     const handleFilter = (e) => {
         const choice = e.target.value.toLowerCase();

@@ -191,6 +191,10 @@
     outline:"none";
     height: 90vh;
 }
+.responsive-contact-us{
+    display: none;
+
+}
 
 @media (max-width: 770px) {
     .nav-link {
@@ -239,7 +243,8 @@
             }
         }
     .offer-box{
-        height: 30vh;
+        height: 50vh;
+        width: 40vh;
     }
 
     
@@ -406,18 +411,25 @@
     margin-bottom: 2rem;
     }
 
+    .responsive-find-us{
+        display: none;
+    }
+
 @media (max-width: 770px) {
     .footer{
         display: flex;
         flex-wrap: wrap;
+
 
     .footer-community,.our-services{
         display: none;
     }
     .find-Us,.quick-links{
         margin-top: 1rem;
+        font-size: .8rem;
     }
     }
+    
 }
 
 @media (max-width: 500px) {
@@ -428,7 +440,39 @@
         .quick-links {
             margin-top: 1rem;
             margin-right: 0rem;
+            
+            h2{font-size: 1rem;}
+            p {font-size: .8rem;}
         }
+                .footer-logo {
+                    height: 6rem;
+                    width: 6rem;
+                    margin-left: 0rem;
+                }
+        
+                .find-Us {
+                    display: none;
+                }
+        
+                .responsive-contact-us {
+                    display: inline;
+                    margin-top: -10rem;
+        
+                    h2 {
+                        font-size: 1rem;
+                        margin-bottom: .3rem;
+                    }
+        
+                    p {
+                        font-size: .8rem;
+                    }
+                }
+        
+                .responsive-find-us {
+                    display: inline;
+                    margin-right: 2rem;
+                    margin-top: -3rem;
+                }
 }
 
 
