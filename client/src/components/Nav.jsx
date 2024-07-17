@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import "../Css/nav.css";
 import PakshalaLogo from "../assets/pakshalalogo.png";
@@ -8,13 +8,12 @@ const Nav = () => {
   const [showLoc, setLoc] = useState(true);
   const location = useLocation();
 
-
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
-    if(!isMenuOpen){
-      setLoc(!isMenuOpen)
-    }else{
-      setLoc(isMenuOpen)
+    if (!isMenuOpen) {
+      setLoc(!isMenuOpen);
+    } else {
+      setLoc(isMenuOpen);
     }
   };
 
@@ -56,7 +55,7 @@ const Nav = () => {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default Nav;
