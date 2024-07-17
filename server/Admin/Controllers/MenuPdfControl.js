@@ -84,18 +84,20 @@ const getMenuPdfs = async (req, res) => {
 
 // delete menu pdf
 const deleteMenuPdf = async (req, res) => {
-    const id = req.params.id;
-
     try {
+        const id = req.params.id;
         const menuPdf = await MenuPdf.findById(id);
+       
 
         if (!menuPdf) {
             return res.status(404).json({success:false, message: 'Menu pdf not found.' });
         }
+        
 
-        await deleteFile(menuPdf.menu_public_id);
-        await deleteFile(menuPdf.drink_public_id);
-        await menuPdf.remove();
+        const delMenu = await deleteFile(menuPdf.menu_file.menu_public_id);
+        const delDrink = await deleteFile(menuPdf.drink_file.menu_public_id);
+        
+        await MenuPdf.findByIdAndDelete(id);
 
         res.status(200).json({success:true, message: 'Menu pdf deleted successfully.' });
     } catch (error) {

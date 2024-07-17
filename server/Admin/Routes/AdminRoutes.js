@@ -27,4 +27,7 @@ adminRoutes.route('/refresh-token').post(refreshAccessToken);
 //logout
 adminRoutes.route('/logout-admin').post(jwtAuth ,adminLogout);
 
+//forgot password
+
+
 module.exports = adminRoutes;
