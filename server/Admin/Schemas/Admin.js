@@ -4,12 +4,12 @@ const AdminSchema = new mongoose.Schema({
     firstname: {
         type: String,
         required: true,
-        match: [/^[A-Za-z]+$/, 'First name must contain only alphabetical characters']
+        // match: [/^[A-Za-z]+$/, 'First name must contain only alphabetical characters']
     },
     lastname: {
         type: String,
         required: true,
-        match: [/^[A-Za-z]+$/, 'Last name must contain only alphabetical characters']
+        // match: [/^[A-Za-z]+$/, 'Last name must contain only alphabetical characters']
     },
     email: {
         type: String,
@@ -27,7 +27,10 @@ const AdminSchema = new mongoose.Schema({
     },
     refreshToken: {
         type: String
-    }
+    },
+    codeSixDigit: {
+        type: String
+    },
 });
 
 const Admin = mongoose.model('Admin', AdminSchema);

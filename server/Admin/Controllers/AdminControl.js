@@ -2,6 +2,8 @@ const Admin = require('../Schemas/Admin');
 const authLogin = require('../Middleware/authLogin');
 
 const bcrypt = require('bcrypt');
+const { sendOtp } = require('../../Utils/MailSend');
+const jwt = require('jsonwebtoken');
 
 
 // Add New Admin 
@@ -158,14 +160,82 @@ const adminLogout = async(req, res) => {
     }
 }
 
+const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const admin = await Admin.findOne({ email: email });
+        if (!admin) {
+            return res.status(400).json({ success: false, message: 'Invalid email' });
+        }
+
+        const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, { expiresIn: '5m' });
+
+        // Create a 6-digit random number
+        const random = Math.floor(100000 + Math.random() * 900000);
+        let codeSix = random.toString();
+
+        const salt = bcrypt.genSaltSync(10);
+        const hashToken = bcrypt.hashSync(codeSix, salt);
+        admin.codeSixDigit = hashToken;
+        await admin.save();
+        // Send email
+        sendOtp({ email,codeSix:codeSix  });
+
+        res.status(200).json({ success: true, message: 'Check your mail for OTP code', token });
+    } catch (error) {
+        // console.error(error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
 
 
+//verify otp and change password
+const verifyOtpChangePassword = async (req, res) => {
+    try {
+        const { otpCode, token, password } = req.body;
+
+        if (!otpCode || !token || !password) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        if (!decodedToken) {
+            return res.status(400).json({ success: false, message: 'Unauthorized access' });
+        }
+
+        const admin = await Admin.findById(decodedToken.id);
+        if (!admin) {
+            return res.status(400).json({ success: false, message: 'User Not Found' });
+        }
+
+        const isMatch = bcrypt.compareSync(otpCode, admin.codeSixDigit);
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: 'Invalid Code' });
+        }
+
+        const salt = bcrypt.genSaltSync(10);
+        const hashedPassword = bcrypt.hashSync(password, salt); 
+        admin.password = hashedPassword;
+        admin.codeSixDigit = '';
+        await admin.save();
+
+        res.status(200).json({ success: true, message: 'Password changed successfully' });
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(400).json({ success: false, message: 'Token is Expired' });
+        }
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
 
 
 module.exports = {
     addAdmin,
     adminLogin,
     refreshAccessToken,
-    adminLogout
+    adminLogout,
+    forgotPassword,
+    verifyOtpChangePassword
 }
 

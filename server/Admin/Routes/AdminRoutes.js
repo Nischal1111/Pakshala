@@ -7,7 +7,9 @@ const {
     addAdmin,
     adminLogin,
     refreshAccessToken,
-    adminLogout
+    adminLogout,
+    forgotPassword,
+    verifyOtpChangePassword
 } = require('../Controllers/AdminControl');
 
 
@@ -28,6 +30,9 @@ adminRoutes.route('/refresh-token').post(refreshAccessToken);
 adminRoutes.route('/logout-admin').post(jwtAuth ,adminLogout);
 
 //forgot password
+adminRoutes.route('/forgot-password').post(forgotPassword);
 
+// verify otp and change password
+adminRoutes.route('/verify-otp').patch(verifyOtpChangePassword);
 
 module.exports = adminRoutes;
