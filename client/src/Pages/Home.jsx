@@ -102,7 +102,7 @@ const Home = () => {
           <img src={HomeBack} alt="pakshala" className="pakshala-home" />
           <div className="text-home-bg">
             <h1>Exquisite Dining, Unforgettable Moments.</h1>
-            <p>
+            <p style={{fontSize:"1.3rem"}}>
               Pakshala is a fine dining restaurant that offers a unique blend of Indian and international cuisine.
             </p>
             <Link to="/menu">

@@ -236,6 +236,7 @@ const Menu = () => {
   const [loading, setLoading] = useState(false);
   const [menu, setMenu] = useState({});
   const [drink, setDrink] = useState({});
+  const [delId,setdelId]=useState("")
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -307,6 +308,7 @@ const Menu = () => {
         setUploadSuccess(true);
 
         console.log("menu:",data.menuPdfs)
+        setdelId(data.menuPdfs[0]._id)
         setMenu(data.menuPdfs[0]?.menu_file?.menu_url || null);
         setDrink(data.menuPdfs[0]?.drink_file?.menu_url || null);
       }
@@ -316,21 +318,7 @@ const Menu = () => {
   };
 
   const handleDelete = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/delete-menu-pdf/${id}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-      const data = await response.json();
-      if (data.success) {
-        delnotify();
-        setUploadSuccess(false);
-      } else {
-        alert('Failed to delete menu');
-      }
-    } catch (error) {
-      console.log("Error on deleting menu:", error);
-    }
+    console.log(id)
   };
 
   useEffect(() => {
@@ -419,7 +407,7 @@ const Menu = () => {
                 </Button>
                 </Link>
               </div>
-              <button onClick={handleDelete} style={{border:"1px solid red", padding:"12px 24px", borderRadius:".2rem",width:"50%",backgroundColor:"transparent",color:"red",cursor:"pointer"}}>Delete PDFs</button>
+              <button onClick={()=>handleDelete(delId)} style={{border:"1px solid red", padding:"12px 24px", borderRadius:".2rem",width:"50%",backgroundColor:"transparent",color:"red",cursor:"pointer"}}>Delete PDFs</button>
             </div>
           )}
         </div>

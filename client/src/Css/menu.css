@@ -181,6 +181,7 @@ form .menu--btn:hover {
 @media (max-width:480px){
     .special-card{
         width: 90%;
+        margin: auto;
     }
     .special-h1{
         text-align: center;
