@@ -230,9 +230,10 @@
     }
     .singleroom-card{
         width: 45%;
+        margin: auto;
     }
         .room-cards{
-            margin-left: 0rem;
+            margin:auto;
         }
 }
 @media (max-width: 500px){
@@ -244,7 +245,7 @@
     }
     .singleroom-card {
             width: 100%;
-            margin: 0;
+            margin: auto;
             padding: 0;
         }
     
@@ -383,7 +384,6 @@
     margin-top: 1rem;
     background-color: #ffa769;
     color: white;
-    width: 30%;
     font-family: "lato";
     font-size: 1rem;
     cursor: pointer;
