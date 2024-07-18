@@ -1,5 +1,5 @@
 import React, { useEffect,useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import Sidebar from "../components/Sidebar";
 import "../css/admindashboard.css";
 import { userLogged } from '../components/Cookie';
@@ -24,10 +24,10 @@ const {reserveDetails,getReserveDetails}=useContext(RoomReserveContext)
 const {tableReservations,fetchTableReservations}=useContext(TableReserveContext)
 const {eventBookings,fetchEventBookings}=useContext(EventContext)
 const navigate = useNavigate();
-
+const location = useLocation();
   useEffect(() => {
     
-    if (!userLogged()) {
+    if (!userLogged()&& location.pathname !== "/forgotpassword" && location.pathname !== "/otp") {
       navigate('/login');
     }
   }, [navigate]);

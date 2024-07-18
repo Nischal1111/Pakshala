@@ -13,16 +13,20 @@ import MenuDash from "./components/MenuDash";
 import RoomsDash from "./components/RoomsDash"
 import TablesDash from "./components/TablesDash"
 import EventDash from "./components/EventDash"
+import ForgotPassword from "./Pages/ForgotPassword";
+import OTP from "./Pages/OTP";
 
 function App() {
   const location = useLocation();
-  const hideSidebar = location.pathname === "/login" || location.pathname === "/signup";
+  const hideSidebar = location.pathname === "/login" || location.pathname === "/signup"|| location.pathname === "/forgotpassword" || location.pathname === "/otp";
 
   return (
     <>
       {!hideSidebar && <Sidebar />}
       <Routes>
         <Route path="/" element={<AdminDashboard />} />
+        <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+        <Route path="/otp" element={<OTP/>}/>
         <Route path="/menu-dash" element={<MenuDash />} />
         <Route path="/rooms-dash" element={<RoomsDash />} />
         <Route path="/table-dash" element={<TablesDash />} />
@@ -40,3 +44,5 @@ function App() {
 }
 
 export default App;
+
+
