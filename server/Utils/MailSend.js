@@ -261,6 +261,41 @@ const sendRoomBookingMail = async ({ bookingDetails }) => {
     }
   });
 };
+
+
+//for sending mail for reset opt code
+const sendOtp = async({email, codeSix}) => {
+  
+  const mailOptions = {
+    from: process.env.NODE_MAILER_EMAIL,
+    to: email,
+    subject: 'Reset Password Code',
+    html: `
+      <div style="font-family: Arial, sans-serif; color: #333; margin: 0; padding: 0; background-color: #f9f9f9;">
+  <div style="max-width: 600px; margin: 20px auto; background-color: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    <div style="background-color: #b3280b; padding: 20px; text-align: center; color: white;">
+      <h2 style="margin: 0; font-size: 24px;">Reset Password Code</h2>
+    </div>
+    <div style="padding: 20px;">
+      <p>Dear <b>User</b>, you have requested to reset your password, here is the OTP for password reset.</p>
+      <h3 style="margin-bottom: 20px; color: #b3280b;">OTP Code:</h3>
+      <h2 style="color: #b3280b;">${codeSix}</h2>
+      <p>Use this code to reset your password. This code will expire in 5 minutes.</p>
+      <p style="font-size: 14px; color: #888; margin-top: 20px;">Please do not share this code with others.</p>
+    </div>
+  </div>
+</div>
+
+        `
+      };
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+}
   
 
 
@@ -271,5 +306,6 @@ module.exports = {
     sendMenuOrderMail,
     sendEventBookingMail,
     sendTableBookingMail,
-    sendRoomBookingMail
+    sendRoomBookingMail,
+    sendOtp
 }

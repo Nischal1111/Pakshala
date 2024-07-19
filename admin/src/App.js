@@ -18,7 +18,7 @@ import OTP from "./Pages/OTP";
 
 function App() {
   const location = useLocation();
-  const hideSidebar = location.pathname === "/login" || location.pathname === "/signup"|| location.pathname === "/forgotpassword" || location.pathname === "/otp";
+  const hideSidebar = location.pathname === "/login" || location.pathname === "/signup"|| location.pathname === "/forgotpassword" || location.pathname === "/create-new-password/:token";
 
   return (
     <>
@@ -26,7 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AdminDashboard />} />
         <Route path="/forgotpassword" element={<ForgotPassword/>}/>
-        <Route path="/otp" element={<OTP/>}/>
+        <Route path="/create-new-password/:token" element={<OTP/>}/>
         <Route path="/menu-dash" element={<MenuDash />} />
         <Route path="/rooms-dash" element={<RoomsDash />} />
         <Route path="/table-dash" element={<TablesDash />} />
