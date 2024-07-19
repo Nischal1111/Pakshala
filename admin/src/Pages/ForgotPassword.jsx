@@ -1,41 +1,10 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { TextField, Button, Container, Typography, Box } from "@mui/material"
 import { useNavigate, Link } from "react-router-dom"
+import { TokenContext } from "../components/TokenContext"
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("")
-  const [token, setNewToken] = useState("")
-  const [success, setSuccess] = useState(false)
-  const [data, setData] = useState({})
-  const navigate = useNavigate()
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value)
-  }
-
-  const handleSendOTP = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/forgot-password`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify({ email }),
-        }
-      )
-      const data = await response.json()
-      if (data.success) {
-        setNewToken(data.token)
-        setData(data)
-        setSuccess(true)
-      } else {
-        alert(data.message)
-      }
-    } catch (error) {}
-  }
+const {success,data,email,handleEmailChange,handleSendOTP,token}=useContext(TokenContext)
 
   return (
     <Container maxWidth="sm">

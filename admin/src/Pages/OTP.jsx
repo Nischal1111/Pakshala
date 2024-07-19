@@ -11,7 +11,6 @@ const OTP = () => {
 
     setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))]);
 
-    // Focus next input
     if (element.nextSibling) {
       element.nextSibling.focus();
     }

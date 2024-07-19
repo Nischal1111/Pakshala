@@ -15,6 +15,7 @@ import { CheckContext } from "../components/CheckBoxContext"
 import { RoomReserveContext } from "../components/RoomReserveContext"
 import { TableReserveContext } from "../components/TableContext"
 import { EventContext } from "../components/EventContext"
+import { TokenContext } from "../components/TokenContext"
 
 const AdminDashboard = () => {
   const { orderDetails, getOrderDetails } = useContext(CheckContext)
@@ -24,16 +25,18 @@ const AdminDashboard = () => {
   const { eventBookings, fetchEventBookings } = useContext(EventContext)
   const navigate = useNavigate()
   const location = useLocation()
-  // useEffect(() => {
-  //   if (
-  //     !userLogged() &&
-  //     location.pathname !== "/forgotpassword" &&
-  //     location.pathname !== "/create-new-password/:token" &&
-  //     location.pathname !== "/signup"
-  //   ) {
-  //     navigate("/login")
-  //   }
-  // }, [navigate])
+  const {token} = useContext(TokenContext)
+
+  useEffect(() => {
+    if (
+      !userLogged() &&
+      location.pathname !== "/forgotpassword" &&
+      location.pathname !== `/create-new-password/${token}` &&
+      location.pathname !== "/signup"
+    ) {
+      navigate("/login")
+    }
+  }, [navigate])
 
   useEffect(() => {
     fetchEventBookings()
