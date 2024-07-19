@@ -67,7 +67,7 @@ const ContactForm = () => {
             open={open}
             onClose={handleClose}
           >
-            <DialogTitle>Pay online with Esewa</DialogTitle>
+            <DialogTitle>Pay online with Esewa (QR)</DialogTitle>
             <DialogContent>
               <img src={QR} alt="QR" />
             </DialogContent>

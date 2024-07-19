@@ -130,12 +130,12 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2" style={{color:"#3ABEF9",fontSize:".8rem"}}>
+                <Link to="/forgotpassword" variant="body2" style={{color:"#3ABEF9",fontSize:".8rem"}}>
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link to="#" variant="body2" style={{color:"#3ABEF9",fontSize:".8rem"}}>
+                <Link to="/forgotpassword" variant="body2" style={{color:"#3ABEF9",fontSize:".8rem"}}>
                   Click here to reset the password.
                 </Link>
               </Grid>
