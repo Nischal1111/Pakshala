@@ -1,96 +1,46 @@
-import React, { useState } from "react"
-import {
-  TextField,
-  Button,
-  Container,
-  Typography,
-  Box,
-  Grid,
-} from "@mui/material"
-import { useNavigate, useParams } from "react-router-dom"
+import React, { useState } from 'react';
+import { TextField, Button, Container, Typography, Box, Grid } from '@mui/material';
 
 const OTP = () => {
-  const [otp, setOtp] = useState(new Array(6).fill(""))
-  const [newPassword, setNewPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-
-  const navigate = useNavigate()
-  const token = useParams().token
+  const [otp, setOtp] = useState(new Array(6).fill(''));
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleOtpChange = (element, index) => {
-    if (isNaN(element.value)) return false
+    if (isNaN(element.value)) return false;
 
-    setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))])
+    setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))]);
 
     if (element.nextSibling) {
-      element.nextSibling.focus()
+      element.nextSibling.focus();
     }
-  }
+  };
 
   const handleNewPasswordChange = (e) => {
-    setNewPassword(e.target.value)
-  }
+    setNewPassword(e.target.value);
+  };
 
   const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value)
-  }
+    setConfirmPassword(e.target.value);
+  };
 
-  const handleSubmit = async () => {
-    if (newPassword === confirmPassword) {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/verify-otp`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              otpCode: otp.join(""),
-              token: token,
-              password: newPassword,
-            }),
-          }
-        )
-        const data = await response.json()
-        if (data.success) {
-          alert("Password changed successfully!!")
-          navigate("/login")
-        } else {
-          alert(data.message)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    } else {
-      alert("Both password need to be same!!")
-    }
-  }
+  const handleSubmit = () => {
+
+    console.log('OTP:', otp.join(''));
+    console.log('New Password:', newPassword);
+    console.log('Confirm Password:', confirmPassword);
+  };
 
   return (
     <Container maxWidth="sm">
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          mt: 8,
-        }}
-      >
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 8 }}>
         <Typography variant="h4" gutterBottom>
           Enter OTP
         </Typography>
         <Typography variant="body1" gutterBottom>
           Enter the 6-digit OTP sent to your email.
         </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            mt: 2,
-            mb: 2,
-          }}
-        >
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2, mb: 2 }}>
           {otp.map((data, index) => (
             <TextField
               key={index}
@@ -100,7 +50,7 @@ const OTP = () => {
               value={data}
               onChange={(e) => handleOtpChange(e.target, index)}
               onFocus={(e) => e.target.select()}
-              sx={{ width: "3rem", marginRight: 1, textAlign: "center" }}
+              sx={{ width: '3rem', marginRight: 1, textAlign: 'center' }}
             />
           ))}
         </Box>
@@ -133,7 +83,7 @@ const OTP = () => {
         </Button>
       </Box>
     </Container>
-  )
-}
+  );
+};
 
-export default OTP
+export default OTP;
