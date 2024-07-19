@@ -173,14 +173,12 @@ const forgotPassword = async (req, res) => {
 
         // Create a 6-digit random number
         const random = Math.floor(100000 + Math.random() * 900000);
-        let codeSix = random.toString();
-
-        const salt = bcrypt.genSaltSync(10);
-        const hashToken = bcrypt.hashSync(codeSix, salt);
-        admin.codeSixDigit = hashToken;
+        const codeSix = random.toString();
+        
+        admin.codeSixDigit = codeSix;
         await admin.save();
         // Send email
-        sendOtp({ email,codeSix:codeSix  });
+        sendOtp({ email,codeSix:codeSix });
 
         res.status(200).json({ success: true, message: 'Check your mail for OTP code', token });
     } catch (error) {
@@ -194,6 +192,8 @@ const forgotPassword = async (req, res) => {
 const verifyOtpChangePassword = async (req, res) => {
     try {
         const { otpCode, token, password } = req.body;
+
+        console.log(otpCode, token, password);
 
         if (!otpCode || !token || !password) {
             return res.status(400).json({ success: false, message: 'All fields are required' });
@@ -209,7 +209,12 @@ const verifyOtpChangePassword = async (req, res) => {
             return res.status(400).json({ success: false, message: 'User Not Found' });
         }
 
-        const isMatch = bcrypt.compareSync(otpCode, admin.codeSixDigit);
+        let isMatch
+        if(admin.codeSixDigit === otpCode){
+            isMatch = true;
+        }else{
+            isMatch = false;
+        }
         if (!isMatch) {
             return res.status(400).json({ success: false, message: 'Invalid Code' });
         }
