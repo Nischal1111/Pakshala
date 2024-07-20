@@ -2,11 +2,14 @@ import React, { useContext, useState } from "react"
 import { TextField, Button, Container, Typography, Box } from "@mui/material"
 import { useNavigate, Link } from "react-router-dom"
 import { TokenContext } from "../components/TokenContext"
+import { ToastContainer } from "react-toastify"
 
 const ForgotPassword = () => {
-const {success,data,email,handleEmailChange,handleSendOTP,token}=useContext(TokenContext)
+const {success,data,email,handleEmailChange,handleSendOTP,token,send}=useContext(TokenContext)
 
   return (
+    <>
+    <ToastContainer/>
     <Container maxWidth="sm">
       <Box
         sx={{
@@ -31,7 +34,7 @@ const {success,data,email,handleEmailChange,handleSendOTP,token}=useContext(Toke
           value={email}
           onChange={handleEmailChange}
         />
-        <Button
+        {!send ? (<Button
           variant="contained"
           color="primary"
           fullWidth
@@ -39,10 +42,18 @@ const {success,data,email,handleEmailChange,handleSendOTP,token}=useContext(Toke
           sx={{ mt: 2 }}
         >
           Send OTP
-        </Button>
+        </Button>):<Button
+          variant="contained"
+          disabled
+          fullWidth
+          sx={{ mt: 2,color:"black",backgroundColor:"Gray" }}
+        >
+          Sending OTP...
+        </Button> }
+        
         {success && (
           <>
-            <p>{data.message}</p>
+            <p style={{color:"#88D66C",marginTop:"1rem",fontSize:"1.2rem"}}>{data.message}</p>
             <Link to={`/create-new-password/${token}`}>
               <Button
                 variant="contained"
@@ -57,6 +68,7 @@ const {success,data,email,handleEmailChange,handleSendOTP,token}=useContext(Toke
         )}
       </Box>
     </Container>
+    </>
   )
 }
 
