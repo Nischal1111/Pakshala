@@ -133,7 +133,7 @@
 }
 
 .pakshala-home-div .text-home-bg p {
-    font-size: 1rem;
+    font-size: 1.4rem;
     width: 60%;
     font-weight: 300;
     line-height: 2rem;
@@ -283,7 +283,7 @@
     .pakshala-home-div .text-home-bg p {
         margin-top: .8rem;
         font-size: 1rem;
-        line-height: 1.2rem;
+        line-height: 1.5rem;
     }
 
     .pakshala-home-div .text-home-bg button {
@@ -491,8 +491,11 @@
         
                 .responsive-find-us {
                     display: inline;
-                    margin-right: 2rem;
-                    margin-top: -3rem;
+                    margin-top: -2rem;
+                    margin-bottom: 1rem;
+                }
+                .footer-last{
+                    display: none;
                 }
 }
 
