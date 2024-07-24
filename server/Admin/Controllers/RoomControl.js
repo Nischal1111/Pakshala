@@ -9,6 +9,7 @@ const {uploadFile , deleteFile} = require('../../Utils/UploadFile');
 
 const addRoom = async (req, res) => {
     const { room_name,
+        room_old_price,
          room_price,
          room_guests ,
          room_category,
@@ -72,6 +73,10 @@ const addRoom = async (req, res) => {
             },
             room_category
         });
+
+        if(room_old_price) {
+            room.room_old_price = room_old_price;
+        }
 
         // Save the room to the database
         await room.save();
@@ -148,7 +153,7 @@ const deleteRoom = async (req, res) => {
 const editRoom = async (req, res) => {
     try {
         const { id } = req.params;
-        const { room_name, room_price, room_category } = req.body;
+        const { room_name, room_old_price ,room_price, room_category } = req.body;
         const files = req.files;
 
         // console.log(files)
@@ -197,6 +202,8 @@ const editRoom = async (req, res) => {
         room.room_name = room_name;
         room.room_price = room_price;
         room.room_category = room_category;
+
+        room.room_old_price = room_old_price;
 
         // Update room images
         if (uploadedImages[0]) {
