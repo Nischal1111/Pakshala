@@ -16,6 +16,10 @@ const RoomSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    room_old_price:{
+        type:Number,
+    }
+    ,
     room_price: {
         type: Number,
         required: true
@@ -46,11 +50,6 @@ const RoomSchema = new mongoose.Schema({
     },
     room_image4: {
         type: ImageSchema,
-        required: true
-    },
-    room_offer_price_percentage: {
-        type: Number,
-        default: 0,
         required: true
     },
     room_category: {
