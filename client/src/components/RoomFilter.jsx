@@ -29,6 +29,7 @@ const RoomCard = ({ room, index }) => {
             />
             <CardContent>
                 <div className="price-div">
+                    <p className="room-price2">Rs {room.room_old_price}</p>
                     <p className="room-price">Rs {room.room_price}</p>
                 </div>
                 <div className="nameandrating" style={{ display: "flex", alignItems: "center" }}>
