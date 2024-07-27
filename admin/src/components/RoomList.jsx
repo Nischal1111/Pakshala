@@ -93,6 +93,7 @@ const RoomList = ({ roomData, handleEdit, getAllRooms, setRoomData }) => {
                 <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Single Beds</TableCell>
                 <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Double Beds</TableCell>
                 <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Status</TableCell>
+                <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}> Old price</TableCell>
                 <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Price</TableCell>
                 <TableCell style={{ fontSize: ".9rem", letterSpacing: "1px", fontWeight: "500" }}>Actions</TableCell>
               </TableRow>
@@ -118,7 +119,8 @@ const RoomList = ({ roomData, handleEdit, getAllRooms, setRoomData }) => {
                         <Check className='menu-edit' />
                       </IconButton>
                     )}</TableCell>
-                  <TableCell className='table-row'>Rs. {item.room_price}</TableCell>
+                    <TableCell className='table-row'>Rs. {item.room_old_price}</TableCell>
+                    <TableCell className='table-row'>Rs. {item.room_price}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleEdit(item._id)}>
                       <Edit className='menu-edit' />

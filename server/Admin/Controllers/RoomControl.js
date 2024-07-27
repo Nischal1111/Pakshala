@@ -153,7 +153,7 @@ const deleteRoom = async (req, res) => {
 const editRoom = async (req, res) => {
     try {
         const { id } = req.params;
-        const { room_name, room_old_price ,room_price, room_category } = req.body;
+        const { room_name, room_old_price ,room_price, room_category,room_single_beds,room_double_beds,room_guests } = req.body;
         const files = req.files;
 
         // console.log(files)
@@ -202,7 +202,9 @@ const editRoom = async (req, res) => {
         room.room_name = room_name;
         room.room_price = room_price;
         room.room_category = room_category;
-
+        room.room_guests=room_guests;
+        room.room_single_beds = room_single_beds;
+        room.room_double_beds = room_double_beds;
         room.room_old_price = room_old_price;
 
         // Update room images
