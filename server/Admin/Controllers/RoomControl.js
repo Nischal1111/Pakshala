@@ -14,8 +14,10 @@ const addRoom = async (req, res) => {
          room_guests ,
          room_category,
          single_beds,
-        double_beds
-         } = req.body;
+        double_beds} = req.body;
+
+
+         console.log(req.body)
 
         
 
@@ -122,15 +124,20 @@ const deleteRoom = async (req, res) => {
         const {image1, image2, image3, image4} = req.body;
         // console.log(image1, image2, image3, image4)
 
-        if(!image1 || !image2 || !image3 || !image4) {
-            return res.status(400).json({ message: 'Please provide all room images' });
-        }
+        // if(!image1 || !image2 || !image3 || !image4) {
+        //     return res.status(400).json({ message: 'Please provide all room images' });
+        // }
 
         // console.log(image1, image2, image3, image4)
 
         const room = await Room.findByIdAndDelete(id);
+
+        const room1 = room.room_image1.public_id;
+        const room2 = room.room_image2.public_id;
+        const room3 = room.room_image3.public_id;
+        const room4 = room.room_image4.public_id;
         
-        const deleteUploads = [image1, image2, image3, image4].map(id => deleteFile(id));   
+        const deleteUploads = [room1,room2, room3, room4].map(id => deleteFile(id));   
         const deleteImgs =  await Promise.all(deleteUploads);
 
         if(!deleteImgs) {
