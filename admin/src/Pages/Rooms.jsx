@@ -24,7 +24,7 @@ const Rooms = () => {
     title: "",
     category: "",
     price: "",
-    old_price:0,
+    old_price:"",
     guests: 0,
     single_beds: 0,
     double_beds: 0,
@@ -191,6 +191,7 @@ const handleSubmit = async () => {
     title: newRoom.title.trim() === "",
     category: newRoom.category.trim() === "",
     price: newRoom.price.trim() === "",
+    old_price:newRoom.old_price.trim()==="",
     guests: newRoom.guests.trim() === "",
     single_beds: String(newRoom.single_beds).trim() === "",
     double_beds: String(newRoom.double_beds).trim() === "",
@@ -201,9 +202,9 @@ const handleSubmit = async () => {
   }
 
   if (String(newRoom.old_price).trim() !== "") {
-    newErrors.old_price = false; // Make sure old_price is not flagged if it's filled
+    newErrors.old_price = false; 
   } else {
-    newErrors.old_price = false; // Make old_price optional
+    newErrors.old_price = false;
   }
 
   if (Object.values(newErrors).some((error) => error)) {
@@ -223,7 +224,7 @@ const handleSubmit = async () => {
   formData.append("img3", newRoom.miniImg2)
   formData.append("img4", newRoom.miniImg3)
   if (String(newRoom.old_price).trim() !== "") {
-    formData.append("room_old_price", 0)
+    formData.append("room_old_price", newRoom.old_price)
   }
 
   try {
@@ -621,7 +622,7 @@ const handleEditSubmit = async () => {
               label="Price"
               name="room_price"
               type="number"
-              value={editRoomData?.room_price || 0}
+              value={editRoomData?.room_price || ""}
               min={0}
               onChange={handleChange}
               fullWidth
@@ -631,7 +632,7 @@ const handleEditSubmit = async () => {
               label="Old price"
               name="room_old_price"
               type="number"
-              value={editRoomData?.room_old_price || 0}
+              value={editRoomData?.room_old_price || ""}
               min={0}
               onChange={handleChange}
               fullWidth
@@ -641,7 +642,7 @@ const handleEditSubmit = async () => {
               label="Guests"
               name="room_guests"
               type="number"
-              value={editRoomData?.room_guests || 0}
+              value={editRoomData?.room_guests || ""}
               min={0}
               onChange={handleChange}
               fullWidth
@@ -651,7 +652,7 @@ const handleEditSubmit = async () => {
               label="Single Beds"
               name="room_single_beds"
               type="number"
-              value={editRoomData?.room_single_beds || 0}
+              value={editRoomData?.room_single_beds || ""}
               min={0}
               onChange={handleChange}
               fullWidth
@@ -661,7 +662,7 @@ const handleEditSubmit = async () => {
               label="Double Beds"
               name="room_double_beds"
               type="number"
-              value={editRoomData?.room_double_beds || 0}
+              value={editRoomData?.room_double_beds || ""}
               min={0}
               onChange={handleChange}
               fullWidth
