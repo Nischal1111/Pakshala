@@ -53,6 +53,8 @@ const SpecialMenuCard = ({ item, index }) => {
 };
 
 const MenuSpecial = ({ specialMenu }) => {
+  const firstSection=specialMenu?.slice(0,2)
+  const secondSection=specialMenu?.slice(2,4)
   return (
     <>
       <h1 className='special-h1'>
