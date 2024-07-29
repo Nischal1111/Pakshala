@@ -120,6 +120,7 @@ const RoomReserve = () => {
                   </p>
                 </div>
                 <div className="price-div-2">
+                  <p className="room-price-22">Rs {room.room_old_price}</p>
                   <p className="room-price-2">Rs {room.room_price}</p>
                 </div>
               </div>
