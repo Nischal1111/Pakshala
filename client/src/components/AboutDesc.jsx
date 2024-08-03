@@ -1,5 +1,6 @@
 import React from 'react'
 import "../Css/About.css"
+import { SectionWrapper } from '../motion'
 
 const AboutDesc = () => {
   return (

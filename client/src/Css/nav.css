@@ -455,15 +455,18 @@
 
 @media (max-width: 500px) {
     .footer{
-        padding: 1rem 2rem;
+        /* padding: 1rem 2rem; */
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        
+    }
+    .social-icon{
+        margin-top: 3.5rem;
     }
         .find-Us,
         .quick-links {
-            margin-top: 1rem;
-            margin-right: 0rem;
-            
-            h2{font-size: 1rem;}
-            p {font-size: .8rem;}
+            display:none;    
         }
                 .footer-logo {
                     height: 6rem;
@@ -476,8 +479,7 @@
                 }
         
                 .responsive-contact-us {
-                    display: inline;
-                    margin-top: -10rem;
+                    display: none;
         
                     h2 {
                         font-size: 1rem;
@@ -495,7 +497,8 @@
                     margin-bottom: 1rem;
                 }
                 .footer-last{
-                    display: none;
+                    display:flex;
+                    font-size: .8rem;
                 }
 }
 
