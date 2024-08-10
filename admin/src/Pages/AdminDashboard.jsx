@@ -1,31 +1,28 @@
-import React, { useEffect, useContext } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
-import Sidebar from "../components/Sidebar"
-import "../css/admindashboard.css"
-import { userLogged } from "../components/Cookie"
-import { lognotify } from "../components/Notify"
-import { ToastContainer } from "react-toastify"
-import { Link } from "react-router-dom"
-import { IoFastFoodOutline } from "react-icons/io5"
-import { MdBedroomParent } from "react-icons/md"
-import { MdOutlineTableBar } from "react-icons/md"
-import { MdEvent } from "react-icons/md"
-import { FaBell } from "react-icons/fa"
-import { CheckContext } from "../components/CheckBoxContext"
-import { RoomReserveContext } from "../components/RoomReserveContext"
-import { TableReserveContext } from "../components/TableContext"
-import { EventContext } from "../components/EventContext"
-import { TokenContext } from "../components/TokenContext"
+import React, { useEffect, useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import "../css/admindashboard.css";
+import { userLogged } from "../components/Cookie";
+import { lognotify } from "../components/Notify";
+import { ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
+import { IoFastFoodOutline } from "react-icons/io5";
+import { MdBedroomParent, MdOutlineTableBar, MdEvent } from "react-icons/md";
+import { FaBell } from "react-icons/fa";
+import { CheckContext } from "../components/CheckBoxContext";
+import { RoomReserveContext } from "../components/RoomReserveContext";
+import { TableReserveContext } from "../components/TableContext";
+import { EventContext } from "../components/EventContext";
+import { TokenContext } from "../components/TokenContext";
 
 const AdminDashboard = () => {
-  const { orderDetails, getOrderDetails } = useContext(CheckContext)
-  const { reserveDetails, getReserveDetails } = useContext(RoomReserveContext)
-  const { tableReservations, fetchTableReservations } =
-    useContext(TableReserveContext)
-  const { eventBookings, fetchEventBookings } = useContext(EventContext)
-  const navigate = useNavigate()
-  const location = useLocation()
-  const {token} = useContext(TokenContext)
+  const { orderDetails, getOrderDetails } = useContext(CheckContext);
+  const { reserveDetails, getReserveDetails } = useContext(RoomReserveContext);
+  const { tableReservations, fetchTableReservations } = useContext(TableReserveContext);
+  const { eventBookings, fetchEventBookings } = useContext(EventContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { token } = useContext(TokenContext);
 
   useEffect(() => {
     if (
@@ -34,44 +31,39 @@ const AdminDashboard = () => {
       location.pathname !== `/create-new-password/${token}` &&
       location.pathname !== "/signup"
     ) {
-      navigate("/login")
+      navigate("/login");
     }
-  }, [navigate])
+  }, [navigate, location.pathname, token]);
 
   useEffect(() => {
-    fetchEventBookings()
-    getReserveDetails()
-    getOrderDetails()
-    fetchTableReservations()
-    setTimeout(() => {
-      if (userLogged() && localStorage.getItem("notify") === "true") {
-        lognotify()
-        localStorage.removeItem("notify")
+    const fetchData = async () => {
+      try {
+        await fetchEventBookings();
+        await getReserveDetails();
+        await getOrderDetails();
+        await fetchTableReservations();
+        if (userLogged() && localStorage.getItem("notify") === "true") {
+          lognotify();
+          localStorage.removeItem("notify");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    }, 200)
-  }, [])
+    };
+    fetchData();
+  }, [fetchEventBookings, getReserveDetails, getOrderDetails, fetchTableReservations]);
 
-  const Menunotification = orderDetails.filter(
-    (order) => order.status === "Pending" || 0
-  )
-  const Roomnotification = reserveDetails.filter(
-    (reserve) => reserve.status === "Pending" || 0
-  )
-  const Tablenotifications = tableReservations.filter(
-    (reservation) => reservation.status === "Pending" || 0
-  )
-  const Eventnotifications = eventBookings.filter(
-    (booking) => booking.status === "Pending" || 0
-  )
+  const MenuNotifications = orderDetails.filter(order => order.status === "Pending");
+  const RoomNotifications = reserveDetails.filter(reserve => reserve.status === "Pending");
+  const TableNotifications = tableReservations.filter(reservation => reservation.status === "Pending");
+  const EventNotifications = eventBookings.filter(booking => booking.status === "Pending");
 
   return (
     <div>
       <ToastContainer />
       <Sidebar />
       <div className="admin-dashboard">
-        <h1 className="dashboard-title">
-          Dashboard for user reservations and bookings
-        </h1>
+        <h1 className="dashboard-title">Dashboard for user reservations and bookings</h1>
         <section className="dashboard">
           <Link to="/menu-dash" className="link-dash">
             <div className="dashboard-card">
@@ -81,29 +73,8 @@ const AdminDashboard = () => {
               </div>
               <div style={{ position: "relative" }}>
                 <FaBell className="dash-icon" />
-                <div
-                  style={{
-                    backgroundColor: "var(--hover-color)",
-                    position: "absolute",
-                    top: "-.6rem",
-                    right: ".6rem",
-                    height: "1.4rem",
-                    width: "1.4rem",
-                    borderRadius: "100%",
-                    boxShadow: "0px 2px 2px rgba(0,0,0,.2)",
-                  }}
-                >
-                  <p
-                    style={{
-                      position: "absolute",
-                      top: "0.1rem",
-                      right: ".4rem",
-                      fontSize: "15px",
-                      color: "white",
-                    }}
-                  >
-                    {Menunotification.length}
-                  </p>
+                <div className="notification-bubble">
+                  <p className="notification-text">{MenuNotifications.length}</p>
                 </div>
               </div>
             </div>
@@ -116,29 +87,8 @@ const AdminDashboard = () => {
               </div>
               <div style={{ position: "relative" }}>
                 <FaBell className="dash-icon" />
-                <div
-                  style={{
-                    backgroundColor: "var(--hover-color)",
-                    position: "absolute",
-                    top: "-.6rem",
-                    right: ".6rem",
-                    height: "1.4rem",
-                    width: "1.4rem",
-                    borderRadius: "100%",
-                    boxShadow: "0px 2px 2px rgba(0,0,0,.2)",
-                  }}
-                >
-                  <p
-                    style={{
-                      position: "absolute",
-                      top: "0.1rem",
-                      right: ".4rem",
-                      fontSize: "15px",
-                      color: "white",
-                    }}
-                  >
-                    {Roomnotification.length}
-                  </p>
+                <div className="notification-bubble">
+                  <p className="notification-text">{RoomNotifications.length}</p>
                 </div>
               </div>
             </div>
@@ -151,29 +101,8 @@ const AdminDashboard = () => {
               </div>
               <div style={{ position: "relative" }}>
                 <FaBell className="dash-icon" />
-                <div
-                  style={{
-                    backgroundColor: "var(--hover-color)",
-                    position: "absolute",
-                    top: "-.6rem",
-                    right: ".6rem",
-                    height: "1.4rem",
-                    width: "1.4rem",
-                    borderRadius: "100%",
-                    boxShadow: "0px 2px 2px rgba(0,0,0,.2)",
-                  }}
-                >
-                  <p
-                    style={{
-                      position: "absolute",
-                      top: "0.1rem",
-                      right: ".4rem",
-                      fontSize: "15px",
-                      color: "white",
-                    }}
-                  >
-                    {Tablenotifications.length}
-                  </p>
+                <div className="notification-bubble">
+                  <p className="notification-text">{TableNotifications.length}</p>
                 </div>
               </div>
             </div>
@@ -186,29 +115,8 @@ const AdminDashboard = () => {
               </div>
               <div style={{ position: "relative" }}>
                 <FaBell className="dash-icon" />
-                <div
-                  style={{
-                    backgroundColor: "var(--hover-color)",
-                    position: "absolute",
-                    top: "-.6rem",
-                    right: ".6rem",
-                    height: "1.4rem",
-                    width: "1.4rem",
-                    borderRadius: "100%",
-                    boxShadow: "0px 2px 2px rgba(0,0,0,.2)",
-                  }}
-                >
-                  <p
-                    style={{
-                      position: "absolute",
-                      top: "0.1rem",
-                      right: ".4rem",
-                      fontSize: "15px",
-                      color: "white",
-                    }}
-                  >
-                    {Eventnotifications.length}
-                  </p>
+                <div className="notification-bubble">
+                  <p className="notification-text">{EventNotifications.length}</p>
                 </div>
               </div>
             </div>
@@ -216,7 +124,7 @@ const AdminDashboard = () => {
         </section>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;
