@@ -28,8 +28,7 @@ const AdminDashboard = () => {
     if (
       !userLogged() &&
       location.pathname !== "/forgotpassword" &&
-      location.pathname !== `/create-new-password/${token}` &&
-      location.pathname !== "/signup"
+      location.pathname !== `/create-new-password/${token}`
     ) {
       navigate("/login");
     }
