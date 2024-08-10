@@ -71,14 +71,13 @@ const RoomCard = ({ room, index }) => {
 };
 
 const RoomFilter = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [roomList, setRoomList] = useState([]);
     const [allRooms, setAllRooms] = useState([]);
     const [btnClicked, setClicked] = useState("all rooms");
 
-    
-
     const getAllRoomsClient = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/get-rooms`, {
                 method: 'GET',
@@ -92,6 +91,8 @@ const RoomFilter = () => {
             setRoomList(data.rooms || []);
         } catch (error) {
             console.error('Error fetching rooms:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -103,13 +104,11 @@ const RoomFilter = () => {
         const choice = e.target.value.toLowerCase();
         setClicked(choice);
 
-
-            if (choice === "all rooms") {
-                setRoomList(allRooms);
-            } else {
-                setRoomList(allRooms.filter(room => room.room_category === choice));
-            }
-
+        if (choice === "all rooms") {
+            setRoomList(allRooms);
+        } else {
+            setRoomList(allRooms.filter(room => room.room_category === choice));
+        }
     };
 
     return (

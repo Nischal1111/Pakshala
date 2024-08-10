@@ -26,27 +26,27 @@ export default function Login() {
     setSee(!see)
   }
 
-  // useEffect(()=>{
-  //   setTimeout(()=>{
-  //     if(localStorage.getItem("logout")==="true"){
-  //       Outnotify()
-  //       localStorage.removeItem("logout")
-  //     }
-  //   },500)
+  useEffect(()=>{
+    setTimeout(()=>{
+      if(localStorage.getItem("logout")==="true"){
+        Outnotify()
+        localStorage.removeItem("logout")
+      }
+    },500)
 
-  // const cookie = Cookies.get("accessToken")
-  // if(cookie){
-  //   navigate("/")
-  // }
-  // },[])
+  const cookie = Cookies.get("accessToken")
+  if(cookie){
+    navigate("/")
+  }
+  },[])
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
+    const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
     const formData = {
       email: data.get("email"),
       password: data.get("password"),
-    }
+    };
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/login-admin`,
@@ -58,23 +58,24 @@ export default function Login() {
           credentials: "include",
           body: JSON.stringify(formData),
         }
-      )
-      const result = await response.json()
+      );
+      const result = await response.json();
       if (result.success) {
-        localStorage.setItem("notify", "true")
-        notify()
-        navigate("/")
+        localStorage.setItem("notify", "true");
+        notify();
+        setIsAuthenticated(true);
+        navigate("/");
       } else {
         if (formData.email === "" || formData.password === "") {
-          Enternotify()
+          Enternotify();
         } else {
-          Wrongnotify()
+          Wrongnotify();
         }
       }
     } catch (error) {
-      console.error("Error:", error)
+      console.error("Error:", error);
     }
-  }
+  };
 
   return (
     <ThemeProvider theme={defaultTheme} style={{ fontFamily: "Lato" }}>
