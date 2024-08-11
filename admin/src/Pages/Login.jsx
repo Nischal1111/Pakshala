@@ -1,46 +1,37 @@
-import React, { useState } from "react"
-import Button from "@mui/material/Button"
-import CssBaseline from "@mui/material/CssBaseline"
-import TextField from "@mui/material/TextField"
-import { Link, useNavigate } from "react-router-dom"
-import Grid from "@mui/material/Grid"
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
-import Container from "@mui/material/Container"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { Enternotify, Outnotify, notify } from "../components/Notify"
-import { useEffect } from "react"
-import { ToastContainer } from "react-toastify"
-import { Wrongnotify } from "../components/Notify"
-import Cookies from "js-cookie"
-import { FaRegEyeSlash, FaRegEye } from "react-icons/fa"
+import React, { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import { Link, useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Enternotify, Outnotify, notify } from "../components/Notify";
+import { ToastContainer } from "react-toastify";
+import { Wrongnotify } from "../components/Notify";
+import { userLogged } from "../components/Cookie";
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 
-const defaultTheme = createTheme()
+const defaultTheme = createTheme();
 
-export default function Login() {
-  const navigate = useNavigate()
-
-  const [see, setSee] = useState(false)
+export default function Login({setIsAuthenticated, isAuthenticated }) {
+  const navigate = useNavigate();
+  const [see, setSee] = useState(false);
 
   const handleSee = () => {
-    setSee(!see)
-  }
+    setSee(!see);
+  };
 
-  useEffect(()=>{
-    setTimeout(()=>{
-      if(localStorage.getItem("logout")==="true"){
-        Outnotify()
-        localStorage.removeItem("logout")
-      }
-    },500)
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log("User is authenticated, navigating to /");
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
-  const cookie = Cookies.get("accessToken")
-  if(cookie){
-    navigate("/")
-  }
-  },[])
-
-    const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formData = {
@@ -61,10 +52,12 @@ export default function Login() {
       );
       const result = await response.json();
       if (result.success) {
+        console.log("Login successful");
         localStorage.setItem("notify", "true");
         notify();
-        setIsAuthenticated(true);
-        navigate("/");
+        const authStatus = userLogged();
+        console.log("Auth status after login:", authStatus);
+        setIsAuthenticated(authStatus);
       } else {
         if (formData.email === "" || formData.password === "") {
           Enternotify();
@@ -189,5 +182,5 @@ export default function Login() {
         </Box>
       </Container>
     </ThemeProvider>
-  )
+  );
 }

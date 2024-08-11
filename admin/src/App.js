@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Route, Routes, useLocation, Navigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Route, Routes, useLocation, Navigate, useNavigate } from "react-router-dom";
 import AdminDashboard from "./Pages/AdminDashboard";
 import Menu from "./Pages/Menu";
 import Rooms from "./Pages/Rooms";
@@ -20,11 +20,30 @@ import { userLogged } from "./components/Cookie";
 function App() {
   const { token } = useContext(TokenContext);
   const location = useLocation();
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(userLogged());
 
   useEffect(() => {
-    setIsAuthenticated(userLogged());
-  }, [location]);
+    const checkAuth = () => {
+      const authStatus = userLogged();
+      if (authStatus !== isAuthenticated) {
+        console.log("Authentication status changed:", authStatus);
+        setIsAuthenticated(authStatus);
+      }
+    };
+
+    checkAuth();
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (!isAuthenticated && 
+        location.pathname !== "/login" && 
+        location.pathname !== "/forgotpassword" && 
+        !location.pathname.startsWith("/create-new-password/")) {
+      console.log("Redirecting to login from:", location.pathname);
+      navigate("/login");
+    }
+  }, [location, isAuthenticated, navigate]);
 
   const hideSidebar = ["/login", "/forgotpassword", `/create-new-password/${token}`].includes(location.pathname);
 
@@ -32,9 +51,9 @@ function App() {
     <>
       {!hideSidebar && isAuthenticated && <Sidebar />}
       <Routes>
-        <Route 
-          path="/" 
-          element={isAuthenticated ? <AdminDashboard /> : <Navigate to="/login" />} 
+        <Route
+          path="/"
+          element={isAuthenticated ? <AdminDashboard /> : <Navigate to="/login" />}
         />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/create-new-password/:token" element={<OTP />} />
@@ -74,7 +93,15 @@ function App() {
           path="/offers" 
           element={isAuthenticated ? <Offer /> : <Navigate to="/login" />} 
         />
-        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+        <Route 
+          path="/login" 
+          element={
+            <Login 
+              setIsAuthenticated={setIsAuthenticated} 
+              isAuthenticated={isAuthenticated}
+            />
+          } 
+        />
       </Routes>
     </>
   );
